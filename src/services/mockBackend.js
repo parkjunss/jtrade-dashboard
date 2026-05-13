@@ -85,6 +85,7 @@ export async function mockAction(action, payload = {}) {
     saveScreen: 'Screen saved.',
     saveStrategy: 'Strategy saved.',
     saveUniversePreset: 'Universe preset saved.',
+    savePortfolioSettings: 'Portfolio settings saved.',
     viewDetails: 'Details panel opened.',
   };
 
@@ -186,6 +187,18 @@ export async function mockAction(action, payload = {}) {
       action,
       payload,
       message: `${name} saved with ${payload.symbols?.length ?? 0} included symbols.`,
+      ok: true,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  if (action === 'savePortfolioSettings') {
+    const name = payload.portfolioName ?? 'Portfolio';
+
+    return {
+      action,
+      payload,
+      message: `${name} settings saved.`,
       ok: true,
       timestamp: new Date().toISOString(),
     };

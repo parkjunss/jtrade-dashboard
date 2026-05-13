@@ -27,9 +27,11 @@ Implemented detailed pages/screens:
 - Backtest > Parameters
 - Insights overview
 - Reports overview
+- Reports > Exports
 - Research overview
 - Research > Stock Detail
 - Research > Screener
+- Settings > Portfolio
 - Research > Compare
 
 Placeholder behavior:
@@ -141,17 +143,26 @@ Core pages touched recently:
   - metric category tabs for price, valuation, growth, profitability, and risk
   - comparison table, relative performance sparklines, valuation scatter, peer ranking, and highlights
   - CSV export through existing report download action
+- Implemented `Reports > Exports`:
+  - export history table backed by mock export mutations and built-in export rows
+  - filters for report type, format, status, date range, and search
+  - retry, download, and delete row actions
+  - scheduled exports and recent downloads panels
+- Implemented `Settings > Portfolio`:
+  - portfolio preferences form for portfolio name, base currency, benchmark, tax lot method, fiscal year, cash handling, return method, dividend treatment, and allocation policy
+  - save/reset actions with mock mutation feedback
+  - current portfolio settings summary, changed-field tracking, return assumptions, and allocation policy defaults
 
 ## Current Priority
 
 Next implementation priority:
-1. `reports-exports`
-2. `settings-portfolio`
+- P0 page backlog is complete. Next recommended pass: loading/empty/error states and visual QA across implemented pages.
 
 Cross-cutting next tasks:
 - Add loading/empty/error states for major cards.
 - Normalize action names/endpoints in `src/services/appActions.js` as UI actions grow.
 - Visually QA all implemented pages at desktop widths around 1400-1700px and responsive breakpoints.
+- Reuse existing dropdown patterns/components for page filters and selectors instead of styling native `select` controls per page.
 
 Detailed page backlog and deferred/backend-dependent work:
 - See `BACKLOG.md`.
@@ -187,4 +198,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-13 after `research-compare`).
+Last known build status: passing (`npm.cmd run build`, 2026-05-13 after `settings-portfolio`).

@@ -51,7 +51,7 @@ export default function TopBar({ activePage = 'performance', onNavigate }) {
 
   return (
     <header className="topbar">
-      <div className="brand"><div className="brand-mark">Q</div><span>QorTrade</span></div>
+      <div className="brand"><div className="brand-mark">J</div><span>JTrade</span></div>
       <nav className="tabs">
         {tabs.map((tab) => (
           <button
@@ -110,7 +110,7 @@ export default function TopBar({ activePage = 'performance', onNavigate }) {
             <div className="topbar-dropdown profile-dropdown" role="menu">
               <div className="profile-summary">
                 <div className="avatar large" />
-                <div><strong>Jun Portfolio</strong><span>jvinstock@qortrade.app</span></div>
+                <div><strong>Jun Portfolio</strong><span>jvinstock@trade.app</span></div>
               </div>
               <button role="menuitem" type="button"><UserRound size={16} />Account</button>
               <button role="menuitem" type="button"><ShieldCheck size={16} />Security</button>

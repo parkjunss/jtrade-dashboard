@@ -1,0 +1,211 @@
+.settings-page {
+  display: grid;
+  gap: 18px;
+}
+
+.settings-brief {
+  grid-column: span 2;
+}
+
+.settings-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.settings-summary-card,
+.settings-form-card,
+.settings-side-card {
+  padding: 22px 26px;
+}
+
+.settings-summary-card span,
+.settings-summary-card small,
+.settings-text-field span,
+.settings-field label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.settings-summary-card strong {
+  display: block;
+  margin: 10px 0 8px;
+  font-size: 26px;
+  letter-spacing: -0.04em;
+}
+
+.settings-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 18px;
+  align-items: start;
+}
+
+.settings-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.settings-card-head > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-card-head h3,
+.settings-side-card h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.settings-card-head svg {
+  color: var(--green-dark);
+}
+
+.settings-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.settings-actions button {
+  min-height: 40px;
+  border-radius: 20px;
+  padding: 0 15px;
+  border: 1px solid var(--line);
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+}
+
+.settings-actions button:last-child {
+  border-color: #080908;
+  background: #080908;
+  color: #fff;
+}
+
+.settings-actions button:disabled {
+  cursor: progress;
+  opacity: 0.62;
+}
+
+.settings-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: end;
+}
+
+.settings-text-field,
+.settings-field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.settings-text-field input,
+.settings-field > button {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0 14px;
+  font: inherit;
+  font-weight: 800;
+}
+
+.settings-text-field input {
+  outline: 0;
+}
+
+.settings-text-field input:focus,
+.settings-field.open > button {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-soft);
+}
+
+.settings-field > button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-side-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.settings-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.settings-chip-list span {
+  min-height: 34px;
+  border-radius: 17px;
+  padding: 8px 12px;
+  background: var(--green-soft);
+  color: var(--green-dark);
+  font-weight: 900;
+}
+
+.settings-empty {
+  margin: 16px 0 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--green-soft);
+  color: var(--green-dark);
+  font-weight: 900;
+}
+
+.settings-assumption-row,
+.settings-policy-row {
+  min-height: 42px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-assumption-row:first-of-type,
+.settings-policy-row:first-of-type {
+  margin-top: 14px;
+}
+
+.settings-assumption-row svg {
+  color: var(--green-dark);
+}
+
+.settings-policy-row {
+  justify-content: space-between;
+}
+
+.settings-policy-row span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+@media (max-width: 1400px) {
+  .settings-summary-grid,
+  .settings-layout,
+  .settings-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .settings-card-head,
+  .settings-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+}

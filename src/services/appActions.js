@@ -13,6 +13,7 @@ const endpoints = {
   saveScreen: { method: 'POST', path: '/screener/saved' },
   saveStrategy: { method: 'POST', path: '/strategies' },
   saveUniversePreset: { method: 'POST', path: '/backtests/universes' },
+  savePortfolioSettings: { method: 'POST', path: '/settings/portfolio' },
   viewDetails: { method: 'GET', path: '/details' },
   refreshSnapshot: { method: 'POST', path: '/market/refresh' },
   viewOptions: { method: 'GET', path: '/options' },

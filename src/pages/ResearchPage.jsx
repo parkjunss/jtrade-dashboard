@@ -203,6 +203,10 @@ function ResearchComparePage({ activePage, activeSidebarItem, onNavigate, onSide
 
         <section className="title-row">
           <h1>Compare</h1>
+          <div className="page-brief compare-brief">
+            <strong>Peer comparison workspace</strong>
+            <p>Add up to five symbols, switch metric categories, then scan ranking, relative performance, and valuation risk in one pass.</p>
+          </div>
         </section>
 
         <section className="compare-builder card">
@@ -257,21 +261,37 @@ function ResearchComparePage({ activePage, activeSidebarItem, onNavigate, onSide
 
         <section className="compare-lower-grid">
           <article className="card compare-chart-card">
-            <h3>Relative Performance</h3>
+            <div className="compare-card-title">
+              <h3>Relative Performance</h3>
+              <span>YTD move</span>
+            </div>
             <div className="compare-lines">
-              {rows.map((row) => <div key={row.symbol}><span>{row.symbol}</span><Sparkline data={row.series} width={180} height={44} /></div>)}
+              {rows.map((row) => (
+                <div key={row.symbol}>
+                  <span>{row.symbol}</span>
+                  <Sparkline data={row.series} width={180} height={44} />
+                  <strong>{row.ytd > 0 ? '+' : ''}{row.ytd}%</strong>
+                </div>
+              ))}
             </div>
           </article>
 
           <article className="card compare-scatter-card">
-            <h3>Valuation Scatter</h3>
+            <div className="compare-card-title">
+              <h3>Valuation Scatter</h3>
+              <span>Growth vs valuation</span>
+            </div>
             <div className="compare-scatter">
               {rows.map((row) => <span key={row.symbol} style={{ left: `${row.valuation}%`, bottom: `${row.growth + 15}%` }}>{row.symbol}</span>)}
             </div>
+            <div className="scatter-axis-labels"><span>Cheaper</span><span>Richer</span></div>
           </article>
 
           <article className="card compare-ranking-card">
-            <h3>Peer Ranking</h3>
+            <div className="compare-card-title">
+              <h3>Peer Ranking</h3>
+              <span>Composite score</span>
+            </div>
             {[...rows].sort((a, b) => b.score - a.score).map((row, index) => (
               <div key={row.symbol}><span>{index + 1}</span><strong>{row.symbol}</strong><i><b style={{ width: `${row.score}%` }} /></i><em>{row.score}</em></div>
             ))}

@@ -18,6 +18,8 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
 - [x] `backtest-parameters`
 - [x] `research-overview`
 - [x] `research-compare`
+- [x] `reports-exports`
+- [x] `settings-portfolio`
 - [x] Frontend download utility and CSV export
 - [x] Toast auto-dismiss
 - [x] Positions action behavior
@@ -25,30 +27,9 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
 
 ## Next Page Implementation Order
 
-1. `reports-exports`
-2. `settings-portfolio`
+P0 page backlog is complete. Continue with cross-cutting polish or P1 page backlog.
 
 ## P0 Page Backlog
-
-### `reports-exports`
-Features:
-- Export history table backed by mock mutation state.
-- Filters for report type, format, status, date range.
-- Retry/download/delete actions for export rows.
-
-Show:
-- Report name, generated date, format, status, size, requested by.
-- Scheduled exports and recent downloads.
-
-### `settings-portfolio`
-Features:
-- Portfolio preferences form for base currency, benchmark, tax method, fiscal year.
-- Default cash handling and performance calculation settings.
-- Save/reset actions.
-
-Show:
-- Current portfolio name, currency, benchmark, tax lot method.
-- Return calculation assumptions and allocation policy defaults.
 
 ## P1 Page Backlog
 
