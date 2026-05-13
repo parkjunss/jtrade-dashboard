@@ -1,0 +1,10 @@
+export { default as AllocationPage } from './AllocationPage.jsx';
+export { default as BacktestPage } from './BacktestPage.jsx';
+export { default as HoldingsPage } from './HoldingsPage.jsx';
+export { default as InsightsPage } from './InsightsPage.jsx';
+export { default as PerformancePage } from './PerformancePage.jsx';
+export { default as ResearchPage } from './ResearchPage.jsx';
+export { default as ReportsPage } from './ReportsPage.jsx';
+export { default as ScreenerPage } from './ScreenerPage.jsx';
+export { default as SettingsPage } from './SettingsPage.jsx';
+export { default as StockDetailPage } from './StockDetailPage.jsx';

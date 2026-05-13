@@ -1,0 +1,62 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --bg: #ffffff;
+  --card: rgba(255, 255, 255, 0.82);
+  --text: #11130f;
+  --muted: #777d73;
+  --line: rgba(20, 24, 16, 0.08);
+  --green: #65bf22;
+  --green-dark: #268308;
+  --green-soft: #ecf8df;
+  --red: #e53935;
+  --red-soft: #fff0ee;
+  --shadow: 0 22px 60px rgba(21, 28, 15, 0.08);
+  --radius: 26px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+button {
+  font: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+button:disabled {
+  cursor: progress;
+  opacity: 0.68;
+}
+
+/* Utility Classes */
+.muted {
+  color: var(--muted);
+  margin: 0;
+}
+
+.positive,
+.up,
+.green,
+.up b {
+  color: var(--green-dark);
+}
+
+.down,
+.red {
+  color: var(--red);
+}
+
+.neutral {
+  color: #222;
+}

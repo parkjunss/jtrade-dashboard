@@ -1,0 +1,222 @@
+@media (max-width: 1680px) {
+  .backtest-layout {
+    grid-template-columns: 1fr;
+  }
+  .backtest-right {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .risk-return-card {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 1400px) {
+  .app-shell {
+    padding: 24px;
+    gap: 24px;
+  }
+  .topbar,
+  .title-row,
+  .top-grid,
+  .main-grid,
+  .portfolio-top,
+  .allocation-hero-grid,
+  .allocation-middle-grid,
+  .allocation-trend-grid,
+  .insights-top-grid,
+  .insights-middle-grid,
+  .insights-lower-grid,
+  .insight-metric-grid,
+  .reports-top-grid,
+  .reports-middle-grid,
+  .reports-lower-grid,
+  .report-stat-grid,
+  .holdings-summary-grid,
+  .holdings-main-grid,
+  .holdings-bottom-grid,
+  .positions-summary-grid,
+  .positions-layout,
+  .backtest-layout,
+  .backtest-controls,
+  .backtest-kpi-grid,
+  .backtest-mini-grid,
+  .backtest-bottom-grid,
+  .shell-grid,
+  .shell-metric-grid,
+  .stock-hero-grid,
+  .stock-main-grid,
+  .stock-lower-grid,
+  .stock-financial-grid,
+  .stock-detail-top-strip,
+  .stock-detail-layout,
+  .stock-detail-hero,
+  .stock-detail-info-row,
+  .stock-detail-mid-row,
+  .stock-detail-bottom-row,
+  .screener-top-strip,
+  .screener-filter-layout,
+  .screener-filter-panel,
+  .screener-stat-grid,
+  .screener-main-grid,
+  .screener-lower-grid,
+  .screener-awards-grid {
+    grid-template-columns: 1fr;
+  }
+  .ticker-strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .sidebar {
+    display: none;
+  }
+  .tabs,
+  .profile-area {
+    justify-self: start;
+  }
+  .topbar-dropdown {
+    left: 0;
+    right: auto;
+  }
+  .topbar-dropdown::before {
+    left: 25px;
+    right: auto;
+  }
+  .stat-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .allocation-status,
+  .allocation-donut-wrap,
+  .sentiment-content,
+  .factor-content,
+  .distribution-content,
+  .holdings-allocation-content,
+  .backtest-allocation-content {
+    grid-template-columns: 1fr;
+  }
+  .allocation-donut,
+  .holdings-donut,
+  .backtest-donut {
+    justify-self: center;
+  }
+  .holdings-table-card {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .ticker-strip,
+  .chart-area,
+  .index-body,
+  .stat-bar,
+  .allocation-status {
+    grid-template-columns: 1fr;
+  }
+  .portfolio-top h2 {
+    font-size: 34px;
+  }
+  .watch-row {
+    grid-template-columns: 42px 1fr 70px;
+  }
+  .watch-row .sparkline,
+  .watch-row strong {
+    display: none;
+  }
+  .target-row,
+  .rebalance-head,
+  .rebalance-row,
+  .allocation-progress-row,
+  .allocation-legend-list div,
+  .theme-row,
+  .sector-row,
+  .news-row,
+  .opportunity-row,
+  .insight-metric,
+  .report-kpi-row,
+  .report-download-row,
+  .distribution-table div,
+  .report-progress-row,
+  .exports-head,
+  .exports-row,
+  .report-stat,
+  .holding-summary-card,
+  .holdings-allocation-list div,
+  .movers-columns,
+  .holdings-sector-row,
+  .holdings-bottom-stat,
+  .backtest-actions,
+  .backtest-allocation-list div,
+  .backtest-risk-row,
+  .trade-row,
+  .stock-profile-head,
+  .stock-news-row,
+  .stock-peer-row,
+  .stock-info-grid.cols-2,
+  .stock-impact-row,
+  .peer-table div,
+  .position-grid,
+  .position-weight,
+  .ai-stock-content,
+  .analyst-content,
+  .screener-stat-grid article,
+  .screener-awards-grid article,
+  .screener-progress-row,
+  .quick-screen-row {
+    grid-template-columns: 1fr;
+  }
+  .rebalance-head {
+    display: none;
+  }
+  .allocation-stacked-chart {
+    gap: 12px;
+    padding-inline: 0;
+  }
+  .monthly-bars {
+    gap: 8px;
+    padding-inline: 0;
+  }
+  .holdings-actions,
+  .holdings-table-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .holdings-search {
+    width: 100%;
+  }
+  .position-detail-grid,
+  .position-detail-actions,
+  .position-import-card,
+  .column-toggle-grid,
+  .import-format-grid,
+  .import-preview-table div {
+    grid-template-columns: 1fr;
+  }
+  .position-lots-table div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 10px 0;
+  }
+  .profile-area {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .profile {
+    max-width: calc(100vw - 48px);
+  }
+  .notifications-dropdown,
+  .profile-dropdown {
+    width: min(318px, calc(100vw - 48px));
+  }
+  .movers-columns > div:first-child {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding-right: 0;
+    padding-bottom: 18px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .backtest-controls,
+  .backtest-kpi-grid,
+  .backtest-right {
+    grid-template-columns: 1fr;
+  }
+}

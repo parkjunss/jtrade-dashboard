@@ -1,0 +1,54 @@
+/* 검색창을 감싸는 컨테이너 */
+.stock-search-box {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: #f5f5f7; /* 연한 회색 배경 */
+  border-radius: 12px;
+  padding: 10px 16px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* 포커스 되었을 때 스타일 */
+.stock-search-box:focus-within {
+  background-color: #ffffff;
+  border-color: #007aff; /* 금융 앱 포인트 컬러(블루) */
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.1);
+}
+
+/* 아이콘 색상 */
+.stock-search-box svg {
+  color: #8e8e93;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+/* 입력창 스타일 */
+.stock-search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 15px;
+  width: 100%;
+  color: #1d1d1f;
+  z-index: 2;
+}
+
+/* 안내 문구 (Placeholder 역할) */
+.stock-search-box span {
+  position: absolute;
+  left: 45px; /* 아이콘 너비만큼 띄움 */
+  color: #8e8e93;
+  font-size: 15px;
+  pointer-events: none; /* 클릭 방지 */
+  transition: opacity 0.2s ease;
+}
+
+/* 입력 내용이 있거나 포커스되면 span 숨기기 */
+.stock-search-box input:focus + span,
+.stock-search-box input:not(:placeholder-shown) + span {
+  opacity: 0;
+}
