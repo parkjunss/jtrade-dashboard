@@ -5,6 +5,7 @@ import TickerStrip from '../components/TickerStrip.jsx';
 import { tickerStrip } from '../data/mockData';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
+import { APP_ACTIONS } from '../services/appActions';
 import { useState } from 'react';
 
 const statBlocks = [
@@ -69,7 +70,7 @@ export default function StockDetailPage({ activePage, activeSidebarItem, onNavig
     const next = !isWatchlisted;
     setIsWatchlisted(next);
     if (next) {
-      await runAction('addToWatchlist', { symbol: 'NVDA' });
+      await runAction(APP_ACTIONS.ADD_TO_WATCHLIST, { symbol: 'NVDA' });
     }
   };
 
@@ -95,7 +96,7 @@ export default function StockDetailPage({ activePage, activeSidebarItem, onNavig
             <article className="card stock-detail-hero">
               <div className="stock-detail-logo">NVIDIA</div>
               <div className="stock-detail-title">
-                <h1>NVIDIA Corp. <span>(NVDA)</span> <button className={`stock-star-button ${isWatchlisted ? 'active' : ''}`} disabled={pendingAction === 'addToWatchlist'} onClick={toggleWatchlist} title="Toggle Watchlist" type="button"><Star size={22} /></button></h1>
+                <h1>NVIDIA Corp. <span>(NVDA)</span> <button className={`stock-star-button ${isWatchlisted ? 'active' : ''}`} disabled={pendingAction === APP_ACTIONS.ADD_TO_WATCHLIST} onClick={toggleWatchlist} title="Toggle Watchlist" type="button"><Star size={22} /></button></h1>
                 <div><strong>$1,024.32</strong><em>+18.65 (+1.85%)</em></div>
                 <p>After Hours <b>$1,027.61</b> <span>+3.29 (+0.32%)</span> · As of May 7, 2025 4:00 PM ET</p>
               </div>
@@ -146,7 +147,7 @@ export default function StockDetailPage({ activePage, activeSidebarItem, onNavig
               <article className="card stock-news-impact-card">
                 <h3>News Impact</h3>
                 {newsRows.map(([headline, tone, date]) => (
-                  <div className="stock-impact-row" key={headline}><span className={tone === 'Negative' ? 'red' : 'green'}>↟</span><b>{headline}</b><em className={tone === 'Negative' ? 'red' : 'green'}>{tone}</em><small>{date}</small></div>
+                  <div className="stock-impact-row" key={headline}><span className={tone === 'Negative' ? 'red' : 'green'}>{tone === 'Negative' ? 'Down' : 'Up'}</span><b>{headline}</b><em className={tone === 'Negative' ? 'red' : 'green'}>{tone}</em><small>{date}</small></div>
                 ))}
               </article>
               <article className="card stock-peer-table-card">
@@ -202,7 +203,7 @@ export default function StockDetailPage({ activePage, activeSidebarItem, onNavig
 
           <aside className="stock-detail-right">
             <article className="card position-card">
-              <div className="stock-card-head"><h3>Position in Portfolio</h3><button onClick={() => runAction('viewDetails', { panel: 'position', symbol: 'NVDA' })} type="button">View Details <ChevronRight size={14} /></button></div>
+              <div className="stock-card-head"><h3>Position in Portfolio</h3><button onClick={() => runAction(APP_ACTIONS.VIEW_DETAILS, { panel: 'position', symbol: 'NVDA' })} type="button">View Details <ChevronRight size={14} /></button></div>
               <div className="position-grid"><span>Shares</span><b>120</b><span>Avg. Cost</span><b>$742.18</b><span>Market Value</span><b>$122,918.40</b><span>Unrealized P/L</span><b className="green">+$33,864.80 (37.93%)</b></div>
               <div className="position-weight"><span>Portfolio Weight</span><b>9.42%</b><i><em /></i></div>
             </article>
@@ -212,7 +213,7 @@ export default function StockDetailPage({ activePage, activeSidebarItem, onNavig
               <div className="confidence-row"><span>Confidence</span><b>High</b><em>82%</em></div>
             </article>
             <article className="card analyst-card">
-              <div className="stock-card-head"><h3>Analyst Sentiment</h3><button onClick={() => runAction('viewDetails', { panel: 'analystSentiment', symbol: 'NVDA' })} type="button">View More <ChevronRight size={14} /></button></div>
+              <div className="stock-card-head"><h3>Analyst Sentiment</h3><button onClick={() => runAction(APP_ACTIONS.VIEW_DETAILS, { panel: 'analystSentiment', symbol: 'NVDA' })} type="button">View More <ChevronRight size={14} /></button></div>
               <div className="analyst-content">
                 <div className="analyst-donut"><strong>42</strong><span>Ratings</span></div>
                 <div><p><i className="green-dot-solid" />Buy <b>29 (69%)</b></p><p><i className="yellow-dot" />Hold <b>10 (24%)</b></p><p><i className="red-dot" />Sell <b>3 (7%)</b></p></div>

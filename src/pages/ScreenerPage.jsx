@@ -4,23 +4,15 @@ import TopBar from '../components/TopBar.jsx';
 import TickerStrip from '../components/TickerStrip.jsx';
 import Sparkline from '../components/Sparkline.jsx';
 import Modal from '../components/Modal.jsx';
+import StatusState from '../components/StatusState.jsx';
 import { tickerStrip } from '../data/mockData';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
+import { APP_ACTIONS } from '../services/appActions';
 import { useState, useEffect, useMemo, useRef } from 'react';
+import { getScreenerRows } from '../data/mock/selectors';
 
-const results = [
-  ['NVDA', 'NVIDIA Corporation', '$1,024.32', '+1.85%', '+183.6%', '$2.52T', '35.2', '+125.3%', '68.7%', '46.2M', '96', [12, 15, 14, 18, 19, 22, 25]],
-  ['MSFT', 'Microsoft Corporation', '$415.60', '+0.72%', '+32.1%', '$3.08T', '30.6', '+15.4%', '41.2%', '22.1M', '88', [13, 14, 16, 15, 18, 20, 23]],
-  ['AVGO', 'Broadcom Inc.', '$1,621.10', '+1.29%', '+78.9%', '$760B', '28.8', '+23.7%', '32.6%', '6.5M', '87', [10, 12, 13, 15, 18, 17, 20]],
-  ['AMD', 'Advanced Micro Devices', '$166.98', '+2.14%', '+58.3%', '$269B', '42.1', '+24.8%', '16.3%', '58.3M', '78', [9, 11, 10, 13, 16, 15, 18]],
-  ['META', 'Meta Platforms, Inc.', '$489.31', '-0.32%', '+54.1%', '$1.23T', '24.6', '+21.6%', '27.9%', '14.6M', '77', [14, 15, 13, 16, 17, 20, 19]],
-  ['TSM', 'Taiwan Semiconductor', '$156.74', '+0.81%', '+45.7%', '$807B', '19.8', '+31.2%', '34.8%', '16.8M', '74', [11, 13, 15, 14, 16, 19, 21]],
-  ['ASML', 'ASML Holding N.V.', '$1,032.40', '+0.45%', '+39.2%', '$407B', '33.1', '+18.7%', '28.4%', '2.1M', '72', [12, 11, 14, 15, 17, 16, 19]],
-  ['ARM', 'Arm Holdings plc', '$121.90', '+1.67%', '+102.3%', '$126B', '61.3', '+65.4%', '12.6%', '33.7M', '70', [8, 10, 12, 14, 17, 21, 25]],
-  ['PLTR', 'Palantir Technologies', '$23.85', '-0.76%', '+144.8%', '$52B', '55.6', '+29.8%', '14.2%', '98.2M', '69', [16, 14, 15, 13, 17, 16, 18]],
-  ['SMCI', 'Super Micro Computer', '$890.21', '-1.32%', '+210.1%', '$52B', '25.3', '+110.5%', '17.1%', '20.5M', '66', [18, 15, 13, 12, 16, 14, 17]],
-];
+const results = getScreenerRows();
 
 const distribution = [
   ['90+', 38, '29.7%'],
@@ -228,7 +220,7 @@ export default function ScreenerPage({ activePage, activeSidebarItem, onNavigate
 
   const runScreen = async () => {
     setIsScreenRunning(true);
-    await runAction('runScreen', { market: market.value, themeTags, sector: sector.value, country: country.value });
+    await runAction(APP_ACTIONS.RUN_SCREEN, { market: market.value, themeTags, sector: sector.value, country: country.value });
     const nextRows = results.map(toResultObject).filter((row) => {
       if (market.isSelected('ETFs')) return ['SPY', 'QQQ'].includes(row.ticker);
       if (country.isSelected('Taiwan')) return row.ticker === 'TSM';
@@ -239,7 +231,7 @@ export default function ScreenerPage({ activePage, activeSidebarItem, onNavigate
     setIsScreenRunning(false);
   };
 
-  const saveScreen = () => runAction('saveScreen', {
+  const saveScreen = () => runAction(APP_ACTIONS.SAVE_SCREEN, {
     name: `${sector.value} ${market.value} Screen`,
     resultCount: `${filteredResults.length} results`,
   });
@@ -316,8 +308,8 @@ export default function ScreenerPage({ activePage, activeSidebarItem, onNavigate
             </label>
           </article>
           <aside className="card screener-actions">
-            <button className="run-screen" disabled={pendingAction === 'runScreen' || isScreenRunning} onClick={runScreen} type="button"><Play size={17} />{pendingAction === 'runScreen' || isScreenRunning ? 'Running...' : 'Run Screen'}</button>
-            <button disabled={pendingAction === 'saveScreen'} onClick={saveScreen} type="button"><Bookmark size={17} />Save Screen</button>
+            <button className="run-screen" disabled={pendingAction === APP_ACTIONS.RUN_SCREEN || isScreenRunning} onClick={runScreen} type="button"><Play size={17} />{pendingAction === APP_ACTIONS.RUN_SCREEN || isScreenRunning ? 'Running...' : 'Run Screen'}</button>
+            <button disabled={pendingAction === APP_ACTIONS.SAVE_SCREEN} onClick={saveScreen} type="button"><Bookmark size={17} />Save Screen</button>
           </aside>
         </section>
 
@@ -341,7 +333,7 @@ export default function ScreenerPage({ activePage, activeSidebarItem, onNavigate
                 <div className="screener-table-tools">
                   <label className="screener-search-tool"><Search size={16} /><input onChange={(event) => setSearchQuery(event.target.value)} placeholder="Search tickers or companies..." type="text" value={searchQuery} /></label>
                   <button onClick={() => setActiveModal('columns')} type="button">Columns <ChevronDown size={15} /></button>
-                  <button disabled={pendingAction === 'exportScreener'} onClick={() => runAction('exportScreener', { format: 'csv', name: `${sector.value} ${market.value} Screener Export`, rows: exportRows })} type="button"><Download size={15} />Export</button>
+                  <button disabled={pendingAction === APP_ACTIONS.EXPORT_SCREENER} onClick={() => runAction(APP_ACTIONS.EXPORT_SCREENER, { format: 'csv', name: `${sector.value} ${market.value} Screener Export`, rows: exportRows })} type="button"><Download size={15} />Export</button>
                   <button onClick={() => setActiveModal('sort')} type="button">Sort by: {sortBy} <ChevronDown size={15} /></button>
                   <button className="icon-filter" onClick={() => setActiveModal('advancedFilter')} type="button"><Filter size={17} /></button>
                 </div>
@@ -365,7 +357,7 @@ export default function ScreenerPage({ activePage, activeSidebarItem, onNavigate
                     })}
                   </div>
                 ))}
-                {filteredResults.length === 0 ? <div className="screener-empty">No matching symbols. Adjust filters or clear search.</div> : null}
+                {filteredResults.length === 0 ? <StatusState title="No matching symbols" message="Adjust filters or clear search to broaden the result set." /> : null}
               </div>
             </article>
 

@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react';
 import Sparkline from './Sparkline.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import Modal from './Modal.jsx';
+import { APP_ACTIONS } from '../services/appActions';
+import { getWatchlistRows } from '../data/mock/selectors';
 
 const watchlistSearchRows = [
   { name: 'Microsoft Corp.', symbol: 'MSFT', price: '$415.60', change: '+0.72%', icon: 'M', trend: 'up', series: [13, 14, 16, 15, 18, 20, 23] },
@@ -15,7 +17,8 @@ export default function Watchlist({ rows }) {
   const { mockMutations, pendingAction, runAction } = useAppAction();
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const watchlistRows = [...mockMutations.watchlist, ...rows];
+  const baseRows = rows?.length ? rows : getWatchlistRows();
+  const watchlistRows = [...mockMutations.watchlist, ...baseRows];
   const symbols = new Set(watchlistRows.map((row) => row.symbol));
   const searchRows = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -23,7 +26,7 @@ export default function Watchlist({ rows }) {
   }, [query]);
 
   const addSymbol = async (row) => {
-    await runAction('addToWatchlist', { symbol: row.symbol });
+    await runAction(APP_ACTIONS.ADD_TO_WATCHLIST, { symbol: row.symbol });
     setIsAddOpen(false);
     setQuery('');
   };
@@ -36,7 +39,7 @@ export default function Watchlist({ rows }) {
           <button 
             className="add-btn" 
             onClick={() => setIsAddOpen(true)}
-            disabled={pendingAction === 'addToWatchlist'}
+            disabled={pendingAction === APP_ACTIONS.ADD_TO_WATCHLIST}
             title="Add Ticker"
           >
             <Plus size={20} />
@@ -44,7 +47,7 @@ export default function Watchlist({ rows }) {
           <button 
             type="button" 
             className="icon-btn"
-            onClick={() => runAction('viewOptions', { target: 'Watchlist' })}
+            onClick={() => runAction(APP_ACTIONS.VIEW_OPTIONS, { target: 'Watchlist' })}
             title="More Options"
           >
             <MoreVertical size={17} />
@@ -59,7 +62,7 @@ export default function Watchlist({ rows }) {
             {searchRows.map((row) => {
               const exists = symbols.has(row.symbol);
               return (
-                <button disabled={exists || pendingAction === 'addToWatchlist'} key={row.symbol} onClick={() => addSymbol(row)} type="button">
+                <button disabled={exists || pendingAction === APP_ACTIONS.ADD_TO_WATCHLIST} key={row.symbol} onClick={() => addSymbol(row)} type="button">
                   <span className={`watch-icon ${row.symbol.toLowerCase()}`}>{row.icon}</span>
                   <b>{row.symbol}</b>
                   <small>{row.name}</small>

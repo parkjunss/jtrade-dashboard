@@ -1,0 +1,17 @@
+export const APP_ACTIONS = {
+  ADD_TO_WATCHLIST: 'addToWatchlist',
+  APPLY_REBALANCE_PLAN: 'applyRebalancePlan',
+  COMPARE_BACKTEST: 'compareBacktest',
+  DOWNLOAD_REPORT: 'downloadReport',
+  EXPORT_SCREENER: 'exportScreener',
+  REFRESH_SNAPSHOT: 'refreshSnapshot',
+  RUN_BACKTEST: 'runBacktest',
+  RUN_SCREEN: 'runScreen',
+  SAVE_ALLOCATION_TARGETS: 'saveAllocationTargets',
+  SAVE_PORTFOLIO_SETTINGS: 'savePortfolioSettings',
+  SAVE_SCREEN: 'saveScreen',
+  SAVE_STRATEGY: 'saveStrategy',
+  SAVE_UNIVERSE_PRESET: 'saveUniversePreset',
+  VIEW_DETAILS: 'viewDetails',
+  VIEW_OPTIONS: 'viewOptions',
+};

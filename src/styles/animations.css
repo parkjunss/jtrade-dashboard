@@ -29,10 +29,19 @@
   }
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .app-shell,
   .dashboard,
   .topbar-dropdown {
+    animation: none;
+  }
+  .status-state.loading svg {
     animation: none;
   }
   .side-active,

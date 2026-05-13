@@ -10,6 +10,7 @@ import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
 import { downloadFile, serializeCsv } from '../services/downloadUtils.js';
+import { APP_ACTIONS } from '../services/appActions';
 
 const summaryCards = [
   { icon: WalletCards, label: 'Total Holdings Value', value: '$422,525.82', sub: 'Across 36 holdings' },
@@ -24,7 +25,7 @@ const holdingsRows = [
   { ticker: 'AAPL', name: 'Apple Inc.', shares: '100', avg: '$173.25', price: '$191.20', value: '$19,120.00', weight: '4.53%', return: '+10.35%', day: '+0.58%', logo: 'a', color: '#111', series: [15, 16, 17, 16, 19, 18, 21, 22] },
   { ticker: 'AMZN', name: 'Amazon.com Inc.', shares: '70', avg: '$145.30', price: '$176.98', value: '$12,388.60', weight: '2.96%', return: '+21.78%', day: '-0.12%', logo: 'a', color: '#050505', danger: true, series: [22, 20, 21, 18, 19, 17, 20, 19] },
   { ticker: 'GOOGL', name: 'Alphabet Inc.', shares: '60', avg: '$128.70', price: '$163.41', value: '$9,804.60', weight: '2.34%', return: '+26.95%', day: '+0.64%', logo: 'G', color: '#4285f4', series: [14, 15, 17, 16, 20, 19, 22, 24] },
-  { ticker: '005930.KS', name: 'Samsung Elec.', shares: '300', avg: '₩64,320', price: '₩78,100', value: '$8,657.40', weight: '2.08%', return: '+21.42%', day: '+1.24%', logo: 'S', color: '#3157c9', series: [13, 15, 16, 17, 19, 18, 21, 22] },
+  { ticker: '005930.KS', name: 'Samsung Elec.', shares: '300', avg: '??4,320', price: '??8,100', value: '$8,657.40', weight: '2.08%', return: '+21.42%', day: '+1.24%', logo: 'S', color: '#3157c9', series: [13, 15, 16, 17, 19, 18, 21, 22] },
   { ticker: 'SPY', name: 'SPDR S&P 500 ETF', shares: '50', avg: '$498.40', price: '$515.36', value: '$25,768.00', weight: '6.12%', return: '+3.40%', day: '+0.29%', logo: 'SPY', color: '#4c85d9', series: [17, 18, 18, 19, 20, 19, 21, 22] },
   { ticker: 'QQQ', name: 'Invesco QQQ Trust', shares: '40', avg: '$420.15', price: '$456.71', value: '$18,268.40', weight: '4.33%', return: '+8.70%', day: '+0.71%', logo: 'QQQ', color: '#5d77d8', series: [16, 17, 19, 18, 20, 22, 21, 24] },
   { ticker: 'CASH', name: 'Cash', shares: '-', avg: '-', price: '-', value: '$24,850.45', weight: '5.92%', return: '-', day: '0.00%', logo: '$', color: '#64bf22', flat: true, series: [18, 18, 18, 18, 18, 18, 18, 18] },
@@ -239,13 +240,13 @@ function PositionsPage({ activePage, activeSidebarItem, onNavigate, onSidebarSel
   };
 
   const saveTradeNote = async () => {
-    await runAction('viewOptions', { target: 'TradeNoteSaved', symbol: selectedRow.ticker });
+    await runAction(APP_ACTIONS.VIEW_OPTIONS, { target: 'TradeNoteSaved', symbol: selectedRow.ticker });
     setActiveModal(null);
   };
 
   const previewImport = async () => {
     setImportPreviewReady(true);
-    await runAction('viewOptions', { target: 'ImportPreview', rows: 2 });
+    await runAction(APP_ACTIONS.VIEW_OPTIONS, { target: 'ImportPreview', rows: 2 });
   };
 
   return (
@@ -287,7 +288,7 @@ function PositionsPage({ activePage, activeSidebarItem, onNavigate, onSidebarSel
                   <input onChange={(event) => setQuery(event.target.value)} placeholder="Search ticker or company..." type="text" value={query} />
                 </div>
                 <button onClick={() => setActiveModal('columns')} type="button"><SlidersHorizontal size={16} />Columns</button>
-                <button disabled={pendingAction === 'downloadReport'} onClick={() => runAction('downloadReport', { reportName: 'Positions Export', type: 'CSV', rows: visibleExportRows.length > 0 ? visibleExportRows : exportRows })} type="button"><Download size={16} />Export</button>
+                <button disabled={pendingAction === APP_ACTIONS.DOWNLOAD_REPORT} onClick={() => runAction(APP_ACTIONS.DOWNLOAD_REPORT, { reportName: 'Positions Export', type: 'CSV', rows: visibleExportRows.length > 0 ? visibleExportRows : exportRows })} type="button"><Download size={16} />Export</button>
               </div>
             </div>
 

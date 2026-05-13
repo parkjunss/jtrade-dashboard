@@ -580,6 +580,10 @@
   margin-top: 16px;
 }
 
+.exports-history-table .status-state {
+  margin: 10px 0;
+}
+
 .exports-history-head,
 .exports-history-row {
   display: grid;

@@ -8,6 +8,8 @@ import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
 import Modal from '../components/Modal.jsx';
+import StatusState from '../components/StatusState.jsx';
+import { APP_ACTIONS } from '../services/appActions';
 import { useState, useEffect, useRef } from 'react';
 
 const kpis = [
@@ -189,7 +191,7 @@ function BacktestUniversePage({ activePage, activeSidebarItem, onNavigate, onSid
 
   const savePreset = async () => {
     const name = presetName.trim() || 'Custom Universe';
-    await runAction('saveUniversePreset', { name, symbols: included, excluded, benchmark: benchmarkSelection.value });
+    await runAction(APP_ACTIONS.SAVE_UNIVERSE_PRESET, { name, symbols: included, excluded, benchmark: benchmarkSelection.value });
     setSavedPresets((current) => ({ ...current, [name]: included }));
   };
 
@@ -218,7 +220,7 @@ function BacktestUniversePage({ activePage, activeSidebarItem, onNavigate, onSid
               <h3>Universe Builder</h3>
               <div className="universe-save-controls">
                 <input onChange={(event) => setPresetName(event.target.value)} value={presetName} />
-                <button disabled={pendingAction === 'saveUniversePreset'} onClick={savePreset} type="button"><Save size={16} />Save</button>
+                <button disabled={pendingAction === APP_ACTIONS.SAVE_UNIVERSE_PRESET} onClick={savePreset} type="button"><Save size={16} />Save</button>
               </div>
             </div>
             <div className="universe-filters">
@@ -292,7 +294,7 @@ function BacktestUniversePage({ activePage, activeSidebarItem, onNavigate, onSid
             <h3>Eligibility Warnings</h3>
             {missingWarnings.length > 0 ? missingWarnings.map((item) => (
               <p key={item.symbol}><ShieldCheck size={16} /><span>{item.symbol} has {item.missing} missing data windows and {item.liquidity}/100 liquidity.</span></p>
-            )) : <p><CheckCircle2 size={16} /><span>All selected assets pass current liquidity and coverage checks.</span></p>}
+            )) : <StatusState title="Eligibility checks passed" message="All selected assets pass current liquidity and coverage checks." />}
           </article>
         </section>
       </main>
@@ -340,7 +342,7 @@ function BacktestParametersPage({ activePage, activeSidebarItem, onNavigate, onS
     weightMode.select(defaultBacktestParams.weightMode);
   };
 
-  const saveParameters = () => runAction('saveStrategy', {
+  const saveParameters = () => runAction(APP_ACTIONS.SAVE_STRATEGY, {
     strategy: `${mergedParams.strategy} Parameters`,
     benchmark: 'S&P 500',
     parameters: mergedParams,
@@ -365,7 +367,7 @@ function BacktestParametersPage({ activePage, activeSidebarItem, onNavigate, onS
           </div>
           <div className="parameter-actions">
             <button onClick={resetDefaults} type="button">Reset Defaults</button>
-            <button disabled={pendingAction === 'saveStrategy'} onClick={saveParameters} type="button"><Save size={16} />Save Parameters</button>
+            <button disabled={pendingAction === APP_ACTIONS.SAVE_STRATEGY} onClick={saveParameters} type="button"><Save size={16} />Save Parameters</button>
           </div>
         </section>
 
@@ -416,14 +418,14 @@ function BacktestParametersPage({ activePage, activeSidebarItem, onNavigate, onS
                 <div className="changed-field-list">
                   {changedFields.map((field) => <span key={field}>{field}</span>)}
                 </div>
-              ) : <p className="parameter-empty">Matches default values.</p>}
+              ) : <StatusState title="Matches defaults" message="No parameter values have changed from the default set." />}
             </article>
 
             <article className="card parameter-summary-card">
               <h3>Validation Warnings</h3>
               {validationWarnings.length > 0 ? validationWarnings.map((warning) => (
                 <p className="parameter-warning" key={warning}><ShieldCheck size={16} />{warning}</p>
-              )) : <p className="parameter-empty">All assumptions are within policy ranges.</p>}
+              )) : <StatusState title="Assumptions in range" message="All backtest assumptions are within policy ranges." />}
             </article>
           </aside>
         </section>
@@ -458,13 +460,13 @@ export default function BacktestPage({ activePage, activeSidebarItem, onNavigate
   };
 
   const handleRunBacktest = async () => {
-    await runAction('runBacktest', { strategy: strategyDropdown.value, dateRange: dateRange.value, assets });
+    await runAction(APP_ACTIONS.RUN_BACKTEST, { strategy: strategyDropdown.value, dateRange: dateRange.value, assets });
     setRunCount((current) => current + 1);
     setLastRun(`Just now · ${dateRange.value}`);
   };
 
   const handleSaveStrategy = async () => {
-    await runAction('saveStrategy', { strategy: strategyDropdown.value, benchmark: benchmark.value });
+    await runAction(APP_ACTIONS.SAVE_STRATEGY, { strategy: strategyDropdown.value, benchmark: benchmark.value });
     setSavedStrategies((current) => {
       const next = { name: strategyDropdown.value, benchmark: benchmark.value, dateRange: dateRange.value, assets: assets.join(', ') };
       return [next, ...current.filter((item) => item.name !== next.name)];
@@ -473,7 +475,7 @@ export default function BacktestPage({ activePage, activeSidebarItem, onNavigate
   };
 
   const handleCompare = async () => {
-    await runAction('compareBacktest', { benchmark: benchmark.value, strategy: strategyDropdown.value });
+    await runAction(APP_ACTIONS.COMPARE_BACKTEST, { benchmark: benchmark.value, strategy: strategyDropdown.value });
     openModal('Strategy Compare');
   };
 
@@ -526,9 +528,9 @@ export default function BacktestPage({ activePage, activeSidebarItem, onNavigate
               <DropdownField label="Transaction Fee" options={['0.00%', '0.01%', '0.05%', '0.10%', '0.20%']} selection={transactionFee} />
               <DropdownField label="Benchmark" options={['None', 'S&P 500', 'Nasdaq 100', 'Dow Jones']} selection={benchmark} />
               <div className="backtest-actions">
-                <button className="run-backtest" disabled={pendingAction === 'runBacktest'} onClick={handleRunBacktest} type="button"><Play size={16} />{pendingAction === 'runBacktest' ? 'Running...' : 'Run Backtest'}</button>
-                <button disabled={pendingAction === 'saveStrategy'} onClick={handleSaveStrategy} type="button"><Bookmark size={16} />Save Strategy</button>
-                <button disabled={pendingAction === 'compareBacktest'} onClick={handleCompare} type="button"><Eye size={16} />Compare</button>
+                <button className="run-backtest" disabled={pendingAction === APP_ACTIONS.RUN_BACKTEST} onClick={handleRunBacktest} type="button"><Play size={16} />{pendingAction === APP_ACTIONS.RUN_BACKTEST ? 'Running...' : 'Run Backtest'}</button>
+                <button disabled={pendingAction === APP_ACTIONS.SAVE_STRATEGY} onClick={handleSaveStrategy} type="button"><Bookmark size={16} />Save Strategy</button>
+                <button disabled={pendingAction === APP_ACTIONS.COMPARE_BACKTEST} onClick={handleCompare} type="button"><Eye size={16} />Compare</button>
               </div>
               <p className="backtest-last-run">Last run: {lastRun}</p>
             </article>

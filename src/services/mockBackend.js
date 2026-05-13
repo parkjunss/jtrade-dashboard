@@ -1,4 +1,5 @@
 import { serializeCsv } from './downloadUtils';
+import { APP_ACTIONS } from './actionTypes';
 
 const delay = (ms = 450) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -74,22 +75,22 @@ export async function mockAction(action, payload = {}) {
   await delay();
 
   const messages = {
-    addToWatchlist: 'Added to watchlist.',
-    applyRebalancePlan: 'Rebalance plan applied.',
-    compareBacktest: 'Comparison workspace opened.',
-    downloadReport: 'Report download queued.',
-    exportScreener: 'Screener export prepared.',
-    runBacktest: 'Backtest completed with mock data.',
-    runScreen: 'Screen results refreshed.',
-    saveAllocationTargets: 'Allocation target model saved.',
-    saveScreen: 'Screen saved.',
-    saveStrategy: 'Strategy saved.',
-    saveUniversePreset: 'Universe preset saved.',
-    savePortfolioSettings: 'Portfolio settings saved.',
-    viewDetails: 'Details panel opened.',
+    [APP_ACTIONS.ADD_TO_WATCHLIST]: 'Added to watchlist.',
+    [APP_ACTIONS.APPLY_REBALANCE_PLAN]: 'Rebalance plan applied.',
+    [APP_ACTIONS.COMPARE_BACKTEST]: 'Comparison workspace opened.',
+    [APP_ACTIONS.DOWNLOAD_REPORT]: 'Report download queued.',
+    [APP_ACTIONS.EXPORT_SCREENER]: 'Screener export prepared.',
+    [APP_ACTIONS.RUN_BACKTEST]: 'Backtest completed with mock data.',
+    [APP_ACTIONS.RUN_SCREEN]: 'Screen results refreshed.',
+    [APP_ACTIONS.SAVE_ALLOCATION_TARGETS]: 'Allocation target model saved.',
+    [APP_ACTIONS.SAVE_PORTFOLIO_SETTINGS]: 'Portfolio settings saved.',
+    [APP_ACTIONS.SAVE_SCREEN]: 'Screen saved.',
+    [APP_ACTIONS.SAVE_STRATEGY]: 'Strategy saved.',
+    [APP_ACTIONS.SAVE_UNIVERSE_PRESET]: 'Universe preset saved.',
+    [APP_ACTIONS.VIEW_DETAILS]: 'Details panel opened.',
   };
 
-  if (action === 'addToWatchlist') {
+  if (action === APP_ACTIONS.ADD_TO_WATCHLIST) {
     const row = pickWatchlistRow(payload.symbol);
 
     if (existingWatchlistSymbols.has(row.symbol)) {
@@ -114,7 +115,7 @@ export async function mockAction(action, payload = {}) {
     };
   }
 
-  if (action === 'saveScreen') {
+  if (action === APP_ACTIONS.SAVE_SCREEN) {
     const name = payload.name ?? 'Untitled Screen';
 
     return {
@@ -135,7 +136,7 @@ export async function mockAction(action, payload = {}) {
     };
   }
 
-  if (action === 'saveStrategy') {
+  if (action === APP_ACTIONS.SAVE_STRATEGY) {
     const strategy = payload.strategy ?? 'Untitled Strategy';
 
     return {
@@ -156,7 +157,7 @@ export async function mockAction(action, payload = {}) {
     };
   }
 
-  if (action === 'saveAllocationTargets') {
+  if (action === APP_ACTIONS.SAVE_ALLOCATION_TARGETS) {
     const name = payload.modelName ?? 'Target Model';
 
     return {
@@ -168,7 +169,7 @@ export async function mockAction(action, payload = {}) {
     };
   }
 
-  if (action === 'applyRebalancePlan') {
+  if (action === APP_ACTIONS.APPLY_REBALANCE_PLAN) {
     const name = payload.planName ?? 'Rebalance Plan';
 
     return {
@@ -180,7 +181,7 @@ export async function mockAction(action, payload = {}) {
     };
   }
 
-  if (action === 'saveUniversePreset') {
+  if (action === APP_ACTIONS.SAVE_UNIVERSE_PRESET) {
     const name = payload.name ?? 'Universe Preset';
 
     return {
@@ -192,7 +193,7 @@ export async function mockAction(action, payload = {}) {
     };
   }
 
-  if (action === 'savePortfolioSettings') {
+  if (action === APP_ACTIONS.SAVE_PORTFOLIO_SETTINGS) {
     const name = payload.portfolioName ?? 'Portfolio';
 
     return {
@@ -204,7 +205,7 @@ export async function mockAction(action, payload = {}) {
     };
   }
 
-  if (action === 'downloadReport') {
+  if (action === APP_ACTIONS.DOWNLOAD_REPORT) {
     const name = payload.reportName ?? 'Portfolio Report';
     const format = payload.type ?? 'PDF';
     const normalizedFormat = format.toLowerCase();
@@ -241,7 +242,7 @@ export async function mockAction(action, payload = {}) {
     };
   }
 
-  if (action === 'exportScreener') {
+  if (action === APP_ACTIONS.EXPORT_SCREENER) {
     const format = (payload.format ?? 'csv').toUpperCase();
     const rows = Array.isArray(payload.rows) ? payload.rows : [];
     const headers = rows.length > 0 ? Object.keys(rows[0]) : ['Ticker', 'Company', 'Price', 'Score'];

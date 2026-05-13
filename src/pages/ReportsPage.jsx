@@ -7,6 +7,9 @@ import { tickerStrip } from '../data/mockData';
 import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
+import StatusState from '../components/StatusState.jsx';
+import { APP_ACTIONS } from '../services/appActions';
+import { getReportExports, getScheduledExports } from '../data/mock/selectors';
 
 const reportCenter = [
   ['Monthly Statement', 'PDF', 'Download', 'red'],
@@ -39,21 +42,6 @@ const exportsRows = [
   ['Tax Summary 2024', 'Apr 05, 2025', 'PDF', 'Ready'],
   ['March Statement', 'Mar 31, 2025', 'CSV', 'Downloaded'],
   ['Risk Snapshot', 'Mar 25, 2025', 'PDF', 'Sent'],
-];
-
-const exportHistoryRows = [
-  { id: 'exp-001', name: 'Q1 Portfolio Report', type: 'Performance', date: 'Apr 12, 2025', format: 'PDF', status: 'Sent', size: '2.4 MB', requestedBy: 'Sarah Kim' },
-  { id: 'exp-002', name: 'Tax Summary 2024', type: 'Tax', date: 'Apr 05, 2025', format: 'PDF', status: 'Ready', size: '1.8 MB', requestedBy: 'Sarah Kim' },
-  { id: 'exp-003', name: 'March Statement', type: 'Statement', date: 'Mar 31, 2025', format: 'CSV', status: 'Downloaded', size: '742 KB', requestedBy: 'Ops Desk' },
-  { id: 'exp-004', name: 'Risk Snapshot', type: 'Risk', date: 'Mar 25, 2025', format: 'PDF', status: 'Sent', size: '1.2 MB', requestedBy: 'Sarah Kim' },
-  { id: 'exp-005', name: 'Allocation Drift Export', type: 'Allocation', date: 'Mar 18, 2025', format: 'XLS', status: 'Failed', size: '0 KB', requestedBy: 'Risk Team' },
-  { id: 'exp-006', name: 'Positions Export', type: 'Holdings', date: 'Mar 11, 2025', format: 'CSV', status: 'Downloaded', size: '688 KB', requestedBy: 'Ops Desk' },
-];
-
-const scheduledExportRows = [
-  ['Monthly Statement', 'PDF', '1st day monthly', 'Active'],
-  ['Weekly Risk Snapshot', 'PDF', 'Friday close', 'Active'],
-  ['Holdings CSV', 'CSV', 'Monday open', 'Paused'],
 ];
 
 const reportStats = [
@@ -145,7 +133,7 @@ function ReportsExportsPage({ activePage, activeSidebarItem, onNavigate, onSideb
   }));
 
   const rows = useMemo(() => {
-    return [...mutationRows, ...exportHistoryRows]
+    return [...mutationRows, ...getReportExports()]
       .filter((row) => !deletedIds.includes(row.id))
       .map((row) => retryIds.includes(row.id) ? { ...row, status: 'Ready', size: row.size === '0 KB' ? '940 KB' : row.size } : row)
       .filter((row) => {
@@ -158,7 +146,7 @@ function ReportsExportsPage({ activePage, activeSidebarItem, onNavigate, onSideb
       });
   }, [dateFilter, deletedIds, formatFilter, mutationRows, query, retryIds, statusFilter, typeFilter]);
 
-  const downloadExport = (row) => runAction('downloadReport', {
+  const downloadExport = (row) => runAction(APP_ACTIONS.DOWNLOAD_REPORT, {
     reportName: row.name,
     type: row.format,
     rows: row.format === 'CSV' ? [{ Name: row.name, Type: row.type, Date: row.date, Status: row.status }] : undefined,
@@ -166,7 +154,7 @@ function ReportsExportsPage({ activePage, activeSidebarItem, onNavigate, onSideb
 
   const retryExport = (row) => {
     setRetryIds((current) => current.includes(row.id) ? current : [...current, row.id]);
-    return runAction('downloadReport', { reportName: row.name, type: row.format });
+    return runAction(APP_ACTIONS.DOWNLOAD_REPORT, { reportName: row.name, type: row.format });
   };
 
   return (
@@ -207,6 +195,7 @@ function ReportsExportsPage({ activePage, activeSidebarItem, onNavigate, onSideb
             </div>
             <div className="exports-history-table">
               <div className="exports-history-head"><span>Report Name</span><span>Generated</span><span>Format</span><span>Status</span><span>Size</span><span>Requested By</span><span>Actions</span></div>
+              {pendingAction === APP_ACTIONS.DOWNLOAD_REPORT ? <StatusState title="Preparing export" message="The local mock export is being generated." tone="loading" /> : null}
               {rows.map((row) => (
                 <div className="exports-history-row" key={row.id}>
                   <b>{row.name}<small>{row.type}</small></b>
@@ -216,19 +205,20 @@ function ReportsExportsPage({ activePage, activeSidebarItem, onNavigate, onSideb
                   <span>{row.size}</span>
                   <span>{row.requestedBy}</span>
                   <div className="export-row-actions">
-                    <button disabled={pendingAction === 'downloadReport'} onClick={() => downloadExport(row)} title="Download" type="button"><Download size={15} /></button>
-                    <button disabled={pendingAction === 'downloadReport'} onClick={() => retryExport(row)} title="Retry" type="button"><RefreshCw size={15} /></button>
+                    <button disabled={pendingAction === APP_ACTIONS.DOWNLOAD_REPORT} onClick={() => downloadExport(row)} title="Download" type="button"><Download size={15} /></button>
+                    <button disabled={pendingAction === APP_ACTIONS.DOWNLOAD_REPORT} onClick={() => retryExport(row)} title="Retry" type="button"><RefreshCw size={15} /></button>
                     <button onClick={() => setDeletedIds((current) => [...current, row.id])} title="Delete" type="button"><Trash2 size={15} /></button>
                   </div>
                 </div>
               ))}
+              {rows.length === 0 ? <StatusState title="No exports found" message="Clear filters or search for a different report name." /> : null}
             </div>
           </article>
 
           <aside className="exports-side-stack">
             <article className="card scheduled-exports-card">
               <h3>Scheduled Exports</h3>
-              {scheduledExportRows.map(([name, format, cadence, status]) => (
+              {getScheduledExports().map(({ name, format, cadence, status }) => (
                 <div className="scheduled-export-row" key={name}>
                   <span>{name}</span><b>{format}</b><small>{cadence}</small><strong className={status.toLowerCase()}>{status}</strong>
                 </div>
@@ -242,6 +232,7 @@ function ReportsExportsPage({ activePage, activeSidebarItem, onNavigate, onSideb
                   <Download size={15} /><span>{row.name}</span><small>{row.date}</small>
                 </button>
               ))}
+              {rows.filter((row) => row.status === 'Downloaded').length === 0 ? <StatusState title="No recent downloads" message="Downloaded exports will appear here." /> : null}
             </article>
           </aside>
         </section>
@@ -303,7 +294,7 @@ export default function ReportsPage({ activePage, activeSidebarItem, onNavigate,
               <div className="report-download-row" key={name}>
                 <MiniFileIcon type={type} tone={tone} />
                 <b>{name}</b>
-                <button disabled={pendingAction === 'downloadReport'} onClick={() => runAction('downloadReport', { reportName: name, type })} type="button">{status === 'Ready' ? <Check size={15} /> : <Download size={15} />}{status}</button>
+                <button disabled={pendingAction === APP_ACTIONS.DOWNLOAD_REPORT} onClick={() => runAction(APP_ACTIONS.DOWNLOAD_REPORT, { reportName: name, type })} type="button">{status === 'Ready' ? <Check size={15} /> : <Download size={15} />}{status}</button>
               </div>
             ))}
           </article>
@@ -372,7 +363,7 @@ export default function ReportsPage({ activePage, activeSidebarItem, onNavigate,
                 <ShieldCheck size={17} />
                 <span>{label}</span>
                 <strong>{value}</strong>
-                <em className={trend}>{trend === 'up' ? '▲' : trend === 'down' ? '▼' : '–'}</em>
+                <em className={trend}>{trend === 'up' ? 'Up' : trend === 'down' ? 'Down' : 'Flat'}</em>
               </div>
             ))}
           </article>

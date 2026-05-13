@@ -4,18 +4,11 @@ import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
+import StatusState from '../components/StatusState.jsx';
+import { APP_ACTIONS } from '../services/appActions';
+import { getPortfolioSettings } from '../data/mock/selectors';
 
-const defaultPortfolioSettings = {
-  portfolioName: 'QorTrade Core Portfolio',
-  baseCurrency: 'USD',
-  benchmark: 'S&P 500',
-  taxMethod: 'FIFO',
-  fiscalYear: 'Calendar Year',
-  cashHandling: 'Treat cash as allocation',
-  returnMethod: 'Time-weighted return',
-  dividendTreatment: 'Reinvest dividends',
-  allocationPolicy: 'Moderate Growth',
-};
+const defaultPortfolioSettings = getPortfolioSettings();
 
 function SettingsDropdown({ label, options, value, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,7 +63,7 @@ function SettingsPortfolioPage({ activePage, activeSidebarItem, onNavigate, onSi
   };
 
   const resetSettings = () => setSettings(defaultPortfolioSettings);
-  const saveSettings = () => runAction('savePortfolioSettings', settings);
+  const saveSettings = () => runAction(APP_ACTIONS.SAVE_PORTFOLIO_SETTINGS, settings);
 
   return (
     <div className="app-shell">
@@ -99,7 +92,7 @@ function SettingsPortfolioPage({ activePage, activeSidebarItem, onNavigate, onSi
               <div><WalletCards size={24} /><h3>Portfolio Preferences</h3></div>
               <div className="settings-actions">
                 <button onClick={resetSettings} type="button"><RotateCcw size={16} />Reset</button>
-                <button disabled={pendingAction === 'savePortfolioSettings'} onClick={saveSettings} type="button"><Save size={16} />Save</button>
+                <button disabled={pendingAction === APP_ACTIONS.SAVE_PORTFOLIO_SETTINGS} onClick={saveSettings} type="button"><Save size={16} />Save</button>
               </div>
             </div>
 
@@ -121,7 +114,7 @@ function SettingsPortfolioPage({ activePage, activeSidebarItem, onNavigate, onSi
               <h3>Changed Fields</h3>
               {changedFields.length > 0 ? (
                 <div className="settings-chip-list">{changedFields.map((field) => <span key={field}>{field}</span>)}</div>
-              ) : <p className="settings-empty">No changes from defaults.</p>}
+              ) : <StatusState title="No changes" message="Portfolio settings match the default configuration." />}
             </article>
 
             <article className="card settings-side-card">

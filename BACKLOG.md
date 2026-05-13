@@ -25,6 +25,17 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
 - [x] Positions action behavior
 - [x] Existing visible-control interaction pass across Performance, Holdings, Screener, Stock Detail, and Backtest
 
+## Current Refactor
+
+- [~] Centralize mock data into a domain store:
+  - [x] portfolio and settings
+  - [x] securities master data
+  - [x] positions and tax lots
+  - [x] report exports and scheduled exports
+  - [x] selectors that preserve existing page row shapes while sharing one source of truth
+  - [x] migrate Reports Exports, Settings Portfolio, Screener rows, and Watchlist fallback rows
+  - [ ] migrate Holdings, Allocation, Performance, Research Compare, and Stock Detail page-local fixtures
+
 ## Next Page Implementation Order
 
 P0 page backlog is complete. Continue with cross-cutting polish or P1 page backlog.

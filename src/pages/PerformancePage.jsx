@@ -12,6 +12,7 @@ import Watchlist from '../components/Watchlist.jsx';
 import StatBar from '../components/StatBar.jsx';
 import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
+import { APP_ACTIONS } from '../services/appActions';
 
 const rangeOptions = ['MTD', '1M', '3M', 'YTD', '1Y', '3Y', 'All'];
 
@@ -143,7 +144,7 @@ function PerformanceReturnsPage({ activePage, activeSidebarItem, onNavigate, onS
     Contribution: formatCurrency(row.contribution),
   }));
 
-  const exportReturns = (type) => runAction('downloadReport', {
+  const exportReturns = (type) => runAction(APP_ACTIONS.DOWNLOAD_REPORT, {
     reportName: `Performance Returns ${range}`,
     type,
     rows: type === 'CSV' ? exportRows : undefined,
@@ -169,8 +170,8 @@ function PerformanceReturnsPage({ activePage, activeSidebarItem, onNavigate, onS
             ))}
           </div>
           <div className="returns-actions">
-            <button disabled={pendingAction === 'downloadReport'} onClick={() => exportReturns('CSV')} type="button"><Download size={16} />CSV</button>
-            <button disabled={pendingAction === 'downloadReport'} onClick={() => exportReturns('PDF')} type="button"><FileText size={16} />PDF</button>
+            <button disabled={pendingAction === APP_ACTIONS.DOWNLOAD_REPORT} onClick={() => exportReturns('CSV')} type="button"><Download size={16} />CSV</button>
+            <button disabled={pendingAction === APP_ACTIONS.DOWNLOAD_REPORT} onClick={() => exportReturns('PDF')} type="button"><FileText size={16} />PDF</button>
           </div>
         </section>
 

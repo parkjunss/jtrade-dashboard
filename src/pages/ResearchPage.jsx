@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import Sparkline from '../components/Sparkline.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
+import { APP_ACTIONS } from '../services/appActions';
 import SubPageShell from './SubPageShell.jsx';
 import ScreenerPage from './ScreenerPage.jsx';
 import StockDetailPage from './StockDetailPage.jsx';
@@ -46,7 +47,7 @@ function ResearchOverviewPage({ activePage, activeSidebarItem, onNavigate, onSid
 
   const openScreener = () => onSidebarSelect('research-screener');
   const openStockDetail = (symbol = 'NVDA') => {
-    runAction('viewDetails', { panel: 'stockDetailShortcut', symbol });
+    runAction(APP_ACTIONS.VIEW_DETAILS, { panel: 'stockDetailShortcut', symbol });
     onSidebarSelect('research-stock-detail');
   };
   const openCompare = () => onSidebarSelect('research-compare');
@@ -71,7 +72,7 @@ function ResearchOverviewPage({ activePage, activeSidebarItem, onNavigate, onSid
           <button className="card research-action-card" onClick={openCompare} type="button">
             <GitCompareArrows size={25} /><span>Compare</span><strong>Build peer set</strong><ArrowUpRight size={18} />
           </button>
-          <button className="card research-action-card" disabled={pendingAction === 'viewOptions'} onClick={() => runAction('viewOptions', { target: 'ResearchAlerts' })} type="button">
+          <button className="card research-action-card" disabled={pendingAction === APP_ACTIONS.VIEW_OPTIONS} onClick={() => runAction(APP_ACTIONS.VIEW_OPTIONS, { target: 'ResearchAlerts' })} type="button">
             <Bell size={25} /><span>Alerts</span><strong>Review catalysts</strong><ArrowUpRight size={18} />
           </button>
         </section>
@@ -150,7 +151,7 @@ function ResearchOverviewPage({ activePage, activeSidebarItem, onNavigate, onSid
           <article className="card research-watch-card">
             <h3>Watch Candidates</h3>
             {['AVGO', 'TSM', 'AMZN'].map((symbol) => (
-              <button disabled={pendingAction === 'addToWatchlist'} key={symbol} onClick={() => runAction('addToWatchlist', { symbol })} type="button">
+              <button disabled={pendingAction === APP_ACTIONS.ADD_TO_WATCHLIST} key={symbol} onClick={() => runAction(APP_ACTIONS.ADD_TO_WATCHLIST, { symbol })} type="button">
                 <Plus size={16} />Add {symbol}
               </button>
             ))}
@@ -179,7 +180,7 @@ function ResearchComparePage({ activePage, activeSidebarItem, onNavigate, onSide
     setSymbols((current) => current.length > 1 ? current.filter((item) => item !== symbol) : current);
   };
 
-  const exportComparison = () => runAction('downloadReport', {
+  const exportComparison = () => runAction(APP_ACTIONS.DOWNLOAD_REPORT, {
     reportName: 'Research Comparison',
     type: 'CSV',
     rows: rows.map((row) => ({
@@ -214,7 +215,7 @@ function ResearchComparePage({ activePage, activeSidebarItem, onNavigate, onSide
             {symbols.map((symbol) => <button key={symbol} onClick={() => removeSymbol(symbol)} type="button">{symbol} x</button>)}
           </div>
           <label className="compare-search"><Search size={16} /><input onChange={(event) => setQuery(event.target.value)} placeholder="Add symbol..." value={query} /></label>
-          <button disabled={pendingAction === 'downloadReport'} onClick={exportComparison} type="button">Export</button>
+          <button disabled={pendingAction === APP_ACTIONS.DOWNLOAD_REPORT} onClick={exportComparison} type="button">Export</button>
           {query ? (
             <div className="compare-candidates">
               {candidates.map((item) => <button key={item.symbol} onClick={() => addSymbol(item.symbol)} type="button">{item.symbol}<span>{item.company}</span></button>)}

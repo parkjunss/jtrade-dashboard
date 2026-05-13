@@ -7,6 +7,8 @@ import { tickerStrip } from '../data/mockData';
 import SubPageShell from './SubPageShell.jsx';
 import { useSelection } from '../hooks/useSelection.js';
 import { useAppAction } from '../context/AppActionContext.jsx';
+import StatusState from '../components/StatusState.jsx';
+import { APP_ACTIONS } from '../services/appActions';
 
 const allocationRows = [
   { name: 'US Stocks', color: '#47b51e', current: 42, target: 40, value: '$177,461.64', drift: '+2.0%' },
@@ -144,7 +146,7 @@ function AllocationTargetsPage({ activePage, activeSidebarItem, onNavigate, onSi
     setRowsByGroup((current) => ({ ...current, [group]: targetGroups[group] }));
   };
 
-  const saveTargets = () => runAction('saveAllocationTargets', {
+  const saveTargets = () => runAction(APP_ACTIONS.SAVE_ALLOCATION_TARGETS, {
     modelName: `${group} Policy Model`,
     group,
     rows: normalizedRows,
@@ -173,7 +175,7 @@ function AllocationTargetsPage({ activePage, activeSidebarItem, onNavigate, onSi
           </div>
           <div className="target-toolbar-actions">
             <button onClick={resetGroup} type="button"><Undo2 size={16} />Reset</button>
-            <button disabled={pendingAction === 'saveAllocationTargets'} onClick={saveTargets} type="button"><Save size={16} />Save Model</button>
+            <button disabled={pendingAction === APP_ACTIONS.SAVE_ALLOCATION_TARGETS} onClick={saveTargets} type="button"><Save size={16} />Save Model</button>
           </div>
         </section>
 
@@ -255,7 +257,7 @@ function AllocationTargetsPage({ activePage, activeSidebarItem, onNavigate, onSi
                 <b>{Math.abs(row.current - row.target).toFixed(1)} pts drift</b>
                 <small>Tolerance band: +/-{row.tolerance.toFixed(1)} pts</small>
               </div>
-            )) : <p className="target-empty-state">All policy rows are within tolerance.</p>}
+            )) : <StatusState title="All rows within tolerance" message="No allocation policy row is currently outside its tolerance band." />}
           </article>
 
           <article className="card target-policy-card">
@@ -334,13 +336,13 @@ function AllocationRebalancePage({ activePage, activeSidebarItem, onNavigate, on
   const afterAllocationRows = planRows.filter((row) => row.action !== 'Hold');
   const hiddenAfterSlots = Math.max(0, rebalanceTradeRows.filter((row) => row.action !== 'Hold').length - afterAllocationRows.length);
 
-  const applyPlan = () => runAction('applyRebalancePlan', {
+  const applyPlan = () => runAction(APP_ACTIONS.APPLY_REBALANCE_PLAN, {
     planName: 'Core Portfolio Rebalance',
     controls: { cashOnly, sellRequired, taxAware, minTradeSize },
     trades: exportRows,
   });
 
-  const exportPlan = () => runAction('downloadReport', {
+  const exportPlan = () => runAction(APP_ACTIONS.DOWNLOAD_REPORT, {
     reportName: 'Rebalance Plan',
     type: 'CSV',
     rows: exportRows,
@@ -362,8 +364,8 @@ function AllocationRebalancePage({ activePage, activeSidebarItem, onNavigate, on
           <div className="rebalance-control-head">
             <div><SlidersHorizontal size={22} /><strong>Plan Controls</strong></div>
             <div className="rebalance-page-actions">
-              <button disabled={pendingAction === 'downloadReport'} onClick={exportPlan} type="button"><Download size={16} />Export</button>
-              <button disabled={pendingAction === 'applyRebalancePlan'} onClick={applyPlan} type="button"><Play size={16} />Apply Plan</button>
+              <button disabled={pendingAction === APP_ACTIONS.DOWNLOAD_REPORT} onClick={exportPlan} type="button"><Download size={16} />Export</button>
+              <button disabled={pendingAction === APP_ACTIONS.APPLY_REBALANCE_PLAN} onClick={applyPlan} type="button"><Play size={16} />Apply Plan</button>
             </div>
           </div>
           <div className="rebalance-control-grid">

@@ -152,15 +152,30 @@ Core pages touched recently:
   - portfolio preferences form for portfolio name, base currency, benchmark, tax lot method, fiscal year, cash handling, return method, dividend treatment, and allocation policy
   - save/reset actions with mock mutation feedback
   - current portfolio settings summary, changed-field tracking, return assumptions, and allocation policy defaults
+- Cross-cutting polish pass:
+  - added shared `StatusState` component for loading, empty, and error-style panel states
+  - moved `page-brief` styling to shared component CSS so non-market pages can use explanatory headers consistently
+  - replaced several one-off empty states in Screener, Allocation Targets, Backtest Universe/Parameters, Reports Exports, and Settings Portfolio
+  - added visible loading state to Reports export generation table
+- Action/API naming cleanup:
+  - added centralized `APP_ACTIONS` constants in `src/services/actionTypes.js`
+  - renamed endpoint map to `APP_ENDPOINTS` and keyed it by action constants
+  - replaced page/component `runAction` and `pendingAction` string literals with shared constants
+  - normalized mock backend action checks/messages to use the same constants
+- Central mock domain store pass:
+  - added `src/data/mock/mockStore.js` with portfolio, settings, benchmarks, securities, positions, and report export fixtures
+  - added `src/data/mock/selectors.js` to derive existing page row shapes from shared mock data
+  - migrated Reports Exports, Settings Portfolio defaults, Screener rows, and Watchlist fallback rows to shared selectors
 
 ## Current Priority
 
 Next implementation priority:
-- P0 page backlog is complete. Next recommended pass: loading/empty/error states and visual QA across implemented pages.
+- P0 page backlog is complete. Current work: continue migrating page-local mock arrays into the shared domain store.
 
 Cross-cutting next tasks:
-- Add loading/empty/error states for major cards.
-- Normalize action names/endpoints in `src/services/appActions.js` as UI actions grow.
+- Build `src/data/mock/` domain fixtures and selectors, then migrate pages incrementally away from page-local mock arrays.
+- Continue adding loading/empty/error states for remaining major cards as needed.
+- Continue normalizing action payload shapes as UI actions grow.
 - Visually QA all implemented pages at desktop widths around 1400-1700px and responsive breakpoints.
 - Reuse existing dropdown patterns/components for page filters and selectors instead of styling native `select` controls per page.
 
@@ -198,4 +213,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-13 after `settings-portfolio`).
+Last known build status: passing (`npm.cmd run build`, 2026-05-13 after central mock store pass 1).
