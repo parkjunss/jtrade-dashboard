@@ -3,54 +3,25 @@ import { CalendarDays, Check, ChevronDown, CloudUpload, Database, Download, File
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import TickerStrip from '../components/TickerStrip.jsx';
-import { tickerStrip } from '../data/mockData';
 import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
 import StatusState from '../components/StatusState.jsx';
 import { APP_ACTIONS } from '../services/appActions';
-import { getReportExports, getScheduledExports } from '../data/mock/selectors';
+import { getReportExports, getReportsOverviewData, getScheduledExports, getTickerStrip } from '../data/mock/selectors';
 
-const reportCenter = [
-  ['Monthly Statement', 'PDF', 'Download', 'red'],
-  ['Quarterly Report', 'XLS', 'Download', 'green'],
-  ['Annual Summary', 'PDF', 'Download', 'red'],
-  ['Tax Document', 'DOC', 'Ready', 'blue'],
-];
+const tickerStrip = getTickerStrip();
+const reportIcons = { CalendarDays, CloudUpload, Database, FileText };
+const reportsOverview = getReportsOverviewData();
+const reportCenter = reportsOverview.reportCenter;
 
-const monthlyReturns = [2.1, 4.8, 6.3, -1.2, 5.7, 2.9, 3.6, 1.4, -0.8, 4.5, 6.7, 3.2];
-const assetContribution = [
-  ['NVDA', 24.6],
-  ['MSFT', 18.7],
-  ['AAPL', 14.2],
-  ['Samsung Elec.', 9.8],
-  ['SPY', 6.5],
-  ['Cash', 2.1],
-];
+const monthlyReturns = reportsOverview.monthlyReturns;
+const assetContribution = reportsOverview.assetContribution;
 
-const riskMetrics = [
-  ['Sharpe Ratio', '1.42', 'up'],
-  ['Sortino Ratio', '1.88', 'up'],
-  ['Beta', '0.87', 'neutral'],
-  ['Volatility', '12.4%', 'down'],
-  ['Alpha', '4.6%', 'up'],
-  ['Tracking Error', '5.1%', 'up'],
-];
+const riskMetrics = reportsOverview.riskMetrics;
+const exportsRows = reportsOverview.exportsRows;
 
-const exportsRows = [
-  ['Q1 Portfolio Report', 'Apr 12, 2025', 'PDF', 'Sent'],
-  ['Tax Summary 2024', 'Apr 05, 2025', 'PDF', 'Ready'],
-  ['March Statement', 'Mar 31, 2025', 'CSV', 'Downloaded'],
-  ['Risk Snapshot', 'Mar 25, 2025', 'PDF', 'Sent'],
-];
-
-const reportStats = [
-  { icon: FileText, label: 'Reports Generated', value: '48', sub: 'vs last month  +12' },
-  { icon: CalendarDays, label: 'Scheduled Reports', value: '6', sub: 'Automated deliveries' },
-  { icon: CloudUpload, label: 'Last Export', value: 'PDF', sub: 'May 21, 2025 · 02:15 PM' },
-  { icon: CalendarDays, label: 'Next Report', value: 'Jun 01', sub: 'Monthly Statement' },
-  { icon: Database, label: 'Storage Used', value: '128 MB', sub: 'of 2 GB (6%)' },
-];
+const reportStats = reportsOverview.reportStats.map((item) => ({ ...item, icon: reportIcons[item.icon] }));
 
 function ReportStat({ item }) {
   const Icon = item.icon;

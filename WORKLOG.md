@@ -17,8 +17,12 @@ Implemented top-level pages:
 Implemented detailed pages/screens:
 - Performance overview
 - Performance > Returns
+- Performance > Benchmark
+- Performance > Drawdown
 - Holdings overview
 - Holdings > Positions
+- Holdings > Movers
+- Holdings > Sectors
 - Allocation overview
 - Allocation > Targets
 - Allocation > Rebalance
@@ -166,14 +170,50 @@ Core pages touched recently:
   - added `src/data/mock/mockStore.js` with portfolio, settings, benchmarks, securities, positions, and report export fixtures
   - added `src/data/mock/selectors.js` to derive existing page row shapes from shared mock data
   - migrated Reports Exports, Settings Portfolio defaults, Screener rows, and Watchlist fallback rows to shared selectors
+- Central mock domain store pass 2:
+  - moved Holdings overview/positions fixtures, Allocation overview/rebalance fixtures, Performance Returns fixtures, Research overview/Compare fixtures, and Stock Detail tables/charts into `src/data/mock/mockStore.js`
+  - added selectors for the newly centralized Holdings, Allocation, Performance, Research, and Stock Detail data
+  - updated those pages to consume shared selectors instead of page-local fixture arrays
+- Central mock domain store pass 3:
+  - moved Allocation Targets policy groups, Screener side-panel metadata, Insights overview fixtures, Backtest overview/universe/parameter fixtures, and Reports overview fixtures into `src/data/mock/mockStore.js`
+  - added selectors for Backtest, Insights, Reports overview, Screener metadata, and Allocation target groups
+  - left page-local UI configuration arrays in place where they describe control options, column definitions, or icon mapping rather than mock domain data
+- Central mock domain store pass 4:
+  - moved ticker strip, market snapshot, S&P 500 index fixture, Performance overview fixtures, and Watchlist add-search candidates into `src/data/mock/mockStore.js`
+  - added shared selectors for ticker strip, market snapshot/index data, Performance overview data, and Watchlist search rows
+  - removed direct page/component imports from the legacy `src/data/mockData.js` file and deleted the file
+- Stock Detail interaction pass:
+  - added panel-specific modals for Position in Portfolio and Analyst Sentiment actions
+  - added Run Backtest confirmation modal for NVDA and wired it through the existing mock backtest action before navigating to Backtest
+- Implemented `Performance > Benchmark`:
+  - benchmark selector for S&P 500, Nasdaq 100, and MSCI ACWI
+  - indexed relative performance chart and monthly relative return ledger
+  - tracking error, correlation, beta, alpha, active share, and information ratio summary
+  - active contributor view for position/allocation effects versus the benchmark
+- Implemented `Performance > Drawdown`:
+  - current, max, average drawdown, and recovery-rate KPI cards
+  - underwater drawdown chart and recovery snapshot
+  - drawdown event table with active/recovered status
+  - current drawdown driver contribution list
+- Implemented `Holdings > Movers`:
+  - top gainer, top loser, net impact, and largest-impact summary cards
+  - session movers table with search, gainers/losers filters, and impact/price ranking modes
+  - portfolio-impact calculations derived from centralized holdings mock data
+  - selected-mover detail panel with impact bars, catalyst note, detail action, and watchlist action
+  - CSV export and refresh actions through existing app action plumbing
+- Implemented `Holdings > Sectors`:
+  - sector exposure summary cards for coverage, largest sector, overweight, and underweight
+  - benchmark comparison rows with current weight, benchmark marker, active difference, value, and search
+  - selected-sector drilldown with market value, benchmark, target, drift, and holding rows
+  - sector export and detail actions through existing app action plumbing
 
 ## Current Priority
 
 Next implementation priority:
-- P0 page backlog is complete. Current work: continue migrating page-local mock arrays into the shared domain store.
+- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `allocation-assets`.
 
 Cross-cutting next tasks:
-- Build `src/data/mock/` domain fixtures and selectors, then migrate pages incrementally away from page-local mock arrays.
+- Continue migrating any remaining low-priority local data only when it is domain fixture data; keep pure UI config such as columns, option lists, and icon maps near the component unless reused.
 - Continue adding loading/empty/error states for remaining major cards as needed.
 - Continue normalizing action payload shapes as UI actions grow.
 - Visually QA all implemented pages at desktop widths around 1400-1700px and responsive breakpoints.
@@ -213,4 +253,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-13 after central mock store pass 1).
+Last known build status: passing (`npm.cmd run build`, 2026-05-14 after Holdings Sectors implementation).

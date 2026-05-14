@@ -3,87 +3,21 @@ import { AlertTriangle, BarChart3, Check, CircleDollarSign, Download, PieChart, 
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import TickerStrip from '../components/TickerStrip.jsx';
-import { tickerStrip } from '../data/mockData';
 import SubPageShell from './SubPageShell.jsx';
 import { useSelection } from '../hooks/useSelection.js';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import StatusState from '../components/StatusState.jsx';
 import { APP_ACTIONS } from '../services/appActions';
+import { getAllocationRebalanceRows, getAllocationRebalanceTradeRows, getAllocationRegionRows, getAllocationRows, getAllocationSectorRows, getAllocationTargetGroups, getAllocationTrendMonths, getTickerStrip } from '../data/mock/selectors';
 
-const allocationRows = [
-  { name: 'US Stocks', color: '#47b51e', current: 42, target: 40, value: '$177,461.64', drift: '+2.0%' },
-  { name: 'Korean Stocks', color: '#91d46b', current: 18, target: 20, value: '$76,055.65', drift: '-2.0%' },
-  { name: 'ETFs', color: '#3478db', current: 16, target: 15, value: '$67,604.13', drift: '+1.0%' },
-  { name: 'Bonds', color: '#8f62d9', current: 14, target: 15, value: '$59,153.61', drift: '-1.0%' },
-  { name: 'Cash', color: '#f7b500', current: 10, target: 10, value: '$42,250.79', drift: '0.0%' },
-];
-
-const rebalanceRows = [
-  { action: 'Reduce', asset: 'US Stocks', current: '42%', target: '40%', diff: '+2.0%', amount: '-$8,451.29', tone: 'red' },
-  { action: 'Increase', asset: 'Korean Stocks', current: '18%', target: '20%', diff: '-2.0%', amount: '+$8,451.29', tone: 'green' },
-  { action: 'Increase', asset: 'Bonds', current: '14%', target: '15%', diff: '-1.0%', amount: '+$4,225.65', tone: 'green' },
-  { action: 'Hold', asset: 'Cash', current: '10%', target: '10%', diff: '0.0%', amount: '$0.00', tone: 'neutral' },
-];
-
-const rebalanceTradeRows = [
-  { action: 'Sell', ticker: 'AAPL', asset: 'US Stocks', current: 9.4, target: 8.0, drift: 1.4, amount: -5915, fee: 2.1, tax: 185, after: 8.0, taxable: true },
-  { action: 'Sell', ticker: 'NVDA', asset: 'US Stocks', current: 8.8, target: 7.0, drift: 1.8, amount: -7605, fee: 2.6, tax: 420, after: 7.0, taxable: true },
-  { action: 'Buy', ticker: 'EWY', asset: 'Korean Stocks', current: 4.6, target: 6.0, drift: -1.4, amount: 5915, fee: 1.9, tax: 0, after: 6.0, taxable: false },
-  { action: 'Buy', ticker: 'TLT', asset: 'Bonds', current: 4.1, target: 5.0, drift: -0.9, amount: 3803, fee: 1.7, tax: 0, after: 5.0, taxable: false },
-  { action: 'Buy', ticker: 'SPY', asset: 'ETFs', current: 6.4, target: 7.2, drift: -0.8, amount: 3380, fee: 1.5, tax: 0, after: 7.2, taxable: false },
-  { action: 'Hold', ticker: 'Cash', asset: 'Cash', current: 10.0, target: 10.0, drift: 0, amount: 0, fee: 0, tax: 0, after: 10.0, taxable: false },
-];
-
-const sectorRows = [
-  ['Technology', 21.3],
-  ['Financials', 15.8],
-  ['Healthcare', 13.2],
-  ['Energy', 9.7],
-  ['Consumer Discretionary', 9.1],
-  ['Industrial', 7.8],
-  ['Others', 23.1],
-];
-
-const regionRows = [
-  ['United States', 60],
-  ['Korea', 18],
-  ['Europe', 10],
-  ['Emerging Markets', 7],
-  ['Cash & Equivalents', 5],
-];
-
-const trendMonths = ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25'];
-
-const targetGroups = {
-  'Asset Class': [
-    { name: 'US Stocks', current: 42, target: 40, tolerance: 3, threshold: 2, color: '#47b51e' },
-    { name: 'Korean Stocks', current: 18, target: 20, tolerance: 4, threshold: 2, color: '#91d46b' },
-    { name: 'ETFs', current: 16, target: 15, tolerance: 3, threshold: 2, color: '#3478db' },
-    { name: 'Bonds', current: 14, target: 15, tolerance: 2, threshold: 1.5, color: '#8f62d9' },
-    { name: 'Cash', current: 10, target: 10, tolerance: 2, threshold: 1, color: '#f7b500' },
-  ],
-  Region: [
-    { name: 'United States', current: 60, target: 58, tolerance: 5, threshold: 3, color: '#47b51e' },
-    { name: 'Korea', current: 18, target: 20, tolerance: 4, threshold: 2, color: '#91d46b' },
-    { name: 'Europe', current: 10, target: 11, tolerance: 3, threshold: 2, color: '#3478db' },
-    { name: 'Emerging Markets', current: 7, target: 8, tolerance: 3, threshold: 2, color: '#8f62d9' },
-    { name: 'Cash & Equivalents', current: 5, target: 3, tolerance: 2, threshold: 1, color: '#f7b500' },
-  ],
-  Sector: [
-    { name: 'Technology', current: 21.3, target: 20, tolerance: 4, threshold: 2.5, color: '#47b51e' },
-    { name: 'Financials', current: 15.8, target: 15, tolerance: 3, threshold: 2, color: '#91d46b' },
-    { name: 'Healthcare', current: 13.2, target: 14, tolerance: 3, threshold: 2, color: '#3478db' },
-    { name: 'Energy', current: 9.7, target: 8, tolerance: 2.5, threshold: 1.5, color: '#8f62d9' },
-    { name: 'Consumer Discretionary', current: 9.1, target: 10, tolerance: 3, threshold: 2, color: '#f7b500' },
-  ],
-  Symbol: [
-    { name: 'AAPL', current: 9.4, target: 8, tolerance: 2, threshold: 1.5, color: '#47b51e' },
-    { name: 'NVDA', current: 8.8, target: 7, tolerance: 2, threshold: 1.5, color: '#91d46b' },
-    { name: 'MSFT', current: 7.2, target: 7, tolerance: 2, threshold: 1, color: '#3478db' },
-    { name: 'SPY', current: 6.4, target: 8, tolerance: 2, threshold: 1.5, color: '#8f62d9' },
-    { name: 'TLT', current: 4.1, target: 5, tolerance: 1.5, threshold: 1, color: '#f7b500' },
-  ],
-};
+const tickerStrip = getTickerStrip();
+const allocationRows = getAllocationRows();
+const rebalanceRows = getAllocationRebalanceRows();
+const rebalanceTradeRows = getAllocationRebalanceTradeRows();
+const sectorRows = getAllocationSectorRows();
+const regionRows = getAllocationRegionRows();
+const trendMonths = getAllocationTrendMonths();
+const targetGroups = getAllocationTargetGroups();
 
 function MetricTile({ icon: Icon, label, value, sub }) {
   return (

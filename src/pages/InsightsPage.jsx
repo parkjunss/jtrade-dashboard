@@ -2,48 +2,18 @@ import { Activity, ArrowDown, ArrowUp, Brain, Cpu, HeartPulse, Newspaper, Radar,
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import TickerStrip from '../components/TickerStrip.jsx';
-import { tickerStrip } from '../data/mockData';
 import SubPageShell from './SubPageShell.jsx';
 import { useSelection } from '../hooks/useSelection.js';
+import { getInsightsData, getTickerStrip } from '../data/mock/selectors';
 
-const themeRows = [
-  { label: 'AI Infrastructure', icon: Cpu, value: 86, tone: 'Strong' },
-  { label: 'Semiconductors', icon: Zap, value: 85, tone: 'Strong' },
-  { label: 'Quality Tech', icon: ShieldCheck, value: 63, tone: 'Moderate' },
-  { label: 'Defensive Healthcare', icon: HeartPulse, value: 46, tone: 'Moderate' },
-];
-
-const sectorRows = [
-  ['Technology', 77, 'Overweight', 'green'],
-  ['Financials', 54, 'Overweight', 'green'],
-  ['Healthcare', 45, 'Neutral', 'neutral'],
-  ['Energy', 22, 'Underweight', 'red'],
-  ['Industrials', 43, 'Neutral', 'neutral'],
-  ['Consumer Discretionary', 19, 'Underweight', 'red'],
-  ['Utilities', 8, 'Underweight', 'red'],
-];
-
-const newsRows = [
-  ['1', 'Fed signals cautious stance', 'Positive', 'green'],
-  ['2', 'Nvidia supplier demand strong', 'Positive', 'green'],
-  ['3', 'Oil retreats on inventory build', 'Negative', 'red'],
-  ['4', 'Korean exports improve', 'Positive', 'green'],
-];
-
-const opportunities = [
-  ['NVDA', 'NVIDIA Corp.', 'AI chip demand & Blackwell ramp', '+8.56%', 'green'],
-  ['MSFT', 'Microsoft Corp.', 'Cloud growth & AI adoption', '+5.21%', 'green'],
-  ['TSM', 'Taiwan Semiconductor', 'Foundry strength & AI cycle', '+3.18%', 'green'],
-  ['LLY', 'Eli Lilly & Co.', 'Obesity pipeline & GLP-1 strength', '-2.45%', 'red'],
-];
-
-const metricTiles = [
-  { icon: ShieldCheck, label: 'Risk Regime', value: 'Moderate', sub: 'vs last month  Unchanged' },
-  { icon: TrendingUp, label: 'Earnings Momentum', value: 'Positive', sub: 'vs last month  Improving' },
-  { icon: UsersRound, label: 'Analyst Revisions', value: '+6.2%', sub: 'vs last month  Improving' },
-  { icon: Radar, label: 'Breadth Score', value: '63 /100', sub: 'vs last month  Improving' },
-  { icon: Activity, label: 'Volatility Regime', value: 'Mild', sub: 'vs last month  Unchanged' },
-];
+const tickerStrip = getTickerStrip();
+const insightIcons = { Activity, Cpu, HeartPulse, Radar, ShieldCheck, TrendingUp, UsersRound, Zap };
+const insightData = getInsightsData();
+const themeRows = insightData.themeRows.map((item) => ({ ...item, icon: insightIcons[item.icon] }));
+const sectorRows = insightData.sectorRows;
+const newsRows = insightData.newsRows;
+const opportunities = insightData.opportunities;
+const metricTiles = insightData.metricTiles.map((item) => ({ ...item, icon: insightIcons[item.icon] }));
 
 function InsightMeter() {
   return (

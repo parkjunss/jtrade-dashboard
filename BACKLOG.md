@@ -34,7 +34,9 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
   - [x] report exports and scheduled exports
   - [x] selectors that preserve existing page row shapes while sharing one source of truth
   - [x] migrate Reports Exports, Settings Portfolio, Screener rows, and Watchlist fallback rows
-  - [ ] migrate Holdings, Allocation, Performance, Research Compare, and Stock Detail page-local fixtures
+  - [x] migrate Holdings, Allocation, Performance, Research Compare, and Stock Detail page-local fixtures
+  - [x] migrate Backtest, Insights, Reports overview, Screener side metadata, and Allocation Targets fixture groups
+  - [x] migrate legacy `src/data/mockData.js` shared fixtures into `src/data/mock/mockStore.js` and selectors
 
 ## Next Page Implementation Order
 
@@ -44,10 +46,10 @@ P0 page backlog is complete. Continue with cross-cutting polish or P1 page backl
 
 ## P1 Page Backlog
 
-- `performance-benchmark`: benchmark selector, relative return chart, tracking error/correlation/information ratio.
-- `performance-drawdown`: drawdown timeline, recovery table, active drawdown summary.
-- `holdings-movers`: price movers vs portfolio-impact movers, mover detail panel.
-- `holdings-sectors`: sector exposure dashboard, benchmark comparison, sector drilldown.
+- [x] `performance-benchmark`: benchmark selector, relative return chart, tracking error/correlation/information ratio.
+- [x] `performance-drawdown`: drawdown timeline, recovery table, active drawdown summary.
+- [x] `holdings-movers`: price movers vs portfolio-impact movers, mover detail panel.
+- [x] `holdings-sectors`: sector exposure dashboard, benchmark comparison, sector drilldown.
 - `allocation-assets`: asset class drilldown, allocation trend chart.
 - `allocation-risk`: concentration, diversification, beta, volatility, correlation/risk clusters.
 - `backtest-compare`: compare saved strategies, benchmarks, and parameter variants.
@@ -77,8 +79,8 @@ P1:
 - Performance Watchlist row options: view detail, remove, set alert placeholder, run backtest.
 - Performance Market Snapshot options: chart/timeframe menu and local refresh state.
 - Reports download/detail controls: report center and Recent Exports detail modals.
-- Stock Detail `View Details` and `View More`: panel-specific modals for position and analyst/news.
-- Stock Detail `Run Backtest`: navigate/open run confirmation with preselected symbol.
+- [x] Stock Detail `View Details` and `View More`: panel-specific modals for position and analyst/news.
+- [x] Stock Detail `Run Backtest`: navigate/open run confirmation with preselected symbol.
 - Screener selected-row action panel: View Stock Detail, Add to Watchlist, Compare, Run Backtest.
 - Topbar notification item clicks: open related detail or navigate.
 - User menu Account/Security/Preferences: route to settings pages once implemented.

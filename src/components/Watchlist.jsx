@@ -4,14 +4,9 @@ import Sparkline from './Sparkline.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import Modal from './Modal.jsx';
 import { APP_ACTIONS } from '../services/appActions';
-import { getWatchlistRows } from '../data/mock/selectors';
+import { getWatchlistRows, getWatchlistSearchRows } from '../data/mock/selectors';
 
-const watchlistSearchRows = [
-  { name: 'Microsoft Corp.', symbol: 'MSFT', price: '$415.60', change: '+0.72%', icon: 'M', trend: 'up', series: [13, 14, 16, 15, 18, 20, 23] },
-  { name: 'Broadcom Inc.', symbol: 'AVGO', price: '$1,621.10', change: '+1.29%', icon: 'B', trend: 'up', series: [10, 12, 13, 15, 18, 17, 20] },
-  { name: 'Taiwan Semiconductor', symbol: 'TSM', price: '$156.74', change: '+0.81%', icon: 'T', trend: 'up', series: [11, 13, 15, 14, 16, 19, 21] },
-  { name: 'Advanced Micro Devices', symbol: 'AMD', price: '$166.98', change: '+2.14%', icon: 'A', trend: 'up', series: [9, 11, 10, 13, 16, 15, 18] },
-];
+const watchlistSearchRows = getWatchlistSearchRows();
 
 export default function Watchlist({ rows }) {
   const { mockMutations, pendingAction, runAction } = useAppAction();

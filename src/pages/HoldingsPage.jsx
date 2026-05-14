@@ -1,47 +1,23 @@
-import { BarChart3, Clock3, Download, Filter, LineChart, PieChart, Search, ShieldCheck, SlidersHorizontal, Upload, WalletCards } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, BarChart3, Clock3, Download, Eye, Filter, Layers3, LineChart, PieChart, RefreshCw, Search, ShieldCheck, SlidersHorizontal, Target, Upload, WalletCards } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import TickerStrip from '../components/TickerStrip.jsx';
 import Sparkline from '../components/Sparkline.jsx';
 import Modal from '../components/Modal.jsx';
-import { tickerStrip } from '../data/mockData';
+import StatusState from '../components/StatusState.jsx';
 import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
 import { downloadFile, serializeCsv } from '../services/downloadUtils.js';
 import { APP_ACTIONS } from '../services/appActions';
+import { getHoldingsAllocationRows, getHoldingsMoverData, getHoldingsPositionDetails, getHoldingsRows, getHoldingsSectorExposureData, getHoldingsSectorRows, getHoldingsSummaryCards, getTickerStrip } from '../data/mock/selectors';
 
-const summaryCards = [
-  { icon: WalletCards, label: 'Total Holdings Value', value: '$422,525.82', sub: 'Across 36 holdings' },
-  { icon: LineChart, label: 'Unrealized P/L', value: '+$96,432.18', sub: 'Total unrealized gain', pill: '+29.20%' },
-  { icon: BarChart3, label: "Today's Change", value: '+$1,585.79', sub: "Today's total gain", pill: '+0.38%' },
-  { icon: WalletCards, label: 'Cash Balance', value: '$24,850.45', sub: 'Available to invest' },
-];
-
-const holdingsRows = [
-  { ticker: 'NVDA', name: 'NVIDIA Corp.', shares: '120', avg: '$820.12', price: '$1,024.32', value: '$122,918.40', weight: '12.44%', return: '+24.91%', day: '+1.85%', logo: 'nv', color: '#7ac943', series: [18, 20, 19, 22, 21, 25, 23, 26] },
-  { ticker: 'MSFT', name: 'Microsoft Corp.', shares: '110', avg: '$378.45', price: '$415.62', value: '$45,718.20', weight: '10.82%', return: '+9.82%', day: '+0.92%', logo: 'ms', color: '#00a4ef', series: [16, 18, 17, 20, 19, 22, 21, 24] },
-  { ticker: 'AAPL', name: 'Apple Inc.', shares: '100', avg: '$173.25', price: '$191.20', value: '$19,120.00', weight: '4.53%', return: '+10.35%', day: '+0.58%', logo: 'a', color: '#111', series: [15, 16, 17, 16, 19, 18, 21, 22] },
-  { ticker: 'AMZN', name: 'Amazon.com Inc.', shares: '70', avg: '$145.30', price: '$176.98', value: '$12,388.60', weight: '2.96%', return: '+21.78%', day: '-0.12%', logo: 'a', color: '#050505', danger: true, series: [22, 20, 21, 18, 19, 17, 20, 19] },
-  { ticker: 'GOOGL', name: 'Alphabet Inc.', shares: '60', avg: '$128.70', price: '$163.41', value: '$9,804.60', weight: '2.34%', return: '+26.95%', day: '+0.64%', logo: 'G', color: '#4285f4', series: [14, 15, 17, 16, 20, 19, 22, 24] },
-  { ticker: '005930.KS', name: 'Samsung Elec.', shares: '300', avg: '??4,320', price: '??8,100', value: '$8,657.40', weight: '2.08%', return: '+21.42%', day: '+1.24%', logo: 'S', color: '#3157c9', series: [13, 15, 16, 17, 19, 18, 21, 22] },
-  { ticker: 'SPY', name: 'SPDR S&P 500 ETF', shares: '50', avg: '$498.40', price: '$515.36', value: '$25,768.00', weight: '6.12%', return: '+3.40%', day: '+0.29%', logo: 'SPY', color: '#4c85d9', series: [17, 18, 18, 19, 20, 19, 21, 22] },
-  { ticker: 'QQQ', name: 'Invesco QQQ Trust', shares: '40', avg: '$420.15', price: '$456.71', value: '$18,268.40', weight: '4.33%', return: '+8.70%', day: '+0.71%', logo: 'QQQ', color: '#5d77d8', series: [16, 17, 19, 18, 20, 22, 21, 24] },
-  { ticker: 'CASH', name: 'Cash', shares: '-', avg: '-', price: '-', value: '$24,850.45', weight: '5.92%', return: '-', day: '0.00%', logo: '$', color: '#64bf22', flat: true, series: [18, 18, 18, 18, 18, 18, 18, 18] },
-];
-
-const positionDetails = {
-  NVDA: { account: 'Growth', assetClass: 'Stock', sector: 'Technology', costBasis: '$98,414.40', unrealized: '+$24,504.00', risk: 'High momentum', lots: [['May 12, 2024', '50', '$742.18', '+38.02%'], ['Sep 18, 2024', '40', '$821.46', '+24.69%'], ['Feb 03, 2025', '30', '$944.12', '+8.50%']] },
-  MSFT: { account: 'Core', assetClass: 'Stock', sector: 'Technology', costBasis: '$41,629.50', unrealized: '+$4,088.70', risk: 'Core compounder', lots: [['Jan 15, 2024', '60', '$365.20', '+13.80%'], ['Oct 22, 2024', '50', '$394.35', '+5.40%']] },
-  AAPL: { account: 'Core', assetClass: 'Stock', sector: 'Technology', costBasis: '$17,325.00', unrealized: '+$1,795.00', risk: 'Moderate', lots: [['Mar 04, 2024', '100', '$173.25', '+10.35%']] },
-  AMZN: { account: 'Growth', assetClass: 'Stock', sector: 'Consumer Discretionary', costBasis: '$10,171.00', unrealized: '+$2,217.60', risk: 'Moderate', lots: [['Jul 08, 2024', '70', '$145.30', '+21.78%']] },
-  GOOGL: { account: 'Growth', assetClass: 'Stock', sector: 'Communication Services', costBasis: '$7,722.00', unrealized: '+$2,082.60', risk: 'Moderate', lots: [['Apr 19, 2024', '60', '$128.70', '+26.95%']] },
-  '005930.KS': { account: 'International', assetClass: 'Stock', sector: 'Technology', costBasis: 'KRW 22,296,000', unrealized: '+$1,526.40', risk: 'FX exposed', lots: [['Nov 11, 2024', '300', 'KRW 74,320', '+21.42%']] },
-  SPY: { account: 'Core', assetClass: 'ETF', sector: 'Broad Market', costBasis: '$24,920.00', unrealized: '+$848.00', risk: 'Benchmark anchor', lots: [['Dec 01, 2023', '50', '$498.40', '+3.40%']] },
-  QQQ: { account: 'Core', assetClass: 'ETF', sector: 'Technology', costBasis: '$16,806.00', unrealized: '+$1,462.40', risk: 'Growth tilt', lots: [['Aug 26, 2024', '40', '$420.15', '+8.70%']] },
-  CASH: { account: 'Cash', assetClass: 'Cash', sector: 'Cash', costBasis: '$24,850.45', unrealized: '$0.00', risk: 'Dry powder', lots: [['Current', '-', '-', '0.00%']] },
-};
+const tickerStrip = getTickerStrip();
+const summaryIcons = [WalletCards, LineChart, BarChart3, WalletCards];
+const summaryCards = getHoldingsSummaryCards().map((item, index) => ({ ...item, icon: summaryIcons[index] }));
+const holdingsRows = getHoldingsRows();
+const positionDetails = getHoldingsPositionDetails();
 
 const positionColumns = [
   { key: 'ticker', label: 'Ticker', width: '118px', required: true },
@@ -61,23 +37,10 @@ const positionColumns = [
 
 const defaultPositionColumns = positionColumns.map((column) => column.key);
 
-const allocationRows = [
-  ['NVIDIA (NVDA)', '12.44%', '$122,918.40', '#47b51e'],
-  ['Microsoft (MSFT)', '10.82%', '$45,718.20', '#3478db'],
-  ['Apple (AAPL)', '4.53%', '$19,120.00', '#555'],
-  ['Samsung Elec.', '2.08%', '$8,657.40', '#8f62d9'],
-  ['ETFs', '12.45%', '$44,036.40', '#f7b500'],
-  ['Cash', '5.92%', '$24,850.45', '#25b6bd'],
-];
-
-const sectorRows = [
-  ['Technology', 32.21],
-  ['Consumer Discretionary', 13.67],
-  ['Communication Services', 10.24],
-  ['Financials', 9.45],
-  ['Healthcare', 7.18],
-  ['Cash', 5.92],
-];
+const allocationRows = getHoldingsAllocationRows();
+const sectorRows = getHoldingsSectorRows();
+const moverData = getHoldingsMoverData();
+const sectorExposureData = getHoldingsSectorExposureData();
 
 const bottomStats = [
   { icon: BarChart3, label: 'Number of Holdings', value: '36', sub: 'vs last month  +3' },
@@ -159,6 +122,317 @@ function PositionCell({ columnKey, row }) {
   }
 
   return <span>{value}</span>;
+}
+
+function formatSignedMoney(value) {
+  const formatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Math.abs(value));
+  return `${value >= 0 ? '+' : '-'}${formatted}`;
+}
+
+function MoverSummaryCard({ icon: Icon, label, value, sub, tone = 'neutral' }) {
+  return (
+    <article className={`card mover-summary-card ${tone}`}>
+      <div className="mover-summary-icon"><Icon size={24} /></div>
+      <div>
+        <span>{label}</span>
+        <strong>{value}</strong>
+        <small>{sub}</small>
+      </div>
+    </article>
+  );
+}
+
+function MoversPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
+  const { pendingAction, runAction } = useAppAction();
+  const [query, setQuery] = useState('');
+  const [selectedTicker, setSelectedTicker] = useState(moverData.impactLeaders[0]?.ticker ?? 'NVDA');
+  const directionFilter = useSelection('All');
+  const rankingMode = useSelection('Impact');
+  const selectedRow = moverData.rows.find((row) => row.ticker === selectedTicker) ?? moverData.impactLeaders[0];
+  const normalizedQuery = query.trim().toLowerCase();
+  const rows = useMemo(() => {
+    const filteredRows = moverData.rows.filter((row) => {
+      const matchesDirection = directionFilter.isSelected('All')
+        || (directionFilter.isSelected('Gainers') && row.dayPct > 0)
+        || (directionFilter.isSelected('Losers') && row.dayPct < 0);
+      const matchesQuery = !normalizedQuery || `${row.ticker} ${row.name} ${row.sector}`.toLowerCase().includes(normalizedQuery);
+      return matchesDirection && matchesQuery;
+    });
+
+    return [...filteredRows].sort((a, b) => {
+      if (rankingMode.isSelected('Impact')) return Math.abs(b.portfolioImpact) - Math.abs(a.portfolioImpact);
+      return b.dayPct - a.dayPct;
+    });
+  }, [directionFilter.value, normalizedQuery, rankingMode.value]);
+  const topGainer = moverData.gainers[0];
+  const topLoser = moverData.losers[0];
+  const exportRows = rows.map((row) => ({
+    Ticker: row.ticker,
+    Company: row.name,
+    Sector: row.sector,
+    Account: row.account,
+    'Day Change': row.day,
+    'Portfolio Impact': formatSignedMoney(row.portfolioImpact),
+    'Impact %': `${row.impactPct >= 0 ? '+' : ''}${row.impactPct.toFixed(2)}%`,
+    'Market Value': row.value,
+    Catalyst: row.catalyst,
+  }));
+
+  const openDetail = async () => {
+    await runAction(APP_ACTIONS.VIEW_DETAILS, { target: 'HoldingMover', symbol: selectedRow.ticker });
+  };
+
+  return (
+    <div className="app-shell">
+      <Sidebar activePage={activePage} activeItem={activeSidebarItem} onSelect={onSidebarSelect} />
+      <main className="dashboard holdings-page movers-page">
+        <TopBar activePage={activePage} onNavigate={onNavigate} />
+
+        <section className="title-row">
+          <h1>Movers</h1>
+          <div className="market-brief"><span></span><b>Holdings</b><p>Price movers ranked by portfolio impact and session change.</p></div>
+          <TickerStrip items={tickerStrip} />
+        </section>
+
+        <section className="mover-summary-grid">
+          <MoverSummaryCard icon={ArrowUpRight} label="Top Gainer" value={`${topGainer.ticker} ${topGainer.day}`} sub={topGainer.name} tone="gain" />
+          <MoverSummaryCard icon={ArrowDownRight} label="Top Loser" value={`${topLoser.ticker} ${topLoser.day}`} sub={topLoser.name} tone="loss" />
+          <MoverSummaryCard icon={BarChart3} label="Net Portfolio Impact" value={formatSignedMoney(moverData.netImpact)} sub={`${moverData.breadth} today`} tone={moverData.netImpact >= 0 ? 'gain' : 'loss'} />
+          <MoverSummaryCard icon={ShieldCheck} label="Largest Impact" value={`${moverData.impactLeaders[0].ticker} ${formatSignedMoney(moverData.impactLeaders[0].portfolioImpact)}`} sub="Absolute P/L contribution" />
+        </section>
+
+        <section className="movers-layout">
+          <article className="card movers-table-card">
+            <div className="holdings-table-head">
+              <h3>Session Movers</h3>
+              <div className="holdings-actions">
+                <div className="holdings-search">
+                  <Search size={16} />
+                  <input onChange={(event) => setQuery(event.target.value)} placeholder="Search movers..." type="text" value={query} />
+                </div>
+                <button disabled={pendingAction === APP_ACTIONS.REFRESH_SNAPSHOT} onClick={() => runAction(APP_ACTIONS.REFRESH_SNAPSHOT, { target: 'HoldingsMovers' })} type="button"><RefreshCw size={16} />Refresh</button>
+                <button disabled={pendingAction === APP_ACTIONS.DOWNLOAD_REPORT} onClick={() => runAction(APP_ACTIONS.DOWNLOAD_REPORT, { reportName: 'Holdings Movers', type: 'CSV', rows: exportRows })} type="button"><Download size={16} />Export</button>
+              </div>
+            </div>
+
+            <div className="movers-toolbar">
+              <div className="holdings-filter-tabs">
+                {['All', 'Gainers', 'Losers'].map((filter) => (
+                  <button className={directionFilter.isSelected(filter) ? 'active' : ''} key={filter} onClick={() => directionFilter.select(filter)} type="button">{filter}</button>
+                ))}
+              </div>
+              <div className="time-tabs">
+                {['Impact', 'Price'].map((mode) => (
+                  <button className={rankingMode.isSelected(mode) ? 'active' : ''} key={mode} onClick={() => rankingMode.select(mode)} type="button">{mode}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="movers-table">
+              <div className="movers-table-row movers-table-header">
+                <span>Ticker</span><span>Name</span><span>Sector</span><span>Day</span><span>Portfolio Impact</span><span>Impact %</span><span>Trend</span>
+              </div>
+              {rows.map((row) => (
+                <button className={`movers-table-row clickable ${selectedRow.ticker === row.ticker ? 'selected' : ''}`} key={row.ticker} onClick={() => setSelectedTicker(row.ticker)} type="button">
+                  <span className="holding-ticker"><HoldingLogo row={row} /><b>{row.ticker}</b></span>
+                  <span>{row.name}</span>
+                  <span>{row.sector}</span>
+                  <strong className={row.dayPct < 0 ? 'red' : 'green'}>{row.day}</strong>
+                  <strong className={row.portfolioImpact < 0 ? 'red' : 'green'}>{formatSignedMoney(row.portfolioImpact)}</strong>
+                  <span className={row.impactPct < 0 ? 'red' : 'green'}>{row.impactPct >= 0 ? '+' : ''}{row.impactPct.toFixed(2)}%</span>
+                  <Sparkline data={row.series} danger={row.dayPct < 0} />
+                </button>
+              ))}
+              {rows.length === 0 ? <StatusState title="No movers found" message="Clear the search or switch direction filters." /> : null}
+            </div>
+          </article>
+
+          <aside className="mover-detail-stack">
+            <article className="card mover-detail-card">
+              <div className="position-detail-head">
+                <HoldingLogo row={selectedRow} />
+                <div>
+                  <h3>{selectedRow.ticker}</h3>
+                  <span>{selectedRow.name}</span>
+                </div>
+                <strong className={selectedRow.dayPct < 0 ? 'loss-pill' : ''}>{selectedRow.day}</strong>
+              </div>
+              <div className="mover-impact-bars">
+                <div>
+                  <span>Portfolio impact</span>
+                  <b className={selectedRow.portfolioImpact < 0 ? 'red' : 'green'}>{formatSignedMoney(selectedRow.portfolioImpact)}</b>
+                  <i><em style={{ width: `${Math.min(100, Math.abs(selectedRow.impactPct) * 80)}%` }} /></i>
+                </div>
+                <div>
+                  <span>Position weight</span>
+                  <b>{selectedRow.weight}</b>
+                  <i><em style={{ width: selectedRow.weight }} /></i>
+                </div>
+              </div>
+              <div className="position-detail-grid">
+                <div><span>Market Value</span><b>{selectedRow.value}</b></div>
+                <div><span>Account</span><b>{selectedRow.account}</b></div>
+                <div><span>Sector</span><b>{selectedRow.sector}</b></div>
+                <div><span>Total Return</span><b className={selectedRow.return.startsWith('+') ? 'green' : 'red'}>{selectedRow.return}</b></div>
+              </div>
+              <p className="mover-catalyst">{selectedRow.catalyst}</p>
+              <div className="position-detail-actions">
+                <button onClick={openDetail} type="button"><Eye size={16} />View Details</button>
+                <button onClick={() => runAction(APP_ACTIONS.ADD_TO_WATCHLIST, { symbol: selectedRow.ticker, name: selectedRow.name })} type="button">Add Watch</button>
+              </div>
+            </article>
+
+            <article className="card mover-rank-card">
+              <h3>Impact Ranking</h3>
+              {moverData.impactLeaders.slice(0, 5).map((row, index) => (
+                <button className={selectedRow.ticker === row.ticker ? 'active' : ''} key={row.ticker} onClick={() => setSelectedTicker(row.ticker)} type="button">
+                  <span>{index + 1}</span>
+                  <b>{row.ticker}</b>
+                  <strong className={row.portfolioImpact < 0 ? 'red' : 'green'}>{formatSignedMoney(row.portfolioImpact)}</strong>
+                </button>
+              ))}
+            </article>
+          </aside>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function formatCompactMoney(value) {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
+}
+
+function SectorSummaryCard({ icon: Icon, label, value, sub, tone = 'neutral' }) {
+  return (
+    <article className={`card sector-summary-card ${tone}`}>
+      <div className="sector-summary-icon"><Icon size={24} /></div>
+      <div>
+        <span>{label}</span>
+        <strong>{value}</strong>
+        <small>{sub}</small>
+      </div>
+    </article>
+  );
+}
+
+function SectorsPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
+  const { pendingAction, runAction } = useAppAction();
+  const [selectedSectorName, setSelectedSectorName] = useState(sectorExposureData.largest?.name ?? 'Technology');
+  const [query, setQuery] = useState('');
+  const selectedSector = sectorExposureData.sectors.find((row) => row.name === selectedSectorName) ?? sectorExposureData.sectors[0];
+  const normalizedQuery = query.trim().toLowerCase();
+  const visibleSectors = useMemo(() => {
+    return sectorExposureData.sectors.filter((row) => {
+      if (!normalizedQuery) return true;
+      return row.name.toLowerCase().includes(normalizedQuery)
+        || row.holdings.some((holding) => `${holding.symbol} ${holding.name}`.toLowerCase().includes(normalizedQuery));
+    });
+  }, [normalizedQuery]);
+  const exportRows = sectorExposureData.sectors.map((row) => ({
+    Sector: row.name,
+    Weight: `${row.weight.toFixed(2)}%`,
+    Benchmark: `${row.benchmark.toFixed(2)}%`,
+    Difference: `${row.weight - row.benchmark >= 0 ? '+' : ''}${(row.weight - row.benchmark).toFixed(2)} pts`,
+    Target: `${row.target.toFixed(2)}%`,
+    Drift: `${row.drift >= 0 ? '+' : ''}${row.drift.toFixed(2)} pts`,
+    Value: formatCompactMoney(row.value),
+    Holdings: row.holdings.map((holding) => holding.symbol).join(', '),
+  }));
+
+  return (
+    <div className="app-shell">
+      <Sidebar activePage={activePage} activeItem={activeSidebarItem} onSelect={onSidebarSelect} />
+      <main className="dashboard holdings-page sectors-page">
+        <TopBar activePage={activePage} onNavigate={onNavigate} />
+
+        <section className="title-row">
+          <h1>Sectors</h1>
+          <div className="market-brief"><span></span><b>Holdings</b><p>Sector exposure, benchmark comparison, and holding-level drilldown.</p></div>
+          <TickerStrip items={tickerStrip} />
+        </section>
+
+        <section className="sector-summary-grid">
+          <SectorSummaryCard icon={Layers3} label="Covered Sectors" value={sectorExposureData.totalSectors} sub="Across active holdings and cash" />
+          <SectorSummaryCard icon={PieChart} label="Largest Sector" value={`${sectorExposureData.largest.name} ${sectorExposureData.largest.weight.toFixed(1)}%`} sub={formatCompactMoney(sectorExposureData.largest.value)} />
+          <SectorSummaryCard icon={ArrowUpRight} label="Largest Overweight" value={sectorExposureData.largestOverweight.name} sub={`${(sectorExposureData.largestOverweight.weight - sectorExposureData.largestOverweight.benchmark).toFixed(1)} pts vs benchmark`} tone="gain" />
+          <SectorSummaryCard icon={Target} label="Largest Underweight" value={sectorExposureData.largestUnderweight.name} sub={`${(sectorExposureData.largestUnderweight.weight - sectorExposureData.largestUnderweight.benchmark).toFixed(1)} pts vs benchmark`} tone="loss" />
+        </section>
+
+        <section className="sectors-layout">
+          <article className="card sector-exposure-card">
+            <div className="holdings-table-head">
+              <h3>Sector Exposure</h3>
+              <div className="holdings-actions">
+                <div className="holdings-search">
+                  <Search size={16} />
+                  <input onChange={(event) => setQuery(event.target.value)} placeholder="Search sector or holding..." type="text" value={query} />
+                </div>
+                <button disabled={pendingAction === APP_ACTIONS.DOWNLOAD_REPORT} onClick={() => runAction(APP_ACTIONS.DOWNLOAD_REPORT, { reportName: 'Sector Exposure', type: 'CSV', rows: exportRows })} type="button"><Download size={16} />Export</button>
+              </div>
+            </div>
+
+            <div className="sector-exposure-list">
+              {visibleSectors.map((row) => {
+                const activeShare = row.weight - row.benchmark;
+                return (
+                  <button className={`sector-exposure-row ${selectedSector.name === row.name ? 'selected' : ''}`} key={row.name} onClick={() => setSelectedSectorName(row.name)} type="button">
+                    <div className="sector-row-title">
+                      <i style={{ background: row.color }} />
+                      <div><b>{row.name}</b><span>{row.holdings.length} holdings</span></div>
+                    </div>
+                    <div className="sector-compare-track">
+                      <i style={{ width: `${Math.min(100, row.weight * 2.4)}%`, background: row.color }} />
+                      <b style={{ left: `${Math.min(100, row.benchmark * 2.4)}%` }} />
+                    </div>
+                    <strong>{row.weight.toFixed(1)}%</strong>
+                    <em className={activeShare >= 0 ? 'green' : 'red'}>{activeShare >= 0 ? '+' : ''}{activeShare.toFixed(1)} pts</em>
+                    <span>{formatCompactMoney(row.value)}</span>
+                  </button>
+                );
+              })}
+              {visibleSectors.length === 0 ? <StatusState title="No sectors found" message="Clear the search to show all sector exposure rows." /> : null}
+            </div>
+          </article>
+
+          <aside className="sector-detail-stack">
+            <article className="card sector-detail-card">
+              <div className="sector-detail-head">
+                <div><i style={{ background: selectedSector.color }} /><h3>{selectedSector.name}</h3></div>
+                <strong>{selectedSector.weight.toFixed(1)}%</strong>
+              </div>
+              <div className="sector-detail-grid">
+                <div><span>Market Value</span><b>{formatCompactMoney(selectedSector.value)}</b></div>
+                <div><span>Benchmark</span><b>{selectedSector.benchmark.toFixed(1)}%</b></div>
+                <div><span>Target</span><b>{selectedSector.target.toFixed(1)}%</b></div>
+                <div><span>Target Drift</span><b className={selectedSector.drift >= 0 ? 'red' : 'green'}>{selectedSector.drift >= 0 ? '+' : ''}{selectedSector.drift.toFixed(1)} pts</b></div>
+              </div>
+              <div className="sector-benchmark-card">
+                <span>Portfolio vs benchmark</span>
+                <div>
+                  <i style={{ width: `${Math.min(100, selectedSector.weight * 2.4)}%`, background: selectedSector.color }} />
+                  <b style={{ left: `${Math.min(100, selectedSector.benchmark * 2.4)}%` }} />
+                </div>
+                <small>Marker shows benchmark sector weight.</small>
+              </div>
+              <button onClick={() => runAction(APP_ACTIONS.VIEW_DETAILS, { target: 'SectorExposure', sector: selectedSector.name })} type="button"><Eye size={16} />View Sector Detail</button>
+            </article>
+
+            <article className="card sector-holdings-card">
+              <h3>Sector Holdings</h3>
+              {selectedSector.holdings.map((holding) => (
+                <button className="sector-holding-row" key={holding.symbol} onClick={() => runAction(APP_ACTIONS.VIEW_DETAILS, { target: 'Holding', symbol: holding.symbol })} type="button">
+                  <span className="holding-ticker"><HoldingLogo row={holding} /><b>{holding.symbol}</b></span>
+                  <div><strong>{holding.weight}</strong><small>{holding.value}</small></div>
+                  <Sparkline data={holding.series} danger={holding.danger} />
+                </button>
+              ))}
+            </article>
+          </aside>
+        </section>
+      </main>
+    </div>
+  );
 }
 
 function PositionsPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
@@ -472,6 +746,14 @@ export default function HoldingsPage({ activePage, activeSidebarItem, onNavigate
 
   if (activeSidebarItem === 'holdings-positions') {
     return <PositionsPage activePage={activePage} activeSidebarItem={activeSidebarItem} onNavigate={onNavigate} onSidebarSelect={onSidebarSelect} />;
+  }
+
+  if (activeSidebarItem === 'holdings-movers') {
+    return <MoversPage activePage={activePage} activeSidebarItem={activeSidebarItem} onNavigate={onNavigate} onSidebarSelect={onSidebarSelect} />;
+  }
+
+  if (activeSidebarItem === 'holdings-sectors') {
+    return <SectorsPage activePage={activePage} activeSidebarItem={activeSidebarItem} onNavigate={onNavigate} onSidebarSelect={onSidebarSelect} />;
   }
 
   if (activeSidebarItem !== 'holdings-overview') {

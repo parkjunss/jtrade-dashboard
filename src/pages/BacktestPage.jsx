@@ -3,7 +3,6 @@ import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import TickerStrip from '../components/TickerStrip.jsx';
 import Sparkline from '../components/Sparkline.jsx';
-import { tickerStrip } from '../data/mockData';
 import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
@@ -11,84 +10,18 @@ import Modal from '../components/Modal.jsx';
 import StatusState from '../components/StatusState.jsx';
 import { APP_ACTIONS } from '../services/appActions';
 import { useState, useEffect, useRef } from 'react';
+import { getBacktestData, getTickerStrip } from '../data/mock/selectors';
 
-const kpis = [
-  { label: 'Total Return', value: '+148.3%', tone: 'green', series: [18, 21, 20, 24, 23, 26, 28] },
-  { label: 'CAGR', value: '19.6%', tone: 'green', series: [15, 16, 18, 17, 20, 22, 24] },
-  { label: 'Max Drawdown', value: '-12.4%', tone: 'red', series: [24, 22, 23, 20, 21, 19, 20] },
-  { label: 'Sharpe Ratio', value: '1.46', tone: 'neutral', series: [14, 16, 18, 17, 20, 23, 25] },
-  { label: 'Win Rate', value: '63%', tone: 'green', series: [16, 15, 19, 18, 21, 20, 22] },
-  { label: 'Final Value', value: '$248,300', tone: 'neutral', series: [12, 15, 14, 18, 17, 22, 24] },
-];
-
-const allocationRows = [
-  ['NVDA', '26%', '#47b51e'],
-  ['MSFT', '22%', '#3478db'],
-  ['SPY', '18%', '#8f62d9'],
-  ['QQQ', '17%', '#f7a600'],
-  ['TLT', '15%', '#25b6bd'],
-];
-
-const riskMetrics = [
-  ['Sharpe Ratio', '1.46'],
-  ['Volatility', '14.2%'],
-  ['Beta', '0.91'],
-  ['Alpha', '9.4%'],
-  ['Calmar Ratio', '1.58'],
-];
-
-const tradeRows = [
-  ['May 1, 2025', 'Buy', 'NVDA', '$122.48', '220', 'Momentum breakout'],
-  ['May 1, 2025', 'Buy', 'MSFT', '$415.62', '120', 'Rebalance'],
-  ['May 1, 2025', 'Sell', 'QQQ', '$482.10', '80', 'Rebalance'],
-  ['May 1, 2025', 'Buy', 'TLT', '$92.34', '430', 'Risk adj. +tail'],
-  ['May 1, 2025', 'Buy', 'SPY', '$501.21', '90', 'Core allocation'],
-];
-
-const notes = [
-  'Monthly rebalanced based on 12M momentum ranking.',
-  'Hold top 3 momentum assets + SPY + defensive allocation (TLT).',
-  'Risk filter: 97% VaR < 20% NAV, de-leverage TLT drawdowns.',
-  'Transaction fee: 0.05% per trade (market assumption).',
-  'Benchmark: S&P 500 Total Return.',
-];
-
-const universeCatalog = [
-  { symbol: 'NVDA', name: 'NVIDIA Corp.', type: 'Stock', sector: 'Technology', assetClass: 'Equity', liquidity: 98, coverage: 99, missing: 0 },
-  { symbol: 'MSFT', name: 'Microsoft Corp.', type: 'Stock', sector: 'Technology', assetClass: 'Equity', liquidity: 96, coverage: 99, missing: 0 },
-  { symbol: 'AAPL', name: 'Apple Inc.', type: 'Stock', sector: 'Technology', assetClass: 'Equity', liquidity: 97, coverage: 99, missing: 0 },
-  { symbol: 'AMZN', name: 'Amazon.com Inc.', type: 'Stock', sector: 'Consumer Discretionary', assetClass: 'Equity', liquidity: 94, coverage: 98, missing: 1 },
-  { symbol: 'GOOG', name: 'Alphabet Inc.', type: 'Stock', sector: 'Communication Services', assetClass: 'Equity', liquidity: 93, coverage: 98, missing: 1 },
-  { symbol: 'JPM', name: 'JPMorgan Chase', type: 'Stock', sector: 'Financials', assetClass: 'Equity', liquidity: 90, coverage: 97, missing: 2 },
-  { symbol: 'XLE', name: 'Energy Select Sector SPDR', type: 'ETF', sector: 'Energy', assetClass: 'ETF', liquidity: 86, coverage: 96, missing: 3 },
-  { symbol: 'SPY', name: 'SPDR S&P 500 ETF', type: 'ETF', sector: 'Broad Market', assetClass: 'ETF', liquidity: 99, coverage: 99, missing: 0 },
-  { symbol: 'QQQ', name: 'Invesco QQQ Trust', type: 'ETF', sector: 'Broad Market', assetClass: 'ETF', liquidity: 99, coverage: 99, missing: 0 },
-  { symbol: 'TLT', name: 'iShares 20+ Year Treasury Bond ETF', type: 'ETF', sector: 'Fixed Income', assetClass: 'Bond', liquidity: 88, coverage: 98, missing: 1 },
-  { symbol: 'EWY', name: 'iShares MSCI South Korea ETF', type: 'ETF', sector: 'International', assetClass: 'ETF', liquidity: 74, coverage: 93, missing: 4 },
-  { symbol: 'GLD', name: 'SPDR Gold Shares', type: 'ETF', sector: 'Commodities', assetClass: 'Alternative', liquidity: 84, coverage: 97, missing: 2 },
-];
-
-const universePresets = {
-  'Momentum Core': ['NVDA', 'MSFT', 'SPY', 'QQQ', 'TLT'],
-  'ETF Rotation': ['SPY', 'QQQ', 'TLT', 'EWY', 'GLD', 'XLE'],
-  'Mega Cap Tech': ['NVDA', 'MSFT', 'AAPL', 'AMZN', 'GOOG'],
-};
-
-const defaultBacktestParams = {
-  dateRange: 'Jan 2020 - May 2025',
-  startDate: '2020-01-01',
-  endDate: '2025-05-31',
-  initialCapital: 100000,
-  feePct: 0.05,
-  slippagePct: 0.03,
-  rebalance: 'Monthly',
-  strategy: 'Momentum Rotation',
-  weightMode: 'Risk parity',
-  momentumWindow: 12,
-  maxPosition: 28,
-  stopLoss: 12,
-  volatilityTarget: 14,
-};
+const tickerStrip = getTickerStrip();
+const backtestData = getBacktestData();
+const kpis = backtestData.kpis;
+const allocationRows = backtestData.allocationRows;
+const riskMetrics = backtestData.riskMetrics;
+const tradeRows = backtestData.tradeRows;
+const notes = backtestData.notes;
+const universeCatalog = backtestData.universeCatalog;
+const universePresets = backtestData.universePresets;
+const defaultBacktestParams = backtestData.defaultParams;
 
 const dateRangeOptions = ['1Y', '3Y', '5Y', 'Jan 2020 - May 2025', 'Custom Range'];
 const cadenceOptions = ['None', 'Weekly', 'Monthly', 'Quarterly', 'Yearly'];

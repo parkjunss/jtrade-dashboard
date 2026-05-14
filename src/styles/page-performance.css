@@ -69,7 +69,6 @@
 .returns-kpi small,
 .returns-card-head p,
 .contribution-row small {
-  color: var(--muted);
   font-weight: 700;
 }
 
@@ -185,6 +184,171 @@
   fill: var(--green);
 }
 
+.benchmark-selected,
+.benchmark-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #485041;
+  font-weight: 900;
+}
+
+.benchmark-main-grid,
+.benchmark-lower-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(360px, 0.8fr);
+  gap: 18px;
+}
+
+.benchmark-chart-card,
+.benchmark-risk-card,
+.benchmark-active-card {
+  padding: 24px;
+}
+
+.benchmark-line-chart {
+  width: 100%;
+  height: 260px;
+  overflow: visible;
+}
+
+.benchmark-line-chart line {
+  stroke: rgba(0, 0, 0, 0.08);
+}
+
+.benchmark-line-chart polyline {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.benchmark-line-chart .portfolio-line {
+  stroke: var(--green);
+}
+
+.benchmark-line-chart .market-line {
+  stroke: #252821;
+}
+
+.benchmark-risk-card {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.benchmark-risk-row {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  color: #51574d;
+  font-weight: 800;
+}
+
+.benchmark-risk-row strong {
+  color: #11150e;
+  font-size: 18px;
+}
+
+.benchmark-table {
+  display: grid;
+}
+
+.benchmark-table-head,
+.benchmark-table-row {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 0.8fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.benchmark-table-head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  color: #51574d;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.benchmark-table-row {
+  min-height: 52px;
+  border-bottom: 1px solid var(--line);
+}
+
+.benchmark-contribution-row {
+  grid-template-columns: 110px minmax(0, 1fr) 74px;
+}
+
+.drawdown-main-grid,
+.drawdown-lower-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(360px, 0.8fr);
+  gap: 18px;
+}
+
+.drawdown-area-chart {
+  width: 100%;
+  height: 260px;
+  overflow: visible;
+}
+
+.drawdown-area-chart line {
+  stroke: rgba(0, 0, 0, 0.08);
+}
+
+.drawdown-area-chart polygon {
+  fill: rgba(240, 106, 97, 0.18);
+}
+
+.drawdown-area-chart polyline {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.drawdown-table {
+  display: grid;
+  min-width: 720px;
+}
+
+.drawdown-table-head,
+.drawdown-table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 0.8fr 0.65fr 0.85fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.drawdown-table-head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  color: #51574d;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.drawdown-table-row {
+  min-height: 52px;
+  border-bottom: 1px solid var(--line);
+}
+
+.drawdown-table-row em {
+  font-style: normal;
+  font-weight: 900;
+}
+
+.drawdown-table-row em.green {
+  color: var(--green-dark);
+}
+
+.drawdown-table-row em.red {
+  color: var(--red);
+}
+
 .returns-chart-axis {
   display: flex;
   justify-content: space-between;
@@ -275,10 +439,28 @@
   font-size: 19px;
 }
 
+.text-green {
+  color: #146f09; /* 상승 (초록) */
+}
+
+.text-red {
+  color: #b10e1c; /* 하락 (빨강) */
+}
+
+/* 기존 스타일 유지 */
+.returns-kpi strong {
+  display: block;
+  font-size: 1.5rem;
+}
+
 @media (max-width: 1400px) {
   .returns-kpi-grid,
   .returns-main-grid,
-  .returns-lower-grid {
+  .returns-lower-grid,
+  .benchmark-main-grid,
+  .benchmark-lower-grid,
+  .drawdown-main-grid,
+  .drawdown-lower-grid {
     grid-template-columns: 1fr;
   }
 

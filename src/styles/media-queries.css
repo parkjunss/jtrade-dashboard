@@ -34,6 +34,10 @@
   .holdings-summary-grid,
   .holdings-main-grid,
   .holdings-bottom-grid,
+  .mover-summary-grid,
+  .movers-layout,
+  .sector-summary-grid,
+  .sectors-layout,
   .positions-summary-grid,
   .positions-layout,
   .backtest-layout,
@@ -100,6 +104,12 @@
   .holdings-table-card {
     overflow-x: auto;
   }
+  .movers-table-card {
+    overflow-x: auto;
+  }
+  .sector-exposure-card {
+    overflow-x: auto;
+  }
 }
 
 @media (max-width: 760px) {
@@ -138,8 +148,14 @@
   .exports-row,
   .report-stat,
   .holding-summary-card,
+  .mover-summary-card,
+  .sector-summary-card,
   .holdings-allocation-list div,
   .movers-columns,
+  .movers-table-row,
+  .sector-exposure-row,
+  .sector-holding-row,
+  .mover-rank-card button,
   .holdings-sector-row,
   .holdings-bottom-stat,
   .backtest-actions,
@@ -181,7 +197,12 @@
   .holdings-search {
     width: 100%;
   }
+  .movers-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
   .position-detail-grid,
+  .sector-detail-grid,
   .position-detail-actions,
   .position-import-card,
   .column-toggle-grid,

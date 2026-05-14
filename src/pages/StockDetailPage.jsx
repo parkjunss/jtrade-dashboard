@@ -2,35 +2,15 @@ import { Brain, ChevronRight, Play, Search, Star, TrendingUp } from 'lucide-reac
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import TickerStrip from '../components/TickerStrip.jsx';
-import { tickerStrip } from '../data/mockData';
+import Modal from '../components/Modal.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
 import { APP_ACTIONS } from '../services/appActions';
 import { useState } from 'react';
+import { getStockDetailData, getTickerStrip } from '../data/mock/selectors';
 
-const statBlocks = [
-  ['P/E (TTM)', '65.42'], ['Forward P/E', '42.18'], ['Beta (5Y)', '1.58'], ['Dividend Yield', '0.03%'],
-  ['52W High', '$1,153.13'], ['52W Low', '$446.50'], ['Avg. Volume (30D)', '39.21M'], ['Shares Outstanding', '2.46B'],
-];
-const technicals = [
-  ['RSI (14)', '63.4', 'Neutral'], ['MACD (12,26,9)', '', 'Bullish'], ['50-Day MA', '$952.10', 'Bullish'], ['200-Day MA', '$781.45', 'Bullish'],
-];
-const financials = [
-  ['Revenue Growth (YoY)', '+125.9%'], ['Gross Margin', '78.1%'], ['EPS Growth (YoY)', '+144.7%'], ['Free Cash Flow', '$67.1B'],
-];
-const newsRows = [
-  ['NVIDIA beats Q1 earnings on strong data center demand', 'Positive', 'May 7, 2025'],
-  ['NVIDIA announces next-gen Blackwell Ultra platform', 'Positive', 'May 6, 2025'],
-  ['AI chip demand to drive record capex in 2025: Analysts', 'Positive', 'May 5, 2025'],
-  ['U.S. export restrictions to China could impact H20 sales', 'Negative', 'May 2, 2025'],
-];
-const peers = [
-  ['NVDA', 'NVIDIA Corp.', '+171.32%', '$2.52T', '65.42', '42.3%'],
-  ['AMD', 'Advanced Micro Devices', '+43.10%', '$188.61B', '58.71', '58.7%'],
-  ['MSFT', 'Microsoft Corp.', '+22.87%', '$3.01T', '32.21', '23.7%'],
-  ['TSM', 'Taiwan Semiconductor', '+47.11%', '$840.23B', '26.34', '28.9%'],
-  ['SOXX', 'iShares Semiconductor ETF', '+38.92%', '$11.92B', '-', '30.8%'],
-];
+const tickerStrip = getTickerStrip();
+const { statBlocks, technicals, financials, newsRows, peers, chartPoints } = getStockDetailData();
 
 function InfoTable({ title, rows, columns = 2 }) {
   return (
@@ -51,20 +31,11 @@ function InfoTable({ title, rows, columns = 2 }) {
 
 export default function StockDetailPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
   const { pendingAction, runAction } = useAppAction();
+  const [activeModal, setActiveModal] = useState(null);
   const [isWatchlisted, setIsWatchlisted] = useState(false);
   const performanceRange = useSelection('1D');
   const earningsRange = useSelection('4Q');
   const selectedPeer = useSelection(null);
-
-  const chartPoints = {
-    '1D': '0,200 180,152 360,145 540,112 720,84 900,88 1060,66',
-    '1W': '0,210 120,190 240,170 360,146 480,160 600,126 720,112 840,92 960,76 1060,70',
-    '1M': '0,220 90,200 180,176 270,166 360,145 450,132 540,112 630,118 720,84 810,95 900,88 990,72 1060,66',
-    '6M': '0,236 100,222 200,206 300,196 400,170 500,160 600,138 700,126 800,104 900,86 1060,66',
-    '1Y': '0,250 80,232 160,218 240,198 320,180 400,176 480,154 560,132 640,140 720,110 800,96 880,82 960,74 1060,66',
-    '5Y': '0,260 96,244 192,230 288,212 384,196 480,170 576,148 672,130 768,112 864,90 960,78 1060,66',
-    All: '0,268 80,250 160,236 240,220 320,198 400,180 480,162 560,146 640,130 720,110 800,96 880,84 960,74 1060,66',
-  };
 
   const toggleWatchlist = async () => {
     const next = !isWatchlisted;
@@ -72,6 +43,22 @@ export default function StockDetailPage({ activePage, activeSidebarItem, onNavig
     if (next) {
       await runAction(APP_ACTIONS.ADD_TO_WATCHLIST, { symbol: 'NVDA' });
     }
+  };
+
+  const openDetailModal = async (panel) => {
+    await runAction(APP_ACTIONS.VIEW_DETAILS, { panel, symbol: 'NVDA' });
+    setActiveModal(panel);
+  };
+
+  const confirmRunBacktest = async () => {
+    await runAction(APP_ACTIONS.RUN_BACKTEST, {
+      strategy: 'Momentum Rotation',
+      dateRange: 'Jan 2020 - May 2025',
+      assets: ['NVDA', 'SPY'],
+      source: 'stockDetail',
+    });
+    setActiveModal(null);
+    onNavigate('backtest');
   };
 
   return (
@@ -104,6 +91,9 @@ export default function StockDetailPage({ activePage, activeSidebarItem, onNavig
                 <div><span>Market Cap</span><b>$2.52T</b></div>
                 <div><span>Sector</span><b>Semiconductors</b></div>
                 <div><span>Exchange</span><b>NASDAQ</b></div>
+              </div>
+              <div className="stock-detail-actions">
+                <button disabled={pendingAction === APP_ACTIONS.RUN_BACKTEST} onClick={() => setActiveModal('runBacktest')} type="button"><Play size={16} />Run Backtest</button>
               </div>
             </article>
 
@@ -203,7 +193,7 @@ export default function StockDetailPage({ activePage, activeSidebarItem, onNavig
 
           <aside className="stock-detail-right">
             <article className="card position-card">
-              <div className="stock-card-head"><h3>Position in Portfolio</h3><button onClick={() => runAction(APP_ACTIONS.VIEW_DETAILS, { panel: 'position', symbol: 'NVDA' })} type="button">View Details <ChevronRight size={14} /></button></div>
+              <div className="stock-card-head"><h3>Position in Portfolio</h3><button onClick={() => openDetailModal('position')} type="button">View Details <ChevronRight size={14} /></button></div>
               <div className="position-grid"><span>Shares</span><b>120</b><span>Avg. Cost</span><b>$742.18</b><span>Market Value</span><b>$122,918.40</b><span>Unrealized P/L</span><b className="green">+$33,864.80 (37.93%)</b></div>
               <div className="position-weight"><span>Portfolio Weight</span><b>9.42%</b><i><em /></i></div>
             </article>
@@ -213,7 +203,7 @@ export default function StockDetailPage({ activePage, activeSidebarItem, onNavig
               <div className="confidence-row"><span>Confidence</span><b>High</b><em>82%</em></div>
             </article>
             <article className="card analyst-card">
-              <div className="stock-card-head"><h3>Analyst Sentiment</h3><button onClick={() => runAction(APP_ACTIONS.VIEW_DETAILS, { panel: 'analystSentiment', symbol: 'NVDA' })} type="button">View More <ChevronRight size={14} /></button></div>
+              <div className="stock-card-head"><h3>Analyst Sentiment</h3><button onClick={() => openDetailModal('analystSentiment')} type="button">View More <ChevronRight size={14} /></button></div>
               <div className="analyst-content">
                 <div className="analyst-donut"><strong>42</strong><span>Ratings</span></div>
                 <div><p><i className="green-dot-solid" />Buy <b>29 (69%)</b></p><p><i className="yellow-dot" />Hold <b>10 (24%)</b></p><p><i className="red-dot" />Sell <b>3 (7%)</b></p></div>
@@ -228,6 +218,57 @@ export default function StockDetailPage({ activePage, activeSidebarItem, onNavig
             </article>
           </aside>
         </section>
+
+        <Modal isOpen={activeModal === 'position'} onClose={() => setActiveModal(null)} title="NVDA Position Details">
+          <div className="position-detail-modal">
+            <div className="position-detail-grid">
+              <div><span>Shares</span><b>120</b></div>
+              <div><span>Average Cost</span><b>$742.18</b></div>
+              <div><span>Market Value</span><b>$122,918.40</b></div>
+              <div><span>Unrealized P/L</span><b className="green">+$33,864.80</b></div>
+              <div><span>Portfolio Weight</span><b>9.42%</b></div>
+              <div><span>Account</span><b>Growth</b></div>
+            </div>
+            <div className="position-lots-table">
+              <div><span>Date</span><span>Shares</span><span>Cost</span><span>Return</span></div>
+              <div><b>Jan 12, 2024</b><span>50</span><span>$698.12</span><strong className="green">+46.7%</strong></div>
+              <div><b>Mar 18, 2024</b><span>40</span><span>$774.42</span><strong className="green">+32.3%</strong></div>
+              <div><b>Feb 03, 2025</b><span>30</span><span>$944.12</span><strong className="green">+8.5%</strong></div>
+            </div>
+          </div>
+        </Modal>
+
+        <Modal isOpen={activeModal === 'analystSentiment'} onClose={() => setActiveModal(null)} title="NVDA Analyst Sentiment">
+          <div className="position-detail-modal">
+            <div className="position-detail-grid">
+              <div><span>Ratings</span><b>42</b></div>
+              <div><span>Buy</span><b className="green">29 (69%)</b></div>
+              <div><span>Hold</span><b>10 (24%)</b></div>
+              <div><span>Sell</span><b className="red">3 (7%)</b></div>
+              <div><span>Consensus Target</span><b>$1,198.20</b></div>
+              <div><span>Upside</span><b className="green">+16.97%</b></div>
+            </div>
+            <div className="position-lots-table">
+              <div><span>Firm</span><span>Rating</span><span>Target</span><span>Date</span></div>
+              <div><b>Morgan Stanley</b><span>Buy</span><span>$1,240</span><strong>May 7</strong></div>
+              <div><b>Goldman Sachs</b><span>Buy</span><span>$1,220</span><strong>May 6</strong></div>
+              <div><b>Bernstein</b><span>Hold</span><span>$1,080</span><strong>May 3</strong></div>
+            </div>
+          </div>
+        </Modal>
+
+        <Modal isOpen={activeModal === 'runBacktest'} onClose={() => setActiveModal(null)} title="Run NVDA Backtest">
+          <div className="positions-modal-stack">
+            <p className="positions-modal-copy">Run a mock backtest with NVDA preselected alongside SPY as the benchmark anchor.</p>
+            <div className="import-format-grid">
+              {['Momentum Rotation', 'NVDA', 'SPY', 'Jan 2020 - May 2025'].map((item) => <span key={item}>{item}</span>)}
+            </div>
+            <div className="modal-action-row">
+              <button onClick={() => setActiveModal(null)} type="button">Cancel</button>
+              <button disabled={pendingAction === APP_ACTIONS.RUN_BACKTEST} onClick={confirmRunBacktest} type="button">{pendingAction === APP_ACTIONS.RUN_BACKTEST ? 'Running...' : 'Run Backtest'}</button>
+            </div>
+          </div>
+        </Modal>
       </main>
     </div>
   );

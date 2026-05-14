@@ -5,47 +5,15 @@ import TickerStrip from '../components/TickerStrip.jsx';
 import Sparkline from '../components/Sparkline.jsx';
 import Modal from '../components/Modal.jsx';
 import StatusState from '../components/StatusState.jsx';
-import { tickerStrip } from '../data/mockData';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
 import { APP_ACTIONS } from '../services/appActions';
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { getScreenerRows } from '../data/mock/selectors';
+import { getScreenerMetadata, getScreenerRows, getTickerStrip } from '../data/mock/selectors';
 
+const tickerStrip = getTickerStrip();
 const results = getScreenerRows();
-
-const distribution = [
-  ['90+', 38, '29.7%'],
-  ['80 - 89', 33, '25.8%'],
-  ['70 - 79', 28, '21.9%'],
-  ['60 - 69', 18, '14.1%'],
-  ['< 60', 11, '8.6%'],
-];
-
-const sectors = [
-  ['Technology', 48, '37.5%'],
-  ['Semiconductors', 32, '25.0%'],
-  ['Communication Services', 18, '14.1%'],
-  ['Industrials', 12, '9.4%'],
-  ['Healthcare', 10, '7.8%'],
-  ['Energy', 8, '6.2%'],
-];
-
-const themes = [
-  ['AI Infrastructure', 52, '40.6%'],
-  ['Semiconductors', 46, '35.9%'],
-  ['Cloud Software', 31, '24.2%'],
-  ['Grid & Power', 22, '17.2%'],
-  ['Defense Tech', 14, '10.9%'],
-];
-
-const quickScreens = [
-  ['AI Leaders', '128 results', 'Updated 2m ago'],
-  ['High ROE Compounders', '96 results', 'Updated 1h ago'],
-  ['Undervalued Growth', '87 results', 'Updated 3h ago'],
-  ['Momentum Breakouts', '75 results', 'Updated 1d ago'],
-  ['Low Vol Quality', '64 results', 'Updated 2d ago'],
-];
+const { distribution, sectors, themes, quickScreens } = getScreenerMetadata();
 
 const screenerColumns = [
   { key: 'ticker', label: 'Ticker' },

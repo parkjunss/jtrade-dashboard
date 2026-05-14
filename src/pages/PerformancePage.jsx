@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ArrowDownUp, Download, FileText } from 'lucide-react';
-import { tickerStrip, movers, portfolioSeries, marketSeries, performance, sp500, marketSnapshot, watchlist, stats } from '../data/mockData';
+import { ArrowDownUp, Download, FileText, Gauge, ShieldAlert } from 'lucide-react';
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import TickerStrip from '../components/TickerStrip.jsx';
@@ -13,68 +12,19 @@ import StatBar from '../components/StatBar.jsx';
 import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import { APP_ACTIONS } from '../services/appActions';
+import { getPerformanceBenchmarkData, getPerformanceDrawdownData, getPerformanceOverviewData, getPerformanceReturnsData, getTickerStrip } from '../data/mock/selectors';
 
+const tickerStrip = getTickerStrip();
+const { movers, portfolioSeries, marketSeries, performance, sp500, marketSnapshot, watchlist, stats } = getPerformanceOverviewData();
 const rangeOptions = ['MTD', '1M', '3M', 'YTD', '1Y', '3Y', 'All'];
-
-const returnSummaryByRange = {
-  MTD: { total: '+2.34%', annualized: '+14.80%', ytd: '+18.35%', best: 'May +4.20%', worst: 'Apr -1.15%' },
-  '1M': { total: '+4.18%', annualized: '+16.10%', ytd: '+18.35%', best: 'May +4.20%', worst: 'Apr -1.15%' },
-  '3M': { total: '+9.72%', annualized: '+17.90%', ytd: '+18.35%', best: 'Mar +5.10%', worst: 'Apr -1.15%' },
-  YTD: { total: '+18.35%', annualized: '+18.35%', ytd: '+18.35%', best: 'Mar +5.10%', worst: 'Apr -1.15%' },
-  '1Y': { total: '+29.20%', annualized: '+29.20%', ytd: '+18.35%', best: 'Nov +6.18%', worst: 'Sep -2.42%' },
-  '3Y': { total: '+64.80%', annualized: '+18.10%', ytd: '+18.35%', best: 'Nov 2023 +6.18%', worst: 'Sep 2022 -5.34%' },
-  All: { total: '+91.45%', annualized: '+16.75%', ytd: '+18.35%', best: 'Nov 2023 +6.18%', worst: 'Mar 2020 -8.64%' },
-};
-
-const attributionData = {
-  holding: [
-    { name: 'NVDA', contribution: 5.4, return: 18.6, weight: 12.8 },
-    { name: 'MSFT', contribution: 3.2, return: 9.4, weight: 10.1 },
-    { name: 'AMZN', contribution: 2.7, return: 11.8, weight: 8.6 },
-    { name: 'GOOG', contribution: 1.9, return: 7.2, weight: 7.4 },
-    { name: 'Cash drag', contribution: -0.4, return: 0.7, weight: 3.2 },
-  ],
-  sector: [
-    { name: 'Technology', contribution: 6.8, return: 14.9, weight: 34.5 },
-    { name: 'Communication', contribution: 2.6, return: 8.8, weight: 13.4 },
-    { name: 'Consumer Discretionary', contribution: 2.2, return: 10.7, weight: 11.2 },
-    { name: 'Healthcare', contribution: 0.9, return: 3.5, weight: 8.1 },
-    { name: 'Utilities', contribution: -0.5, return: -1.9, weight: 4.8 },
-  ],
-  asset: [
-    { name: 'U.S. Equity', contribution: 9.2, return: 13.8, weight: 68.0 },
-    { name: 'International Equity', contribution: 1.7, return: 6.4, weight: 14.5 },
-    { name: 'Fixed Income', contribution: 0.6, return: 2.1, weight: 8.2 },
-    { name: 'Alternatives', contribution: 0.4, return: 3.8, weight: 4.1 },
-    { name: 'Cash', contribution: -0.2, return: 0.6, weight: 5.2 },
-  ],
-};
-
-const rollingReturns = {
-  MTD: [0.3, 0.6, 0.9, 1.4, 1.2, 1.8, 2.1, 2.34],
-  '1M': [0.4, 0.9, 1.7, 2.1, 2.7, 3.2, 3.8, 4.18],
-  '3M': [1.2, 2.4, 2.1, 3.8, 4.6, 5.7, 7.9, 9.72],
-  YTD: [1.8, 4.1, 9.4, 8.2, 12.4, 15.1, 16.9, 18.35],
-  '1Y': [2.1, 5.4, 7.9, 11.2, 15.8, 18.4, 24.9, 29.2],
-  '3Y': [4, 8, 15, 21, 29, 38, 51, 64.8],
-  All: [0, 12, 20, 31, 44, 52, 73, 91.45],
-};
-
-const monthlyReturns = [
-  { period: 'Jan 2026', portfolio: 3.42, benchmark: 2.18, excess: 1.24, contribution: 14520 },
-  { period: 'Feb 2026', portfolio: 4.86, benchmark: 3.02, excess: 1.84, contribution: 20840 },
-  { period: 'Mar 2026', portfolio: 5.1, benchmark: 4.2, excess: 0.9, contribution: 21970 },
-  { period: 'Apr 2026', portfolio: -1.15, benchmark: -0.62, excess: -0.53, contribution: -4860 },
-  { period: 'May 2026', portfolio: 4.2, benchmark: 2.7, excess: 1.5, contribution: 17890 },
-  { period: 'Q1 2026', portfolio: 13.92, benchmark: 9.64, excess: 4.28, contribution: 57330 },
-  { period: 'Q2 2026', portfolio: 3.0, benchmark: 2.06, excess: 0.94, contribution: 13030 },
-];
-
-const heatmapMonths = [
-  ['Jan', 3.4], ['Feb', 4.9], ['Mar', 5.1], ['Apr', -1.2],
-  ['May', 4.2], ['Jun', 2.0], ['Jul', 3.6], ['Aug', 1.4],
-  ['Sep', -2.4], ['Oct', 2.8], ['Nov', 6.2], ['Dec', 3.1],
-];
+const performanceReturnsData = getPerformanceReturnsData();
+const returnSummaryByRange = performanceReturnsData.summaryByRange;
+const attributionData = performanceReturnsData.attribution;
+const rollingReturns = performanceReturnsData.rollingReturns;
+const monthlyReturns = performanceReturnsData.monthlyReturns;
+const heatmapMonths = performanceReturnsData.heatmapMonths;
+const performanceBenchmarkData = getPerformanceBenchmarkData();
+const performanceDrawdownData = getPerformanceDrawdownData();
 
 function formatPercent(value) {
   return `${value > 0 ? '+' : ''}${value.toFixed(2)}%`;
@@ -107,6 +57,227 @@ function RollingLine({ values }) {
   );
 }
 
+function BenchmarkLine({ portfolio, benchmark }) {
+  const width = 760;
+  const height = 220;
+  const values = [...portfolio, ...benchmark];
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const toPoints = (series) => series.map((value, index) => {
+    const x = (index / (series.length - 1)) * width;
+    const y = height - ((value - min) / range) * (height - 24) - 12;
+    return `${x},${y}`;
+  }).join(' ');
+
+  return (
+    <svg className="benchmark-line-chart" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" role="img" aria-label="Portfolio vs benchmark line chart">
+      {[0, 1, 2, 3].map((line) => <line key={line} x1="0" x2={width} y1={36 + line * 44} y2={36 + line * 44} />)}
+      <polyline className="portfolio-line" points={toPoints(portfolio)} />
+      <polyline className="market-line" points={toPoints(benchmark)} />
+    </svg>
+  );
+}
+
+function DrawdownArea({ values }) {
+  const width = 760;
+  const height = 220;
+  const min = Math.min(...values);
+  const max = 0;
+  const range = max - min || 1;
+  const points = values.map((value, index) => {
+    const x = (index / (values.length - 1)) * width;
+    const y = ((max - value) / range) * (height - 24) + 12;
+    return `${x},${y}`;
+  }).join(' ');
+  const areaPoints = `0,12 ${points} ${width},12`;
+
+  return (
+    <svg className="drawdown-area-chart" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" role="img" aria-label="Drawdown underwater chart">
+      {[0, 1, 2, 3].map((line) => <line key={line} x1="0" x2={width} y1={24 + line * 44} y2={24 + line * 44} />)}
+      <polygon points={areaPoints} />
+      <polyline points={points} />
+    </svg>
+  );
+}
+
+function PerformanceDrawdownPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
+  const deepestEvent = performanceDrawdownData.events.reduce((deepest, event) => event.depth < deepest.depth ? event : deepest, performanceDrawdownData.events[0]);
+  const activeEvent = performanceDrawdownData.events.find((event) => event.status === 'Active');
+  const maxImpact = Math.max(...performanceDrawdownData.contributors.map((row) => Math.abs(row.impact)));
+
+  return (
+    <div className="app-shell">
+      <Sidebar activePage={activePage} activeItem={activeSidebarItem} onSelect={onSidebarSelect} />
+      <main className="dashboard performance-returns-page performance-drawdown-page">
+        <TopBar activePage={activePage} onNavigate={onNavigate} />
+        <section className="title-row">
+          <h1>Drawdown</h1>
+          <div className="market-brief truncate"><span></span><b>Performance</b><p>Underwater periods, recovery path, and active drawdown drivers</p></div>
+          <TickerStrip items={tickerStrip} />
+        </section>
+
+        <section className="returns-kpi-grid">
+          <article className="card returns-kpi"><span>Current drawdown</span><strong className="text-red">{formatPercent(performanceDrawdownData.currentDrawdown)}</strong><small>{activeEvent?.days ?? 0} days below high-water mark</small></article>
+          <article className="card returns-kpi"><span>Max drawdown</span><strong className="text-red">{formatPercent(performanceDrawdownData.maxDrawdown)}</strong><small>{deepestEvent.start} to {deepestEvent.trough}</small></article>
+          <article className="card returns-kpi"><span>Average drawdown</span><strong className="text-red">{formatPercent(performanceDrawdownData.averageDrawdown)}</strong><small>Across tracked drawdown events</small></article>
+          <article className="card returns-kpi"><span>Recovery rate</span><strong>{performanceDrawdownData.recoveryRate}</strong><small>Closed drawdowns recovered</small></article>
+        </section>
+
+        <section className="drawdown-main-grid">
+          <article className="card benchmark-chart-card">
+            <div className="returns-card-head">
+              <div><h3>Underwater Curve</h3><p>Percent below prior portfolio high-water mark</p></div>
+              <div className="benchmark-selected"><ShieldAlert size={18} /><span>Active drawdown {formatPercent(performanceDrawdownData.currentDrawdown)}</span></div>
+            </div>
+            <DrawdownArea values={performanceDrawdownData.underwaterSeries} />
+            <div className="returns-chart-axis"><span>Prior high</span><span>Trough</span><span>Current</span></div>
+          </article>
+
+          <aside className="card benchmark-risk-card">
+            <div className="returns-card-head"><div><h3>Recovery Snapshot</h3><p>Requirements to regain the prior high</p></div></div>
+            {performanceDrawdownData.recoveryPlan.map((row) => (
+              <div className="benchmark-risk-row" key={row.label}><span>{row.label}</span><strong>{row.value}</strong></div>
+            ))}
+          </aside>
+        </section>
+
+        <section className="drawdown-lower-grid">
+          <article className="card monthly-table-card">
+            <div className="returns-card-head"><div><h3>Drawdown Events</h3><p>Start, trough, recovery, and duration by event</p></div></div>
+            <div className="drawdown-table">
+              <div className="drawdown-table-head"><span>Start</span><span>Trough</span><span>Recovered</span><span>Depth</span><span>Days</span><span>Status</span></div>
+              {performanceDrawdownData.events.map((event) => (
+                <div className="drawdown-table-row" key={`${event.start}-${event.trough}`}>
+                  <strong>{event.start}</strong>
+                  <span>{event.trough}</span>
+                  <span>{event.recovered}</span>
+                  <b className="down">{formatPercent(event.depth)}</b>
+                  <span>{event.days}</span>
+                  <em className={event.status === 'Active' ? 'red' : 'green'}>{event.status}</em>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="card benchmark-active-card">
+            <div className="returns-card-head"><div><h3>Current Drawdown Drivers</h3><p>Estimated contribution to the active drawdown</p></div></div>
+            <div className="contribution-chart">
+              {performanceDrawdownData.contributors.map((row) => (
+                <div className="contribution-row benchmark-contribution-row" key={row.name}>
+                  <span>{row.name}</span>
+                  <div className="contribution-track">
+                    <i className={row.impact < 0 ? 'negative' : ''} style={{ width: `${Math.max(10, (Math.abs(row.impact) / maxImpact) * 100)}%` }} />
+                  </div>
+                  <b className={row.impact < 0 ? 'down' : 'up'}>{formatPercent(row.impact)}</b>
+                  <small>{row.note}</small>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function PerformanceBenchmarkPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
+  const [benchmarkId, setBenchmarkId] = useState('SP500');
+  const selectedBenchmark = performanceBenchmarkData.benchmarks.find((item) => item.id === benchmarkId) ?? performanceBenchmarkData.benchmarks[0];
+  const benchmarkSeries = performanceBenchmarkData.benchmarkSeries[selectedBenchmark.id];
+  const excessReturn = performanceBenchmarkData.portfolioReturn - selectedBenchmark.return;
+  const maxContribution = Math.max(...performanceBenchmarkData.contributors.map((row) => Math.abs(row.contribution)));
+
+  return (
+    <div className="app-shell">
+      <Sidebar activePage={activePage} activeItem={activeSidebarItem} onSelect={onSidebarSelect} />
+      <main className="dashboard performance-returns-page performance-benchmark-page">
+        <TopBar activePage={activePage} onNavigate={onNavigate} />
+        <section className="title-row">
+          <h1>Benchmark</h1>
+          <div className="market-brief truncate"><span></span><b>Performance</b><p>Relative return, tracking risk, and active positioning</p></div>
+          <TickerStrip items={tickerStrip} />
+        </section>
+
+        <section className="returns-toolbar card">
+          <div className="returns-range-tabs" aria-label="Benchmark selector">
+            {performanceBenchmarkData.benchmarks.map((item) => (
+              <button className={benchmarkId === item.id ? 'active' : ''} key={item.id} onClick={() => setBenchmarkId(item.id)} type="button">
+                {item.name}
+              </button>
+            ))}
+          </div>
+          <div className="benchmark-selected"><Gauge size={18} /><span>{selectedBenchmark.type}</span></div>
+        </section>
+
+        <section className="returns-kpi-grid">
+          <article className="card returns-kpi"><span>Portfolio return</span><strong className="text-green">{formatPercent(performanceBenchmarkData.portfolioReturn)}</strong><small>Trailing 12 months</small></article>
+          <article className="card returns-kpi"><span>{selectedBenchmark.name}</span><strong className="text-green">{formatPercent(selectedBenchmark.return)}</strong><small>Benchmark return</small></article>
+          <article className="card returns-kpi"><span>Excess return</span><strong className={excessReturn >= 0 ? 'text-green' : 'text-red'}>{formatPercent(excessReturn)}</strong><small>Portfolio minus benchmark</small></article>
+          <article className="card returns-kpi"><span>Information ratio</span><strong>{selectedBenchmark.informationRatio.toFixed(2)}</strong><small>Active return per tracking risk</small></article>
+        </section>
+
+        <section className="benchmark-main-grid">
+          <article className="card benchmark-chart-card">
+            <div className="returns-card-head">
+              <div><h3>Relative Performance</h3><p>Indexed growth of $100 against {selectedBenchmark.name}</p></div>
+              <div className="benchmark-legend"><span className="green-dot-solid" />Portfolio <span className="gray-dot-solid" />{selectedBenchmark.name}</div>
+            </div>
+            <BenchmarkLine portfolio={performanceBenchmarkData.portfolioSeries} benchmark={benchmarkSeries} />
+            <div className="returns-chart-axis"><span>Start</span><span>Midpoint</span><span>Latest</span></div>
+          </article>
+
+          <aside className="card benchmark-risk-card">
+            <div className="returns-card-head"><div><h3>Risk Relationship</h3><p>Fit and active risk versus selected benchmark</p></div></div>
+            {[
+              ['Tracking error', `${selectedBenchmark.trackingError.toFixed(1)}%`],
+              ['Correlation', selectedBenchmark.correlation.toFixed(2)],
+              ['Beta', selectedBenchmark.beta.toFixed(2)],
+              ['Alpha', formatPercent(selectedBenchmark.alpha)],
+              ['Active share', `${selectedBenchmark.activeShare}%`],
+            ].map(([label, value]) => (
+              <div className="benchmark-risk-row" key={label}><span>{label}</span><strong>{value}</strong></div>
+            ))}
+          </aside>
+        </section>
+
+        <section className="benchmark-lower-grid">
+          <article className="card monthly-table-card">
+            <div className="returns-card-head"><div><h3>Relative Return Ledger</h3><p>Monthly excess return against selected benchmark model</p></div></div>
+            <div className="benchmark-table">
+              <div className="benchmark-table-head"><span>Period</span><span>Portfolio</span><span>Benchmark</span><span>Excess</span></div>
+              {performanceBenchmarkData.relativeRows.map((row) => (
+                <div className="benchmark-table-row" key={row.period}>
+                  <strong>{row.period}</strong>
+                  <span>{formatPercent(row.portfolio)}</span>
+                  <span>{formatPercent(row.benchmark)}</span>
+                  <b className={row.excess >= 0 ? 'up' : 'down'}>{formatPercent(row.excess)}</b>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="card benchmark-active-card">
+            <div className="returns-card-head"><div><h3>Active Contributors</h3><p>Position and allocation effects versus benchmark</p></div></div>
+            <div className="contribution-chart">
+              {performanceBenchmarkData.contributors.map((row) => (
+                <div className="contribution-row benchmark-contribution-row" key={row.name}>
+                  <span>{row.name}</span>
+                  <div className="contribution-track">
+                    <i className={row.contribution < 0 ? 'negative' : ''} style={{ width: `${Math.max(10, (Math.abs(row.contribution) / maxContribution) * 100)}%` }} />
+                  </div>
+                  <b className={row.contribution < 0 ? 'down' : 'up'}>{formatPercent(row.contribution)}</b>
+                  <small>{row.weight.toFixed(1)}% portfolio / {row.benchmarkWeight.toFixed(1)}% benchmark</small>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  );
+}
+
 function PerformanceReturnsPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
   const { pendingAction, runAction } = useAppAction();
   const [range, setRange] = useState('YTD');
@@ -115,6 +286,14 @@ function PerformanceReturnsPage({ activePage, activeSidebarItem, onNavigate, onS
   const summary = returnSummaryByRange[range];
   const attributionRows = attributionData[attributionMode];
   const maxContribution = Math.max(...attributionRows.map((row) => Math.abs(row.contribution)));
+
+  const getStatusClass = (value) => {
+    const numericValue = parseFloat(value.toString().replace(/[^0-9.-]/g, ''));
+    if (numericValue > 0) return 'text-green';
+    if (numericValue < 0) return 'text-red';
+    return '';
+  };
+
   const sortedRows = useMemo(() => {
     return [...monthlyReturns].sort((a, b) => {
       const aValue = a[sort.key];
@@ -176,10 +355,29 @@ function PerformanceReturnsPage({ activePage, activeSidebarItem, onNavigate, onS
         </section>
 
         <section className="returns-kpi-grid">
-          <article className="card returns-kpi"><span>Total return</span><strong>{summary.total}</strong><small>{range} portfolio performance</small></article>
-          <article className="card returns-kpi"><span>Annualized return</span><strong>{summary.annualized}</strong><small>Geometric annualized pace</small></article>
-          <article className="card returns-kpi"><span>YTD return</span><strong>{summary.ytd}</strong><small>Calendar-year return</small></article>
-          <article className="card returns-kpi"><span>Best / worst month</span><strong>{summary.best}</strong><small>{summary.worst}</small></article>
+          <article className="card returns-kpi">
+            <span>Total return</span>
+            <strong className={getStatusClass(summary.total)}>{summary.total}</strong>
+            <small>{range} portfolio performance</small>
+          </article>
+
+          <article className="card returns-kpi">
+            <span>Annualized return</span>
+            <strong className={getStatusClass(summary.annualized)}>{summary.annualized}</strong>
+            <small>Geometric annualized pace</small>
+          </article>
+
+          <article className="card returns-kpi">
+            <span>YTD return</span>
+            <strong className={getStatusClass(summary.ytd)}>{summary.ytd}</strong>
+            <small>Calendar-year return</small>
+          </article>
+
+          <article className="card returns-kpi">
+            <span>Best / worst month</span>
+            <strong className={getStatusClass(summary.best)}>{summary.best}</strong>
+            <small className={getStatusClass(summary.worst)}>{summary.worst}</small>
+            </article>
         </section>
 
         <section className="returns-main-grid">
@@ -275,6 +473,14 @@ function PerformanceReturnsPage({ activePage, activeSidebarItem, onNavigate, onS
 export default function PerformancePage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
   if (activeSidebarItem === 'performance-returns') {
     return <PerformanceReturnsPage activePage={activePage} activeSidebarItem={activeSidebarItem} onNavigate={onNavigate} onSidebarSelect={onSidebarSelect} />;
+  }
+
+  if (activeSidebarItem === 'performance-benchmark') {
+    return <PerformanceBenchmarkPage activePage={activePage} activeSidebarItem={activeSidebarItem} onNavigate={onNavigate} onSidebarSelect={onSidebarSelect} />;
+  }
+
+  if (activeSidebarItem === 'performance-drawdown') {
+    return <PerformanceDrawdownPage activePage={activePage} activeSidebarItem={activeSidebarItem} onNavigate={onNavigate} onSidebarSelect={onSidebarSelect} />;
   }
 
   if (activeSidebarItem !== 'performance-overview') {

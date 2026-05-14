@@ -2,8 +2,10 @@ import { ArrowUpRight, Layers3, PanelTop, Sparkles } from 'lucide-react';
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import TickerStrip from '../components/TickerStrip.jsx';
-import { tickerStrip } from '../data/mockData';
+import { getTickerStrip } from '../data/mock/selectors';
 import { subPageRegistry } from '../data/pageRegistry';
+
+const tickerStrip = getTickerStrip();
 
 export default function SubPageShell({ activePage, activeSidebarItem, onNavigate, onSidebarSelect, fallbackTitle }) {
   const page = subPageRegistry[activeSidebarItem] ?? {

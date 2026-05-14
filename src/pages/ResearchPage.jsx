@@ -8,38 +8,11 @@ import { APP_ACTIONS } from '../services/appActions';
 import SubPageShell from './SubPageShell.jsx';
 import ScreenerPage from './ScreenerPage.jsx';
 import StockDetailPage from './StockDetailPage.jsx';
-
-const opportunityRows = [
-  { symbol: 'NVDA', company: 'NVIDIA Corp.', theme: 'AI infrastructure', score: 96, change: '+2.4%', series: [18, 20, 21, 24, 23, 27, 29] },
-  { symbol: 'AVGO', company: 'Broadcom Inc.', theme: 'Semis / networking', score: 91, change: '+1.3%', series: [14, 16, 15, 18, 20, 19, 23] },
-  { symbol: 'MSFT', company: 'Microsoft Corp.', theme: 'Cloud quality', score: 89, change: '+0.7%', series: [12, 14, 15, 16, 18, 20, 21] },
-  { symbol: 'TSM', company: 'Taiwan Semiconductor', theme: 'Foundry demand', score: 87, change: '+0.8%', series: [10, 12, 13, 12, 16, 17, 20] },
-];
-
-const catalystRows = [
-  ['NVDA', 'Blackwell demand checks remain above plan', 'Positive', 'High'],
-  ['MSFT', 'Azure AI growth offsets margin pressure', 'Positive', 'Medium'],
-  ['TSM', 'Foundry utilization improving into Q3', 'Positive', 'Medium'],
-  ['XLE', 'Crude pullback weighs on energy revisions', 'Negative', 'Low'],
-];
-
-const recentSearches = ['NVDA', 'MSFT', 'AAPL', 'TSM', 'AVGO'];
-
-const savedScreensFallback = [
-  { name: 'AI Leaders', count: '42 results', updated: 'Updated today' },
-  { name: 'Quality Compounders', count: '31 results', updated: 'Updated yesterday' },
-  { name: 'Oversold Large Caps', count: '18 results', updated: 'Updated 2 days ago' },
-];
-
-const compareUniverse = [
-  { symbol: 'NVDA', company: 'NVIDIA Corp.', price: '$1,024.32', change: '+2.41%', pe: 42.8, growth: 38, margin: 57, beta: 1.7, score: 96, ytd: 82, valuation: 78, risk: 62, series: [12, 16, 18, 22, 28, 33, 39] },
-  { symbol: 'MSFT', company: 'Microsoft Corp.', price: '$415.60', change: '+0.72%', pe: 31.4, growth: 16, margin: 44, beta: 0.92, score: 89, ytd: 18, valuation: 71, risk: 38, series: [14, 15, 17, 18, 21, 22, 24] },
-  { symbol: 'AAPL', company: 'Apple Inc.', price: '$212.44', change: '+0.38%', pe: 28.7, growth: 8, margin: 31, beta: 1.15, score: 76, ytd: 11, valuation: 64, risk: 43, series: [15, 14, 16, 17, 18, 19, 21] },
-  { symbol: 'AVGO', company: 'Broadcom Inc.', price: '$1,621.10', change: '+1.29%', pe: 36.2, growth: 21, margin: 49, beta: 1.28, score: 91, ytd: 42, valuation: 74, risk: 51, series: [11, 13, 16, 18, 22, 24, 29] },
-  { symbol: 'TSM', company: 'Taiwan Semiconductor', price: '$156.74', change: '+0.81%', pe: 22.9, growth: 19, margin: 43, beta: 1.08, score: 87, ytd: 34, valuation: 82, risk: 45, series: [10, 12, 13, 15, 18, 20, 23] },
-];
+import { getResearchCompareUniverse, getResearchOverviewData } from '../data/mock/selectors';
 
 const metricTabs = ['Price', 'Valuation', 'Growth', 'Profitability', 'Risk'];
+const { opportunityRows, catalystRows, recentSearches, savedScreensFallback } = getResearchOverviewData();
+const compareUniverse = getResearchCompareUniverse();
 
 function ResearchOverviewPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
   const { mockMutations, pendingAction, runAction } = useAppAction();

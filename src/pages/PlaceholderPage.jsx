@@ -1,7 +1,9 @@
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import TickerStrip from '../components/TickerStrip.jsx';
-import { tickerStrip } from '../data/mockData';
+import { getTickerStrip } from '../data/mock/selectors';
+
+const tickerStrip = getTickerStrip();
 
 export default function PlaceholderPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect, title }) {
   return (
