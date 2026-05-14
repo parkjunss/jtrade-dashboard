@@ -661,6 +661,334 @@
   font-weight: 900;
 }
 
+.allocation-assets-page {
+  display: grid;
+  gap: 18px;
+}
+
+.asset-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.asset-summary-card {
+  min-height: 112px;
+  padding: 22px 24px;
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+.asset-summary-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+.asset-summary-card.loss .asset-summary-icon {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.asset-summary-card span,
+.asset-summary-card small {
+  display: block;
+  color: var(--muted);
+}
+
+.asset-summary-card strong {
+  display: block;
+  margin: 5px 0;
+  font-size: 23px;
+}
+
+.asset-layout,
+.asset-trend-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 18px;
+}
+
+.asset-table-card,
+.asset-detail-card,
+.asset-holdings-card,
+.asset-trend-card,
+.asset-policy-card {
+  padding: 24px 28px;
+}
+
+.asset-table-card {
+  overflow-x: auto;
+}
+
+.asset-table {
+  display: grid;
+  min-width: 900px;
+}
+
+.asset-table-head,
+.asset-table-row {
+  display: grid;
+  grid-template-columns: 1.2fr 90px 82px 96px 118px 82px;
+  gap: 14px;
+  align-items: center;
+}
+
+.asset-table-head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.asset-table-row {
+  min-height: 58px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font-weight: 750;
+}
+
+.asset-table-row.selected {
+  background: linear-gradient(90deg, rgba(164, 234, 37, 0.16), rgba(164, 234, 37, 0));
+}
+
+.asset-table-row > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+}
+
+.asset-table-row i,
+.asset-detail-head i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.asset-table-row em {
+  justify-self: start;
+  min-width: 80px;
+  border-radius: 12px;
+  padding: 8px 10px;
+  background: #f4f6f2;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.asset-table-row em.red {
+  color: var(--red);
+  background: var(--red-soft);
+}
+
+.asset-table-row em.green {
+  color: var(--green-dark);
+  background: var(--green-soft);
+}
+
+.asset-detail-stack {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.asset-detail-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.asset-detail-head div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.asset-detail-head h3,
+.asset-holdings-card h3,
+.asset-policy-card h3 {
+  margin: 0;
+}
+
+.asset-detail-head > strong {
+  padding: 7px 10px;
+  border-radius: 12px;
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+.asset-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.asset-detail-grid div {
+  min-height: 76px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fbfcfa;
+}
+
+.asset-detail-grid span,
+.asset-drift-track span,
+.asset-drift-track small,
+.asset-holding-row span,
+.asset-holding-row small {
+  color: var(--muted);
+}
+
+.asset-detail-grid b {
+  display: block;
+  margin-top: 6px;
+}
+
+.asset-drift-track {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #f4f7ef;
+}
+
+.asset-drift-track div {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: #dfe2dc;
+}
+
+.asset-drift-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.asset-drift-track b {
+  position: absolute;
+  top: -5px;
+  width: 3px;
+  height: 20px;
+  border-radius: 99px;
+  background: #080908;
+}
+
+.asset-detail-card > button {
+  width: 100%;
+  height: 40px;
+  margin-top: 16px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #0b0d0a;
+  color: #fff;
+  font-weight: 900;
+}
+
+.asset-holdings-card {
+  display: grid;
+  gap: 10px;
+}
+
+.asset-holding-row {
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: 72px 1fr 64px 92px;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0 12px;
+}
+
+.asset-trend-card {
+  min-height: 320px;
+}
+
+.asset-trend-chart {
+  height: 240px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 28px;
+  align-items: end;
+  padding: 16px 28px 0;
+}
+
+.asset-trend-column {
+  height: 198px;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  gap: 2px;
+}
+
+.asset-trend-column i {
+  border-radius: 4px 4px 0 0;
+  min-height: 10px;
+}
+
+.asset-trend-column span {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.asset-policy-card {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.asset-policy-row {
+  display: grid;
+  grid-template-columns: 116px 1fr 76px;
+  gap: 12px;
+  align-items: center;
+}
+
+.asset-policy-row span,
+.asset-policy-row strong {
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.asset-policy-row div {
+  height: 9px;
+  border-radius: 99px;
+  background: #dfe2dc;
+  overflow: hidden;
+}
+
+.asset-policy-row i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.asset-policy-row strong.red {
+  color: var(--red);
+}
+
 .target-policy-card h3 {
   margin: 0 0 20px;
   font-size: 20px;
@@ -701,6 +1029,9 @@
   .allocation-target-summary-grid,
   .allocation-targets-grid,
   .allocation-warning-grid,
+  .asset-summary-grid,
+  .asset-layout,
+  .asset-trend-grid,
   .target-policy-table {
     grid-template-columns: 1fr;
   }
@@ -717,7 +1048,10 @@
 
 @media (max-width: 760px) {
   .target-toolbar-actions,
-  .target-warning-row {
+  .target-warning-row,
+  .asset-detail-grid,
+  .asset-holding-row,
+  .asset-policy-row {
     grid-template-columns: 1fr;
   }
 

@@ -326,6 +326,71 @@ export function getAllocationTargetGroups(store = mockStore) {
   return store.allocation.targetGroups;
 }
 
+export function getAllocationAssetData(store = mockStore) {
+  const holdingsByAsset = {
+    'US Stocks': ['NVDA', 'MSFT', 'AAPL', 'AMZN', 'GOOGL'],
+    'Korean Stocks': ['005930.KS'],
+    ETFs: ['SPY', 'QQQ'],
+    Bonds: [],
+    Cash: ['CASH'],
+  };
+  const trendByAsset = {
+    'US Stocks': [39, 40, 41, 42, 43, 42],
+    'Korean Stocks': [19, 18, 18, 17, 18, 18],
+    ETFs: [14, 15, 16, 16, 15, 16],
+    Bonds: [16, 15, 14, 14, 14, 14],
+    Cash: [12, 12, 11, 11, 10, 10],
+  };
+  const qualityByAsset = {
+    'US Stocks': { liquidity: 96, concentration: 'High', risk: 'Growth tilt' },
+    'Korean Stocks': { liquidity: 74, concentration: 'Single-name', risk: 'FX exposed' },
+    ETFs: { liquidity: 94, concentration: 'Diversified', risk: 'Benchmark beta' },
+    Bonds: { liquidity: 88, concentration: 'Defensive', risk: 'Rate sensitive' },
+    Cash: { liquidity: 100, concentration: 'Cash', risk: 'Dry powder' },
+  };
+
+  const assets = store.allocation.rows.map((asset) => {
+    const symbols = holdingsByAsset[asset.name] ?? [];
+    const holdings = symbols.map((symbol) => {
+      const row = store.holdings.rows.find((item) => item.ticker === symbol);
+      if (!row) return null;
+      const details = store.holdings.positionDetails[symbol] ?? {};
+
+      return {
+        symbol,
+        name: row.name,
+        account: details.account ?? 'Unassigned',
+        day: row.day,
+        return: row.return,
+        value: row.value,
+        weight: row.weight,
+      };
+    }).filter(Boolean);
+    const quality = qualityByAsset[asset.name] ?? { liquidity: 80, concentration: 'Mixed', risk: 'Moderate' };
+
+    return {
+      ...asset,
+      driftValue: Number(asset.current) - Number(asset.target),
+      holdings,
+      liquidity: quality.liquidity,
+      concentration: quality.concentration,
+      risk: quality.risk,
+      trend: trendByAsset[asset.name] ?? store.allocation.trendMonths.map(() => Number(asset.current)),
+    };
+  });
+  const totalDrift = assets.reduce((sum, row) => sum + Math.abs(row.driftValue), 0);
+  const largestAsset = assets.reduce((max, row) => (row.current > max.current ? row : max), assets[0]);
+  const largestDrift = assets.reduce((max, row) => (Math.abs(row.driftValue) > Math.abs(max.driftValue) ? row : max), assets[0]);
+
+  return {
+    assets,
+    largestAsset,
+    largestDrift,
+    trendMonths: store.allocation.trendMonths,
+    totalDrift,
+  };
+}
+
 export function getPerformanceReturnsData(store = mockStore) {
   return store.performanceReturns;
 }

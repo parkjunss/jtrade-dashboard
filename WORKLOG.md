@@ -24,6 +24,7 @@ Implemented detailed pages/screens:
 - Holdings > Movers
 - Holdings > Sectors
 - Allocation overview
+- Allocation > Assets
 - Allocation > Targets
 - Allocation > Rebalance
 - Backtest overview
@@ -206,11 +207,17 @@ Core pages touched recently:
   - benchmark comparison rows with current weight, benchmark marker, active difference, value, and search
   - selected-sector drilldown with market value, benchmark, target, drift, and holding rows
   - sector export and detail actions through existing app action plumbing
+- Implemented `Allocation > Assets`:
+  - asset class summary cards for policy groups, largest asset, largest drift, and total drift
+  - asset exposure table with current weight, target, drift, value, liquidity, and row selection
+  - selected-asset drilldown with target track, concentration/risk notes, and direct holdings
+  - stacked allocation trend chart with range tabs and policy review rows
+  - CSV export and detail action through existing app action plumbing
 
 ## Current Priority
 
 Next implementation priority:
-- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `allocation-assets`.
+- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `allocation-risk`.
 
 Cross-cutting next tasks:
 - Continue migrating any remaining low-priority local data only when it is domain fixture data; keep pure UI config such as columns, option lists, and icon maps near the component unless reused.
@@ -245,6 +252,10 @@ Reference images are in `images/`:
 - `Topbar.png`
 - `sidebar.png`
 
+## Working Rules
+
+- After completing an implementation task, run `npm.cmd run build`, update `WORKLOG.md`/`BACKLOG.md`, and create a git commit for the finished work unless the user explicitly asks not to commit.
+
 ## Verification
 
 Use this command on Windows/PowerShell because `npm` can be blocked by execution policy:
@@ -253,4 +264,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-14 after Holdings Sectors implementation).
+Last known build status: passing (`npm.cmd run build`, 2026-05-14 after Allocation Assets implementation).
