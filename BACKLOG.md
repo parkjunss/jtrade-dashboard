@@ -53,6 +53,7 @@ P0 page backlog is complete. Continue with cross-cutting polish or P1 page backl
 - [x] `allocation-assets`: asset class drilldown, allocation trend chart.
 - [x] `allocation-risk`: concentration, diversification, beta, volatility, correlation/risk clusters.
 - `backtest-compare`: compare saved strategies, benchmarks, and parameter variants.
+- `insights-options`: options flow, put/call ratio, expiry/strike open interest, volume/OI changes, implied volatility skew, gamma exposure, dealer positioning, max pain, and expected-move signals for forecasting likely price-pressure zones.
 - `insights-sentiment`: sentiment by market/sector/holdings with drivers.
 - `insights-signals`: technical/macro/factor signal board.
 - `reports-tax`: tax document center, year/type filters, realized gains/dividends summary.
@@ -81,6 +82,7 @@ P1:
 - Reports download/detail controls: report center and Recent Exports detail modals.
 - [x] Stock Detail `View Details` and `View More`: panel-specific modals for position and analyst/news.
 - [x] Stock Detail `Run Backtest`: navigate/open run confirmation with preselected symbol.
+- Stock Detail options panel: expiry ladder, strike-level open interest, volume/OI changes, IV skew, max pain, expected move, and notable flow for the selected symbol.
 - Screener selected-row action panel: View Stock Detail, Add to Watchlist, Compare, Run Backtest.
 - Topbar notification item clicks: open related detail or navigate.
 - User menu Account/Security/Preferences: route to settings pages once implemented.

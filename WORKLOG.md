@@ -225,6 +225,8 @@ Core pages touched recently:
 
 Next implementation priority:
 - P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `backtest-compare`.
+- Options analysis should be added under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel later under `Research > Stock Detail`.
+- The options work should focus on options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
 
 Cross-cutting next tasks:
 - Continue migrating any remaining low-priority local data only when it is domain fixture data; keep pure UI config such as columns, option lists, and icon maps near the component unless reused.
