@@ -25,6 +25,7 @@ Implemented detailed pages/screens:
 - Holdings > Sectors
 - Allocation overview
 - Allocation > Assets
+- Allocation > Risk
 - Allocation > Targets
 - Allocation > Rebalance
 - Backtest overview
@@ -213,11 +214,17 @@ Core pages touched recently:
   - selected-asset drilldown with target track, concentration/risk notes, and direct holdings
   - stacked allocation trend chart with range tabs and policy review rows
   - CSV export and detail action through existing app action plumbing
+- Implemented `Allocation > Risk`:
+  - risk summary cards for diversification score, weighted beta, volatility, and top-3 concentration
+  - holding-level risk contribution table with beta, volatility, contribution bars, and cluster selection
+  - correlation cluster drilldown with detail action
+  - diversification diagnostics, high-correlation pairs, and stress scenario panels
+  - CSV export through existing app action plumbing
 
 ## Current Priority
 
 Next implementation priority:
-- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `allocation-risk`.
+- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `backtest-compare`.
 
 Cross-cutting next tasks:
 - Continue migrating any remaining low-priority local data only when it is domain fixture data; keep pure UI config such as columns, option lists, and icon maps near the component unless reused.
@@ -264,4 +271,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-14 after Allocation Assets implementation).
+Last known build status: passing (`npm.cmd run build`, 2026-05-14 after Allocation Risk implementation).

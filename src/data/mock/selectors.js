@@ -391,6 +391,74 @@ export function getAllocationAssetData(store = mockStore) {
   };
 }
 
+export function getAllocationRiskData(store = mockStore) {
+  const assetData = getAllocationAssetData(store);
+  const holdingRows = store.holdings.rows.filter((row) => row.ticker !== 'CASH');
+  const riskBySymbol = {
+    NVDA: { beta: 1.58, volatility: 31.4, contribution: 2.8, cluster: 'AI / Semis', correlation: 0.86 },
+    MSFT: { beta: 0.92, volatility: 18.7, contribution: 1.2, cluster: 'Mega-cap Quality', correlation: 0.74 },
+    AAPL: { beta: 1.15, volatility: 21.1, contribution: 0.7, cluster: 'Mega-cap Quality', correlation: 0.78 },
+    AMZN: { beta: 1.28, volatility: 26.2, contribution: 0.5, cluster: 'Consumer Growth', correlation: 0.72 },
+    GOOGL: { beta: 1.12, volatility: 22.8, contribution: 0.4, cluster: 'Ad / Cloud', correlation: 0.76 },
+    '005930.KS': { beta: 1.05, volatility: 24.4, contribution: 0.3, cluster: 'AI / Semis', correlation: 0.69 },
+    SPY: { beta: 1.0, volatility: 16.2, contribution: 0.6, cluster: 'Broad Market', correlation: 0.94 },
+    QQQ: { beta: 1.18, volatility: 20.5, contribution: 0.6, cluster: 'Growth Beta', correlation: 0.88 },
+  };
+  const positionRisks = holdingRows.map((row) => {
+    const risk = riskBySymbol[row.ticker] ?? { beta: 1, volatility: 18, contribution: 0.2, cluster: 'Other', correlation: 0.65 };
+    const weight = parsePct(row.weight);
+
+    return {
+      ...risk,
+      symbol: row.ticker,
+      name: row.name,
+      weight,
+      value: row.value,
+    };
+  });
+  const weightedBeta = positionRisks.reduce((sum, row) => sum + row.beta * row.weight, 0) / positionRisks.reduce((sum, row) => sum + row.weight, 0);
+  const topConcentration = holdingRows.slice(0, 3).reduce((sum, row) => sum + parsePct(row.weight), 0);
+  const clusterMap = positionRisks.reduce((groups, row) => {
+    if (!groups[row.cluster]) {
+      groups[row.cluster] = { name: row.cluster, contribution: 0, members: [], weight: 0 };
+    }
+    groups[row.cluster].contribution += row.contribution;
+    groups[row.cluster].weight += row.weight;
+    groups[row.cluster].members.push(row.symbol);
+    return groups;
+  }, {});
+  const clusters = Object.values(clusterMap).sort((a, b) => b.contribution - a.contribution);
+
+  return {
+    clusters,
+    correlationPairs: [
+      { pair: 'NVDA / 005930.KS', value: 0.86, note: 'Semiconductor cycle overlap' },
+      { pair: 'SPY / QQQ', value: 0.88, note: 'US equity beta' },
+      { pair: 'MSFT / AAPL', value: 0.74, note: 'Mega-cap quality' },
+      { pair: 'AMZN / GOOGL', value: 0.71, note: 'Growth and ad cycle' },
+    ],
+    diversification: [
+      { label: 'Effective holdings', value: 18, target: 24 },
+      { label: 'Top 3 concentration', value: topConcentration, target: 30 },
+      { label: 'Single-name max', value: parsePct(holdingRows[0].weight), target: 10 },
+      { label: 'Asset drift', value: assetData.totalDrift, target: 6 },
+    ],
+    metrics: {
+      beta: weightedBeta,
+      concentration: topConcentration,
+      diversificationScore: 72,
+      volatility: 13.8,
+    },
+    positionRisks: positionRisks.sort((a, b) => b.contribution - a.contribution),
+    stressTests: [
+      { scenario: 'Rates +100 bps', impact: -3.4, driver: 'Bonds and growth duration' },
+      { scenario: 'Semis -10%', impact: -2.6, driver: 'NVDA and Samsung exposure' },
+      { scenario: 'USD/KRW +5%', impact: 0.7, driver: 'KRW asset translation' },
+      { scenario: 'S&P 500 -5%', impact: -4.1, driver: 'Broad equity beta' },
+    ],
+  };
+}
+
 export function getPerformanceReturnsData(store = mockStore) {
   return store.performanceReturns;
 }

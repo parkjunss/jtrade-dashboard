@@ -51,7 +51,7 @@ P0 page backlog is complete. Continue with cross-cutting polish or P1 page backl
 - [x] `holdings-movers`: price movers vs portfolio-impact movers, mover detail panel.
 - [x] `holdings-sectors`: sector exposure dashboard, benchmark comparison, sector drilldown.
 - [x] `allocation-assets`: asset class drilldown, allocation trend chart.
-- `allocation-risk`: concentration, diversification, beta, volatility, correlation/risk clusters.
+- [x] `allocation-risk`: concentration, diversification, beta, volatility, correlation/risk clusters.
 - `backtest-compare`: compare saved strategies, benchmarks, and parameter variants.
 - `insights-sentiment`: sentiment by market/sector/holdings with drivers.
 - `insights-signals`: technical/macro/factor signal board.

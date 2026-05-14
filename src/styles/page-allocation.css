@@ -989,6 +989,262 @@
   color: var(--red);
 }
 
+.allocation-risk-page {
+  display: grid;
+  gap: 18px;
+}
+
+.risk-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.risk-summary-card {
+  min-height: 112px;
+  padding: 22px 24px;
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+.risk-summary-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+.risk-summary-card.loss .risk-summary-icon {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.risk-summary-card span,
+.risk-summary-card small {
+  display: block;
+  color: var(--muted);
+}
+
+.risk-summary-card strong {
+  display: block;
+  margin: 5px 0;
+  font-size: 23px;
+}
+
+.risk-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 18px;
+}
+
+.risk-position-card,
+.risk-cluster-card,
+.risk-cluster-detail,
+.diversification-card,
+.correlation-card,
+.stress-card {
+  padding: 24px 28px;
+}
+
+.risk-position-card {
+  overflow-x: auto;
+}
+
+.risk-position-table {
+  display: grid;
+  min-width: 900px;
+}
+
+.risk-position-head,
+.risk-position-row {
+  display: grid;
+  grid-template-columns: 90px 82px 74px 94px 1fr 150px;
+  gap: 14px;
+  align-items: center;
+}
+
+.risk-position-head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.risk-position-row {
+  min-height: 54px;
+  border-bottom: 1px solid var(--line);
+}
+
+.risk-position-row div,
+.diversification-row div,
+.correlation-row div {
+  height: 9px;
+  border-radius: 99px;
+  background: #dfe2dc;
+  overflow: hidden;
+}
+
+.risk-position-row i,
+.diversification-row i,
+.correlation-row i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--green);
+}
+
+.risk-position-row button {
+  min-height: 32px;
+  border-radius: 16px;
+  padding: 0 12px;
+  background: #f4f7ef;
+  color: var(--green-dark);
+  font-weight: 900;
+}
+
+.risk-side-stack {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.risk-cluster-card,
+.risk-cluster-detail,
+.diversification-card,
+.correlation-card,
+.stress-card {
+  display: grid;
+  gap: 12px;
+}
+
+.risk-cluster-card h3,
+.risk-cluster-detail h3,
+.diversification-card h3,
+.correlation-card h3,
+.stress-card h3 {
+  margin: 0;
+}
+
+.risk-cluster-card button {
+  min-height: 58px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  align-items: center;
+  background: #fff;
+  color: var(--text);
+  text-align: left;
+}
+
+.risk-cluster-card button.active {
+  border-color: transparent;
+  background: var(--green-soft);
+}
+
+.risk-cluster-card span {
+  font-weight: 900;
+}
+
+.risk-cluster-card b {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.risk-cluster-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.risk-cluster-head strong {
+  padding: 7px 10px;
+  border-radius: 12px;
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+.risk-cluster-detail p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.risk-cluster-detail button {
+  height: 40px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #0b0d0a;
+  color: #fff;
+  font-weight: 900;
+}
+
+.risk-lower-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.9fr;
+  gap: 18px;
+}
+
+.diversification-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 70px 80px;
+  gap: 12px;
+  align-items: center;
+  min-height: 42px;
+}
+
+.diversification-row span,
+.correlation-row span,
+.stress-row span {
+  font-weight: 900;
+}
+
+.diversification-row small,
+.correlation-row small,
+.stress-row small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.correlation-row {
+  display: grid;
+  grid-template-columns: 132px 1fr 52px;
+  gap: 12px;
+  align-items: center;
+  min-height: 48px;
+}
+
+.correlation-row small {
+  grid-column: 1 / -1;
+  margin-top: -6px;
+}
+
+.stress-row {
+  display: grid;
+  grid-template-columns: 1fr 64px;
+  gap: 8px 12px;
+  align-items: center;
+  min-height: 48px;
+  border-bottom: 1px solid var(--line);
+}
+
+.stress-row small {
+  grid-column: 1 / -1;
+}
+
 .target-policy-card h3 {
   margin: 0 0 20px;
   font-size: 20px;
@@ -1032,6 +1288,9 @@
   .asset-summary-grid,
   .asset-layout,
   .asset-trend-grid,
+  .risk-summary-grid,
+  .risk-main-grid,
+  .risk-lower-grid,
   .target-policy-table {
     grid-template-columns: 1fr;
   }
@@ -1051,7 +1310,10 @@
   .target-warning-row,
   .asset-detail-grid,
   .asset-holding-row,
-  .asset-policy-row {
+  .asset-policy-row,
+  .diversification-row,
+  .correlation-row,
+  .stress-row {
     grid-template-columns: 1fr;
   }
 
