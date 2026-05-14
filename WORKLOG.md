@@ -31,6 +31,7 @@ Implemented detailed pages/screens:
 - Backtest overview
 - Backtest > Universe
 - Backtest > Parameters
+- Backtest > Compare
 - Insights overview
 - Reports overview
 - Reports > Exports
@@ -220,11 +221,17 @@ Core pages touched recently:
   - correlation cluster drilldown with detail action
   - diversification diagnostics, high-correlation pairs, and stress scenario panels
   - CSV export through existing app action plumbing
+- Implemented `Backtest > Compare`:
+  - multi-strategy selector for saved strategies and benchmark rows
+  - indexed equity-curve comparison for selected strategies
+  - strategy metrics table for CAGR, total return, max drawdown, Sharpe, volatility, win rate, and turnover
+  - parameter variant comparison and recent monthly return ledger
+  - compare/export actions through existing app action plumbing
 
 ## Current Priority
 
 Next implementation priority:
-- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `backtest-compare`.
+- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `insights-options`, added as the preferred options-analysis page.
 - Options analysis should be added under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel later under `Research > Stock Detail`.
 - The options work should focus on options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
 
@@ -273,4 +280,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-14 after Allocation Risk implementation).
+Last known build status: passing (`npm.cmd run build`, 2026-05-14 after Backtest Compare implementation).

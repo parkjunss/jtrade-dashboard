@@ -500,6 +500,90 @@ export function getBacktestData(store = mockStore) {
   return store.backtest;
 }
 
+export function getBacktestCompareData(store = mockStore) {
+  return {
+    strategies: [
+      {
+        id: 'momentum-core',
+        name: 'Momentum Rotation',
+        benchmark: 'S&P 500',
+        dateRange: 'Jan 2020 - May 2025',
+        cagr: 19.6,
+        totalReturn: 148.3,
+        maxDrawdown: -12.4,
+        sharpe: 1.46,
+        volatility: 14.2,
+        winRate: 63,
+        finalValue: 248300,
+        turnover: 42,
+        series: [100, 116, 142, 133, 166, 205, 248],
+        params: { rebalance: 'Monthly', weighting: 'Risk parity', momentum: '12M', maxPosition: '28%' },
+      },
+      {
+        id: 'equal-weight',
+        name: 'Equal Weight Core',
+        benchmark: 'S&P 500',
+        dateRange: 'Jan 2020 - May 2025',
+        cagr: 15.2,
+        totalReturn: 112.4,
+        maxDrawdown: -16.8,
+        sharpe: 1.08,
+        volatility: 16.1,
+        winRate: 58,
+        finalValue: 212400,
+        turnover: 29,
+        series: [100, 111, 128, 120, 146, 178, 212],
+        params: { rebalance: 'Quarterly', weighting: 'Equal weight', momentum: 'None', maxPosition: '20%' },
+      },
+      {
+        id: 'defensive-tilt',
+        name: 'Defensive Tilt',
+        benchmark: '60/40 Portfolio',
+        dateRange: 'Jan 2020 - May 2025',
+        cagr: 11.8,
+        totalReturn: 82.7,
+        maxDrawdown: -7.9,
+        sharpe: 1.32,
+        volatility: 9.4,
+        winRate: 66,
+        finalValue: 182700,
+        turnover: 18,
+        series: [100, 106, 118, 116, 132, 156, 183],
+        params: { rebalance: 'Monthly', weighting: 'Volatility target', momentum: '6M', maxPosition: '18%' },
+      },
+      {
+        id: 'benchmark-sp500',
+        name: 'S&P 500',
+        benchmark: 'Benchmark',
+        dateRange: 'Jan 2020 - May 2025',
+        cagr: 9.4,
+        totalReturn: 63.2,
+        maxDrawdown: -18.6,
+        sharpe: 0.82,
+        volatility: 17.3,
+        winRate: 55,
+        finalValue: 163200,
+        turnover: 0,
+        series: [100, 109, 121, 112, 132, 149, 163],
+        params: { rebalance: 'None', weighting: 'Market cap', momentum: 'N/A', maxPosition: 'Index' },
+      },
+    ],
+    monthlyRows: [
+      { period: 'Jan 2026', momentum: 3.4, equalWeight: 2.6, defensive: 1.8, benchmark: 2.1 },
+      { period: 'Feb 2026', momentum: 4.9, equalWeight: 3.7, defensive: 2.2, benchmark: 3.0 },
+      { period: 'Mar 2026', momentum: 5.1, equalWeight: 3.8, defensive: 2.7, benchmark: 4.2 },
+      { period: 'Apr 2026', momentum: -1.2, equalWeight: -2.4, defensive: -0.6, benchmark: -0.6 },
+      { period: 'May 2026', momentum: 4.2, equalWeight: 2.9, defensive: 1.9, benchmark: 2.7 },
+    ],
+    parameterVariants: [
+      { name: 'Base', rebalance: 'Monthly', weighting: 'Risk parity', cagr: 19.6, drawdown: -12.4, sharpe: 1.46 },
+      { name: 'Lower turnover', rebalance: 'Quarterly', weighting: 'Risk parity', cagr: 17.8, drawdown: -13.2, sharpe: 1.31 },
+      { name: 'Equal weight', rebalance: 'Monthly', weighting: 'Equal weight', cagr: 15.9, drawdown: -15.6, sharpe: 1.12 },
+      { name: 'Defensive cap', rebalance: 'Monthly', weighting: 'Vol target', cagr: 16.4, drawdown: -9.8, sharpe: 1.41 },
+    ],
+  };
+}
+
 export function getReportsOverviewData(store = mockStore) {
   return store.reportsOverview;
 }

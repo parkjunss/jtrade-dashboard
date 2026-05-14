@@ -52,7 +52,7 @@ P0 page backlog is complete. Continue with cross-cutting polish or P1 page backl
 - [x] `holdings-sectors`: sector exposure dashboard, benchmark comparison, sector drilldown.
 - [x] `allocation-assets`: asset class drilldown, allocation trend chart.
 - [x] `allocation-risk`: concentration, diversification, beta, volatility, correlation/risk clusters.
-- `backtest-compare`: compare saved strategies, benchmarks, and parameter variants.
+- [x] `backtest-compare`: compare saved strategies, benchmarks, and parameter variants.
 - `insights-options`: options flow, put/call ratio, expiry/strike open interest, volume/OI changes, implied volatility skew, gamma exposure, dealer positioning, max pain, and expected-move signals for forecasting likely price-pressure zones.
 - `insights-sentiment`: sentiment by market/sector/holdings with drivers.
 - `insights-signals`: technical/macro/factor signal board.
