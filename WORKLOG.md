@@ -33,6 +33,7 @@ Implemented detailed pages/screens:
 - Backtest > Parameters
 - Backtest > Compare
 - Insights overview
+- Insights > Options
 - Reports overview
 - Reports > Exports
 - Research overview
@@ -227,13 +228,19 @@ Core pages touched recently:
   - strategy metrics table for CAGR, total return, max drawdown, Sharpe, volatility, win rate, and turnover
   - parameter variant comparison and recent monthly return ledger
   - compare/export actions through existing app action plumbing
+- Implemented `Insights > Options`:
+  - options-flow signal board for symbol-level bias, call/put premium, put/call ratio, IV rank, expected move, and pressure notes
+  - selected-symbol pressure panel with max pain, gamma wall, expiry, and premium balance
+  - expiry pressure rows with call/put share, open interest, gamma exposure, and expected move
+  - strike map for support/max-pain/gamma-wall zones
+  - export/detail actions through existing app action plumbing
 
 ## Current Priority
 
 Next implementation priority:
-- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `insights-options`, added as the preferred options-analysis page.
-- Options analysis should be added under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel later under `Research > Stock Detail`.
-- The options work should focus on options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
+- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `insights-sentiment`.
+- Options analysis now lives under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel still deferred under `Research > Stock Detail`.
+- Future options work should deepen options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
 
 Cross-cutting next tasks:
 - Continue migrating any remaining low-priority local data only when it is domain fixture data; keep pure UI config such as columns, option lists, and icon maps near the component unless reused.
@@ -280,4 +287,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-14 after Backtest Compare implementation).
+Last known build status: passing (`npm.cmd run build`, 2026-05-14 after Insights Options implementation).

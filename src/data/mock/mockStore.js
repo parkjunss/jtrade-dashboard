@@ -523,6 +523,33 @@ export const mockStore = {
       { icon: 'Radar', label: 'Breadth Score', value: '63 /100', sub: 'vs last month  Improving' },
       { icon: 'Activity', label: 'Volatility Regime', value: 'Mild', sub: 'vs last month  Unchanged' },
     ],
+    options: {
+      summary: [
+        { label: 'Options Flow Bias', value: 'Bullish', sub: 'Call premium leads by 1.8x', tone: 'green' },
+        { label: 'Put / Call Ratio', value: '0.68', sub: 'Below 20-day average 0.82', tone: 'green' },
+        { label: 'IV Rank', value: '62%', sub: 'Elevated into earnings window', tone: 'orange' },
+        { label: 'Dealer Gamma', value: '+$1.4B', sub: 'Positive gamma near spot', tone: 'green' },
+      ],
+      flowRows: [
+        { symbol: 'NVDA', sentiment: 'Bullish', callPremium: 184, putPremium: 72, putCall: 0.39, ivRank: 74, expectedMove: '+/-6.8%', maxPain: '$1,000', gammaWall: '$1,050', expiry: 'May 17', pressure: 'Upside pressure above $1,025' },
+        { symbol: 'MSFT', sentiment: 'Neutral', callPremium: 96, putPremium: 82, putCall: 0.85, ivRank: 48, expectedMove: '+/-3.1%', maxPain: '$410', gammaWall: '$420', expiry: 'May 17', pressure: 'Pinned between $410 and $420' },
+        { symbol: 'AAPL', sentiment: 'Bearish', callPremium: 64, putPremium: 112, putCall: 1.75, ivRank: 58, expectedMove: '+/-4.2%', maxPain: '$190', gammaWall: '$200', expiry: 'May 24', pressure: 'Put demand below $190' },
+        { symbol: 'TSM', sentiment: 'Bullish', callPremium: 72, putPremium: 31, putCall: 0.43, ivRank: 66, expectedMove: '+/-5.5%', maxPain: '$155', gammaWall: '$165', expiry: 'Jun 21', pressure: 'Call buildup at $165' },
+        { symbol: 'QQQ', sentiment: 'Bullish', callPremium: 210, putPremium: 188, putCall: 0.9, ivRank: 52, expectedMove: '+/-2.7%', maxPain: '$455', gammaWall: '$465', expiry: 'May 17', pressure: 'Index gamma support above $455' },
+      ],
+      expiryRows: [
+        { expiry: 'May 17', openInterest: 1180000, callShare: 61, putShare: 39, gamma: 1.4, expectedMove: 2.9 },
+        { expiry: 'May 24', openInterest: 760000, callShare: 54, putShare: 46, gamma: 0.6, expectedMove: 3.8 },
+        { expiry: 'Jun 21', openInterest: 1320000, callShare: 58, putShare: 42, gamma: -0.4, expectedMove: 6.2 },
+        { expiry: 'Sep 20', openInterest: 980000, callShare: 52, putShare: 48, gamma: -0.8, expectedMove: 9.5 },
+      ],
+      strikeRows: [
+        { strike: '$950', callOi: 52000, putOi: 74000, netGamma: -0.5, zone: 'Support test' },
+        { strike: '$1,000', callOi: 88000, putOi: 92000, netGamma: 0.2, zone: 'Max pain' },
+        { strike: '$1,050', callOi: 124000, putOi: 41000, netGamma: 1.1, zone: 'Gamma wall' },
+        { strike: '$1,100', callOi: 97000, putOi: 23000, netGamma: 0.7, zone: 'Upside magnet' },
+      ],
+    },
   },
 
   backtest: {

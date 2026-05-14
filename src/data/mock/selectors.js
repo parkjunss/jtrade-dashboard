@@ -496,6 +496,10 @@ export function getInsightsData(store = mockStore) {
   return store.insights;
 }
 
+export function getOptionsInsightsData(store = mockStore) {
+  return store.insights.options;
+}
+
 export function getBacktestData(store = mockStore) {
   return store.backtest;
 }

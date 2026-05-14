@@ -1,4 +1,4 @@
-import { Activity, BellRing, Gauge, Layers3, Newspaper, Sparkles } from 'lucide-react';
+import { Activity, BellRing, Gauge, Layers3, Newspaper, Sparkles, Waypoints } from 'lucide-react';
 import SidebarMenuList from './SidebarMenuList.jsx';
 
 const items = [
@@ -7,6 +7,7 @@ const items = [
   { id: 'insights-themes', label: 'Themes', Icon: Layers3 },
   { id: 'insights-news', label: 'News', Icon: Newspaper },
   { id: 'insights-signals', label: 'Signals', Icon: Activity },
+  { id: 'insights-options', label: 'Options', Icon: Waypoints },
   { id: 'insights-alerts', label: 'Alerts', Icon: BellRing },
 ];
 
