@@ -5,6 +5,17 @@
   animation: content-enter 280ms ease-out both;
 }
 
+.route-loading-state {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 36px;
+}
+
+.route-loading-state .status-state {
+  width: min(420px, 100%);
+}
+
 .top-grid {
   display: grid;
   grid-template-columns: 1.1fr 1.1fr 1.2fr;

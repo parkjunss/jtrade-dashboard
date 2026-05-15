@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
-import PerformancePage from './pages/PerformancePage.jsx';
-import AllocationPage from './pages/AllocationPage.jsx';
-import BacktestPage from './pages/BacktestPage.jsx';
-import HoldingsPage from './pages/HoldingsPage.jsx';
-import InsightsPage from './pages/InsightsPage.jsx';
-import ResearchPage from './pages/ResearchPage.jsx';
-import ReportsPage from './pages/ReportsPage.jsx';
-import SettingsPage from './pages/SettingsPage.jsx';
+import { Suspense, lazy, useEffect, useState } from 'react';
+
+const PerformancePage = lazy(() => import('./pages/PerformancePage.jsx'));
+const AllocationPage = lazy(() => import('./pages/AllocationPage.jsx'));
+const BacktestPage = lazy(() => import('./pages/BacktestPage.jsx'));
+const HoldingsPage = lazy(() => import('./pages/HoldingsPage.jsx'));
+const InsightsPage = lazy(() => import('./pages/InsightsPage.jsx'));
+const ResearchPage = lazy(() => import('./pages/ResearchPage.jsx'));
+const ReportsPage = lazy(() => import('./pages/ReportsPage.jsx'));
+const SettingsPage = lazy(() => import('./pages/SettingsPage.jsx'));
 
 const pages = {
   allocation: AllocationPage,
@@ -19,6 +20,17 @@ const pages = {
   settings: SettingsPage,
 };
 
+function PageLoadingState() {
+  return (
+    <main className="dashboard route-loading-state">
+      <section className="card status-state loading">
+        <strong>Loading dashboard page</strong>
+        <p>Preparing the selected workspace.</p>
+      </section>
+    </main>
+  );
+}
+
 export default function App() {
   const [activePage, setActivePage] = useState('performance');
   const [activeSidebarItem, setActiveSidebarItem] = useState('performance-overview');
@@ -29,11 +41,13 @@ export default function App() {
   }, [activePage]);
 
   return (
-    <ActivePage
-      activePage={activePage}
-      activeSidebarItem={activeSidebarItem}
-      onNavigate={setActivePage}
-      onSidebarSelect={setActiveSidebarItem}
-    />
+    <Suspense fallback={<PageLoadingState />}>
+      <ActivePage
+        activePage={activePage}
+        activeSidebarItem={activeSidebarItem}
+        onNavigate={setActivePage}
+        onSidebarSelect={setActiveSidebarItem}
+      />
+    </Suspense>
   );
 }

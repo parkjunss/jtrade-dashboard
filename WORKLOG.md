@@ -252,6 +252,11 @@ Core pages touched recently:
   - realized gains, dividend income, tax-lot action, and selected-document detail panels
   - tax summary cards for realized gains, dividends, wash sales, and estimated liability
   - document download/detail actions and realized-gains CSV export through existing app action plumbing
+- Added route-level code splitting:
+  - changed top-level page imports in `src/App.jsx` to `React.lazy`
+  - wrapped active page rendering in `Suspense` with a lightweight loading state
+  - split production JS into separate chunks for Performance, Holdings, Allocation, Research, Backtest, Insights, Reports, and Settings
+  - reduced the main production JS chunk from about 520 KB to about 203 KB
 
 ## Current Priority
 
@@ -305,4 +310,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-15 after Reports Tax implementation).
+Last known build status: passing (`npm.cmd run build`, 2026-05-15 after route-level code splitting).
