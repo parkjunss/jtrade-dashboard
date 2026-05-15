@@ -523,6 +523,49 @@ export const mockStore = {
       { icon: 'Radar', label: 'Breadth Score', value: '63 /100', sub: 'vs last month  Improving' },
       { icon: 'Activity', label: 'Volatility Regime', value: 'Mild', sub: 'vs last month  Unchanged' },
     ],
+    sentiment: {
+      summary: [
+        { label: 'Composite Sentiment', value: '72/100', sub: '+6 pts vs 20-day average', tone: 'green' },
+        { label: 'News Tone', value: 'Positive', sub: '64% positive headlines', tone: 'green' },
+        { label: 'Social Momentum', value: '+18%', sub: 'Mentions accelerating', tone: 'green' },
+        { label: 'Risk Tone', value: 'Balanced', sub: 'Volatility pressure contained', tone: 'neutral' },
+      ],
+      scopeRows: [
+        { scope: 'Market', score: 68, trend: '+4', positive: 58, neutral: 29, negative: 13, driver: 'Index breadth improved after softer rates data.' },
+        { scope: 'Technology', score: 81, trend: '+9', positive: 72, neutral: 18, negative: 10, driver: 'AI infrastructure and cloud capex commentary remain strong.' },
+        { scope: 'Healthcare', score: 55, trend: '-2', positive: 42, neutral: 40, negative: 18, driver: 'Defensive flows are stable, but revisions are mixed.' },
+        { scope: 'Energy', score: 38, trend: '-11', positive: 24, neutral: 33, negative: 43, driver: 'Crude inventory build and lower spot prices weigh on tone.' },
+        { scope: 'Portfolio Holdings', score: 74, trend: '+7', positive: 66, neutral: 22, negative: 12, driver: 'Mega-cap technology holdings offset bond and energy caution.' },
+      ],
+      driverRows: [
+        { name: 'AI capex checks', source: 'News + analyst notes', impact: 24, tone: 'Positive', scope: 'Technology', note: 'Supplier demand checks continue to support NVDA, TSM, and AVGO.' },
+        { name: 'Rate-cut timing', source: 'Macro commentary', impact: 12, tone: 'Positive', scope: 'Market', note: 'Softer inflation language reduced long-duration pressure.' },
+        { name: 'Oil inventory build', source: 'Commodities news', impact: -10, tone: 'Negative', scope: 'Energy', note: 'Energy headlines turned lower after crude storage data.' },
+        { name: 'Cloud margin revisions', source: 'Analyst revisions', impact: 15, tone: 'Positive', scope: 'Portfolio Holdings', note: 'MSFT and GOOGL revision tone improved over the last week.' },
+        { name: 'Policy uncertainty', source: 'Macro news', impact: -6, tone: 'Negative', scope: 'Market', note: 'Fed speakers still cap the top end of risk appetite.' },
+      ],
+      holdingRows: [
+        { symbol: 'NVDA', name: 'NVIDIA Corp.', score: 88, change: '+11', news: 76, social: 84, analyst: 92, driver: 'Blackwell demand checks and data center order visibility.' },
+        { symbol: 'MSFT', name: 'Microsoft Corp.', score: 78, change: '+6', news: 71, social: 63, analyst: 86, driver: 'Azure AI adoption and cloud margin stability.' },
+        { symbol: 'AAPL', name: 'Apple Inc.', score: 57, change: '-3', news: 46, social: 58, analyst: 64, driver: 'Hardware demand caution offsets services strength.' },
+        { symbol: 'TLT', name: '20+ Year Treasury Bond ETF', score: 44, change: '-8', news: 39, social: 31, analyst: 55, driver: 'Rate backup headlines keep duration sentiment soft.' },
+        { symbol: 'SPY', name: 'S&P 500 ETF', score: 69, change: '+4', news: 62, social: 66, analyst: 70, driver: 'Broad market breadth improved across cyclicals and technology.' },
+      ],
+      sourceRows: [
+        { source: 'News', positive: 64, neutral: 24, negative: 12, volume: '1,284 headlines', freshness: 'Updated 4m ago' },
+        { source: 'Social', positive: 58, neutral: 27, negative: 15, volume: '18.6K mentions', freshness: 'Updated 2m ago' },
+        { source: 'Analyst', positive: 61, neutral: 31, negative: 8, volume: '73 notes', freshness: 'Updated 21m ago' },
+        { source: 'Macro', positive: 46, neutral: 38, negative: 16, volume: '42 events', freshness: 'Updated 16m ago' },
+      ],
+      historyRows: [
+        { label: 'Apr 29', market: 59, portfolio: 65 },
+        { label: 'May 02', market: 61, portfolio: 67 },
+        { label: 'May 06', market: 57, portfolio: 63 },
+        { label: 'May 09', market: 64, portfolio: 70 },
+        { label: 'May 13', market: 66, portfolio: 72 },
+        { label: 'May 15', market: 68, portfolio: 74 },
+      ],
+    },
     options: {
       summary: [
         { label: 'Options Flow Bias', value: 'Bullish', sub: 'Call premium leads by 1.8x', tone: 'green' },

@@ -234,11 +234,16 @@ Core pages touched recently:
   - expiry pressure rows with call/put share, open interest, gamma exposure, and expected move
   - strike map for support/max-pain/gamma-wall zones
   - export/detail actions through existing app action plumbing
+- Implemented `Insights > Sentiment`:
+  - market, sector, and portfolio-holdings sentiment scope controls
+  - composite score cards, source mix, positive/neutral/negative breakdowns, and trend chart
+  - primary sentiment drivers filtered by selected scope with detail actions
+  - holdings sentiment table with news/social/analyst scores and CSV export through existing app action plumbing
 
 ## Current Priority
 
 Next implementation priority:
-- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `insights-sentiment`.
+- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `insights-signals`.
 - Options analysis now lives under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel still deferred under `Research > Stock Detail`.
 - Future options work should deepen options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
 
@@ -287,4 +292,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-14 after Insights Options implementation).
+Last known build status: passing (`npm.cmd run build`, 2026-05-15 after Insights Sentiment implementation).
