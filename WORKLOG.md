@@ -257,11 +257,17 @@ Core pages touched recently:
   - wrapped active page rendering in `Suspense` with a lightweight loading state
   - split production JS into separate chunks for Performance, Holdings, Allocation, Research, Backtest, Insights, Reports, and Settings
   - reduced the main production JS chunk from about 520 KB to about 203 KB
+- Started detail-page file extraction:
+  - moved `Reports > Tax` into `src/pages/reports/ReportsTaxPage.jsx`
+  - moved `Reports > Exports` into `src/pages/reports/ReportsExportsPage.jsx`
+  - moved report-specific shared UI helpers into `src/pages/reports/ReportPageShared.jsx`
+  - kept `src/pages/ReportsPage.jsx` focused on overview rendering and subpage routing
 
 ## Current Priority
 
 Next implementation priority:
 - P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `settings-data`.
+- Continue extracting large in-file detail pages into section folders, prioritizing `InsightsPage.jsx`, `HoldingsPage.jsx`, `AllocationPage.jsx`, `BacktestPage.jsx`, and `PerformancePage.jsx`.
 - Options analysis now lives under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel still deferred under `Research > Stock Detail`.
 - Future options work should deepen options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
 
@@ -310,4 +316,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-15 after route-level code splitting).
+Last known build status: passing (`npm.cmd run build`, 2026-05-15 after Reports detail-page extraction).

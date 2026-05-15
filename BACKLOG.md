@@ -39,6 +39,26 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
   - [x] migrate Backtest, Insights, Reports overview, Screener side metadata, and Allocation Targets fixture groups
   - [x] migrate legacy `src/data/mockData.js` shared fixtures into `src/data/mock/mockStore.js` and selectors
 
+- [~] Extract large detail pages into dedicated files:
+  - [x] `reports-tax`
+  - [x] `reports-exports`
+  - [ ] `insights-sentiment`
+  - [ ] `insights-signals`
+  - [ ] `insights-options`
+  - [ ] `holdings-positions`
+  - [ ] `holdings-movers`
+  - [ ] `holdings-sectors`
+  - [ ] `allocation-assets`
+  - [ ] `allocation-risk`
+  - [ ] `allocation-targets`
+  - [ ] `allocation-rebalance`
+  - [ ] `backtest-universe`
+  - [ ] `backtest-parameters`
+  - [ ] `backtest-compare`
+  - [ ] `performance-returns`
+  - [ ] `performance-benchmark`
+  - [ ] `performance-drawdown`
+
 ## Next Page Implementation Order
 
 P0 page backlog is complete. Continue with cross-cutting polish or P1 page backlog.
