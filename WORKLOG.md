@@ -37,6 +37,7 @@ Implemented detailed pages/screens:
 - Insights > Signals
 - Insights > Options
 - Reports overview
+- Reports > Tax
 - Reports > Exports
 - Research overview
 - Research > Stock Detail
@@ -246,11 +247,16 @@ Core pages touched recently:
   - selected-signal detail panel with strength, confidence, horizon, driver, and action guidance
   - technical ticker rows, macro indicator rows, factor signal rows, and portfolio-impact rows
   - signal trend chart and CSV export through existing app action plumbing
+- Implemented `Reports > Tax`:
+  - tax document center with year, type, status, and search filters
+  - realized gains, dividend income, tax-lot action, and selected-document detail panels
+  - tax summary cards for realized gains, dividends, wash sales, and estimated liability
+  - document download/detail actions and realized-gains CSV export through existing app action plumbing
 
 ## Current Priority
 
 Next implementation priority:
-- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `reports-tax`.
+- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `settings-data`.
 - Options analysis now lives under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel still deferred under `Research > Stock Detail`.
 - Future options work should deepen options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
 
@@ -299,4 +305,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-15 after Insights Signals implementation).
+Last known build status: passing (`npm.cmd run build`, 2026-05-15 after Reports Tax implementation).

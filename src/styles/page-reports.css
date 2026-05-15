@@ -708,7 +708,296 @@
   font-weight: 900;
 }
 
+.reports-tax-page {
+  display: grid;
+  gap: 18px;
+}
+
+.reports-tax-brief {
+  grid-column: span 2;
+}
+
+.tax-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.tax-summary-card,
+.tax-filter-card,
+.tax-documents-card,
+.tax-selected-card,
+.tax-actions-card,
+.realized-gains-card,
+.dividend-tax-card {
+  padding: 22px 26px;
+}
+
+.tax-summary-card {
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+.tax-summary-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+.tax-summary-card.red .tax-summary-icon {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.tax-summary-card.orange .tax-summary-icon {
+  background: #fff0c7;
+  color: #a76600;
+}
+
+.tax-summary-card.neutral .tax-summary-icon {
+  background: #eef1ea;
+  color: #5f675a;
+}
+
+.tax-summary-card span,
+.tax-summary-card small,
+.tax-documents-row small,
+.tax-selected-grid span,
+.tax-actions-card small,
+.tax-actions-card span,
+.tax-ledger-row small,
+.dividend-tax-row small {
+  color: var(--muted);
+}
+
+.tax-summary-card strong {
+  display: block;
+  margin: 5px 0;
+  font-size: 23px;
+}
+
+.tax-filter-card {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) repeat(3, 150px) 104px;
+  gap: 12px;
+  align-items: center;
+}
+
+.tax-filter-card > button {
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  font-weight: 900;
+}
+
+.tax-document-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 18px;
+  align-items: start;
+}
+
+.tax-documents-card,
+.realized-gains-card {
+  overflow-x: auto;
+}
+
+.tax-documents-table {
+  display: grid;
+  min-width: 1040px;
+  margin-top: 16px;
+}
+
+.tax-documents-head,
+.tax-documents-row {
+  display: grid;
+  grid-template-columns: 1.35fr 72px 136px 90px 112px 128px 96px;
+  gap: 14px;
+  align-items: center;
+}
+
+.tax-documents-head {
+  padding-bottom: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.tax-documents-row {
+  min-height: 62px;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.tax-documents-row.selected {
+  background: linear-gradient(90deg, rgba(164, 234, 37, 0.16), rgba(164, 234, 37, 0));
+}
+
+.tax-documents-row b small {
+  display: block;
+  margin-top: 4px;
+}
+
+.tax-documents-row strong {
+  justify-self: start;
+  min-width: 92px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: var(--green-soft);
+  color: var(--green-dark);
+  text-align: center;
+}
+
+.tax-documents-row strong.downloaded {
+  background: #f4f6f2;
+  color: #4d5448;
+}
+
+.tax-documents-row strong.sent {
+  background: #eef3ff;
+  color: #3e68c9;
+}
+
+.tax-detail-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.tax-selected-card > strong {
+  display: block;
+  margin: 18px 0;
+  font-size: 22px;
+}
+
+.tax-selected-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.tax-selected-grid div {
+  min-height: 70px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fbfcfa;
+}
+
+.tax-selected-grid b {
+  display: block;
+  margin-top: 6px;
+}
+
+.tax-selected-card > button,
+.realized-gains-card .report-card-heading button {
+  min-height: 38px;
+  margin-top: 16px;
+  border-radius: 19px;
+  padding: 0 14px;
+  background: #080908;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 900;
+}
+
+.tax-selected-card > button {
+  width: 100%;
+}
+
+.tax-actions-card h3,
+.dividend-tax-card h3 {
+  margin: 0 0 16px;
+  font-size: 20px;
+}
+
+.tax-actions-card button {
+  width: 100%;
+  min-height: 64px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  display: grid;
+  grid-template-columns: 1fr 84px;
+  gap: 4px 12px;
+  align-items: center;
+  text-align: left;
+}
+
+.tax-actions-card button span {
+  grid-column: 1 / -1;
+}
+
+.tax-lower-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(420px, 0.9fr);
+  gap: 18px;
+}
+
+.tax-ledger-table {
+  min-width: 980px;
+  margin-top: 16px;
+}
+
+.tax-ledger-head,
+.tax-ledger-row {
+  display: grid;
+  grid-template-columns: 72px 110px 104px 104px 104px 64px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.tax-ledger-head {
+  padding-bottom: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.tax-ledger-row {
+  min-height: 54px;
+  border-top: 1px solid var(--line);
+}
+
+.dividend-tax-row {
+  min-height: 58px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 92px 1fr 1fr 116px;
+  gap: 12px;
+  align-items: center;
+}
+
+.dividend-tax-row strong small {
+  display: block;
+  margin-top: 4px;
+}
+
+.dividend-tax-row b {
+  color: #4d5448;
+  font-size: 13px;
+}
+
 @media (max-width: 1400px) {
+  .tax-summary-grid,
+  .tax-filter-card,
+  .tax-document-grid,
+  .tax-lower-grid,
   .exports-kpi-grid,
   .exports-filter-card,
   .exports-history-grid {
@@ -717,6 +1006,13 @@
 }
 
 @media (max-width: 760px) {
+  .tax-documents-head,
+  .tax-documents-row,
+  .tax-selected-grid,
+  .tax-actions-card button,
+  .tax-ledger-head,
+  .tax-ledger-row,
+  .dividend-tax-row,
   .scheduled-export-row {
     grid-template-columns: 1fr;
   }

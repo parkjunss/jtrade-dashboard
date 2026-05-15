@@ -205,6 +205,41 @@ export const mockStore = {
       { name: 'Weekly Risk Snapshot', format: 'PDF', cadence: 'Friday close', status: 'Active' },
       { name: 'Holdings CSV', format: 'CSV', cadence: 'Monday open', status: 'Paused' },
     ],
+    tax: {
+      summary: [
+        { label: 'Realized Gain/Loss', value: '+$18,420', sub: '2025 year to date', tone: 'green' },
+        { label: 'Qualified Dividends', value: '$4,860', sub: 'Estimated taxable income', tone: 'neutral' },
+        { label: 'Wash Sale Adjustments', value: '$740', sub: '3 affected lots', tone: 'orange' },
+        { label: 'Est. Tax Liability', value: '$3,980', sub: 'Before carryforwards', tone: 'red' },
+      ],
+      documents: [
+        { id: 'tax-2025-gain', name: 'Realized Gains Summary', year: '2025', type: 'Realized Gains', format: 'CSV', status: 'Ready', date: 'May 15, 2026', size: '248 KB' },
+        { id: 'tax-2025-div', name: 'Dividend Income Detail', year: '2025', type: 'Dividends', format: 'PDF', status: 'Ready', date: 'May 15, 2026', size: '612 KB' },
+        { id: 'tax-2024-1099', name: 'Consolidated 1099 Package', year: '2024', type: '1099', format: 'PDF', status: 'Downloaded', date: 'Feb 18, 2026', size: '1.8 MB' },
+        { id: 'tax-2024-gain', name: 'Realized Gains Summary', year: '2024', type: 'Realized Gains', format: 'CSV', status: 'Downloaded', date: 'Feb 18, 2026', size: '302 KB' },
+        { id: 'tax-2024-div', name: 'Dividend Income Detail', year: '2024', type: 'Dividends', format: 'PDF', status: 'Sent', date: 'Feb 10, 2026', size: '580 KB' },
+        { id: 'tax-2023-1099', name: 'Consolidated 1099 Package', year: '2023', type: '1099', format: 'PDF', status: 'Ready', date: 'Feb 12, 2025', size: '1.5 MB' },
+      ],
+      realizedRows: [
+        { symbol: 'NVDA', term: 'Long-term', proceeds: 28640, cost: 19120, gain: 9520, rate: '15%', note: 'Trim after earnings gap' },
+        { symbol: 'AAPL', term: 'Long-term', proceeds: 12480, cost: 10150, gain: 2330, rate: '15%', note: 'Target rebalance sale' },
+        { symbol: 'TLT', term: 'Short-term', proceeds: 8920, cost: 9440, gain: -520, rate: '24%', note: 'Tax-loss harvest candidate' },
+        { symbol: 'QQQ', term: 'Short-term', proceeds: 18250, cost: 15160, gain: 3090, rate: '24%', note: 'Momentum rebalance' },
+      ],
+      dividendRows: [
+        { source: 'SPY', qualified: 1240, ordinary: 180, foreignTax: 0, payDate: 'Mar 28, 2026' },
+        { source: 'MSFT', qualified: 780, ordinary: 0, foreignTax: 0, payDate: 'Mar 14, 2026' },
+        { source: 'AAPL', qualified: 360, ordinary: 0, foreignTax: 0, payDate: 'Feb 13, 2026' },
+        { source: '005930.KS', qualified: 0, ordinary: 310, foreignTax: 47, payDate: 'Apr 22, 2026' },
+        { source: 'TLT', qualified: 0, ordinary: 1990, foreignTax: 0, payDate: 'Monthly' },
+      ],
+      lots: [
+        { symbol: 'TLT', shares: 120, acquired: 'Aug 08, 2025', unrealized: -680, days: 280, action: 'Harvest after wash-sale window' },
+        { symbol: 'AAPL', shares: 40, acquired: 'Mar 04, 2024', unrealized: 720, days: 803, action: 'Long-term gain eligible' },
+        { symbol: 'NVDA', shares: 22, acquired: 'Jan 12, 2024', unrealized: 7160, days: 854, action: 'High embedded gain' },
+        { symbol: 'QQQ', shares: 40, acquired: 'Aug 26, 2024', unrealized: 1462, days: 627, action: 'Wait for long-term rate' },
+      ],
+    },
   },
 
   performanceOverview: {

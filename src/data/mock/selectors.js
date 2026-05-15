@@ -145,6 +145,10 @@ export function getScheduledExports(store = mockStore) {
   return store.reports.scheduledExports;
 }
 
+export function getTaxReportsData(store = mockStore) {
+  return store.reports.tax;
+}
+
 export function getHoldingsSummaryCards(store = mockStore) {
   return store.holdings.summaryCards;
 }
