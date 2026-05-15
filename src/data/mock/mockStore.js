@@ -566,6 +566,58 @@ export const mockStore = {
         { label: 'May 15', market: 68, portfolio: 74 },
       ],
     },
+    signals: {
+      summary: [
+        { label: 'Signal Regime', value: 'Risk-on', sub: '7 of 11 signals constructive', tone: 'green' },
+        { label: 'Technical Breadth', value: '68%', sub: '+9 pts over 10 sessions', tone: 'green' },
+        { label: 'Macro Pressure', value: 'Neutral', sub: 'Rates and USD mixed', tone: 'neutral' },
+        { label: 'Factor Tilt', value: 'Quality Growth', sub: 'Momentum improving', tone: 'green' },
+      ],
+      categories: ['All', 'Technical', 'Macro', 'Factor'],
+      signalRows: [
+        { name: 'Index momentum', category: 'Technical', status: 'Bullish', strength: 82, confidence: 78, horizon: '2-6 weeks', driver: 'S&P 500 and Nasdaq remain above rising 50-day averages.', action: 'Keep equity exposure above policy weight.' },
+        { name: 'Market breadth', category: 'Technical', status: 'Bullish', strength: 68, confidence: 64, horizon: '1-4 weeks', driver: 'Advancers and new highs are broadening beyond mega-cap tech.', action: 'Favor diversified beta over single-name concentration.' },
+        { name: 'Volatility compression', category: 'Technical', status: 'Neutral', strength: 54, confidence: 59, horizon: '1-2 weeks', driver: 'Realized volatility eased, but skew remains elevated into events.', action: 'Avoid adding leverage until event risk clears.' },
+        { name: 'Rates impulse', category: 'Macro', status: 'Neutral', strength: 49, confidence: 61, horizon: '1-3 months', driver: '10-year yields are range-bound after softer inflation language.', action: 'Keep duration exposure near target.' },
+        { name: 'USD liquidity', category: 'Macro', status: 'Bearish', strength: 42, confidence: 57, horizon: '2-8 weeks', driver: 'Dollar strength and funding spreads are modest headwinds.', action: 'Trim emerging-market and FX-sensitive risk.' },
+        { name: 'Earnings revisions', category: 'Factor', status: 'Bullish', strength: 76, confidence: 72, horizon: '1-3 months', driver: 'AI, cloud, and semis revision breadth is still positive.', action: 'Overweight quality growth and semiconductors.' },
+        { name: 'Value rotation', category: 'Factor', status: 'Bearish', strength: 36, confidence: 62, horizon: '1-2 months', driver: 'Value factors lag as earnings momentum stays concentrated.', action: 'Stay selective in financials and energy.' },
+        { name: 'Quality factor', category: 'Factor', status: 'Bullish', strength: 71, confidence: 69, horizon: '1-3 months', driver: 'High-margin balance-sheet quality continues to lead.', action: 'Prefer cash-generative large caps.' },
+      ],
+      technicalRows: [
+        { symbol: 'SPY', signal: 'Trend follow', value: 74, trigger: 'Above 50D/200D', stance: 'Long bias' },
+        { symbol: 'QQQ', signal: 'Momentum', value: 82, trigger: 'RSI 61, MACD rising', stance: 'Overweight' },
+        { symbol: 'NVDA', signal: 'Breakout risk', value: 88, trigger: 'Near upper channel', stance: 'Hold gains' },
+        { symbol: 'TLT', signal: 'Mean reversion', value: 41, trigger: 'Below 50D', stance: 'Wait' },
+      ],
+      macroRows: [
+        { indicator: 'Rates', reading: 'Range-bound', score: 52, pressure: 'Neutral', note: '10Y yield consolidating below recent highs.' },
+        { indicator: 'USD', reading: 'Firm', score: 43, pressure: 'Headwind', note: 'Dollar strength pressures non-US exposure.' },
+        { indicator: 'Credit', reading: 'Benign', score: 66, pressure: 'Tailwind', note: 'Spreads remain tight and default stress is contained.' },
+        { indicator: 'Commodities', reading: 'Mixed', score: 48, pressure: 'Neutral', note: 'Oil weakness offsets gold stability.' },
+      ],
+      factorRows: [
+        { factor: 'Momentum', exposure: 1.15, signal: 76, contribution: 1.8, stance: 'Overweight' },
+        { factor: 'Quality', exposure: 1.21, signal: 71, contribution: 1.2, stance: 'Overweight' },
+        { factor: 'Growth', exposure: 1.34, signal: 74, contribution: 1.6, stance: 'Overweight' },
+        { factor: 'Value', exposure: 0.72, signal: 36, contribution: -0.4, stance: 'Underweight' },
+        { factor: 'Low Volatility', exposure: 0.88, signal: 54, contribution: 0.2, stance: 'Neutral' },
+      ],
+      impactRows: [
+        { area: 'US Stocks', weight: 42, signal: 'Bullish', action: 'Maintain overweight', impact: '+1.6%' },
+        { area: 'Korean Stocks', weight: 18, signal: 'Neutral', action: 'Watch USD/KRW', impact: '+0.2%' },
+        { area: 'Bonds', weight: 14, signal: 'Neutral', action: 'Keep near target', impact: '-0.1%' },
+        { area: 'Cash', weight: 10, signal: 'Bearish', action: 'Deploy selectively', impact: '-0.3%' },
+      ],
+      timeline: [
+        { label: 'Apr 15', technical: 58, macro: 46, factor: 63 },
+        { label: 'Apr 22', technical: 61, macro: 48, factor: 66 },
+        { label: 'Apr 29', technical: 57, macro: 44, factor: 64 },
+        { label: 'May 06', technical: 65, macro: 51, factor: 70 },
+        { label: 'May 13', technical: 68, macro: 49, factor: 73 },
+        { label: 'May 15', technical: 72, macro: 52, factor: 76 },
+      ],
+    },
     options: {
       summary: [
         { label: 'Options Flow Bias', value: 'Bullish', sub: 'Call premium leads by 1.8x', tone: 'green' },

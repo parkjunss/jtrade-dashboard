@@ -500,6 +500,10 @@ export function getSentimentInsightsData(store = mockStore) {
   return store.insights.sentiment;
 }
 
+export function getSignalsInsightsData(store = mockStore) {
+  return store.insights.signals;
+}
+
 export function getOptionsInsightsData(store = mockStore) {
   return store.insights.options;
 }

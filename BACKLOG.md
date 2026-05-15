@@ -55,7 +55,7 @@ P0 page backlog is complete. Continue with cross-cutting polish or P1 page backl
 - [x] `backtest-compare`: compare saved strategies, benchmarks, and parameter variants.
 - [x] `insights-options`: options flow, put/call ratio, expiry/strike open interest, volume/OI changes, implied volatility skew, gamma exposure, dealer positioning, max pain, and expected-move signals for forecasting likely price-pressure zones.
 - [x] `insights-sentiment`: sentiment by market/sector/holdings with drivers.
-- `insights-signals`: technical/macro/factor signal board.
+- [x] `insights-signals`: technical/macro/factor signal board.
 - `reports-tax`: tax document center, year/type filters, realized gains/dividends summary.
 - `settings-data`: broker/data/import connection manager.
 - `settings-notifications`: notification channel toggles and alert rule editor.
