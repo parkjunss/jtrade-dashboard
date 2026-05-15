@@ -42,9 +42,9 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
 - [~] Extract large detail pages into dedicated files:
   - [x] `reports-tax`
   - [x] `reports-exports`
-  - [ ] `insights-sentiment`
-  - [ ] `insights-signals`
-  - [ ] `insights-options`
+  - [x] `insights-sentiment`
+  - [x] `insights-signals`
+  - [x] `insights-options`
   - [ ] `holdings-positions`
   - [ ] `holdings-movers`
   - [ ] `holdings-sectors`
