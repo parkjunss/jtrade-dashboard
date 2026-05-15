@@ -45,9 +45,9 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
   - [x] `insights-sentiment`
   - [x] `insights-signals`
   - [x] `insights-options`
-  - [ ] `holdings-positions`
-  - [ ] `holdings-movers`
-  - [ ] `holdings-sectors`
+  - [x] `holdings-positions`
+  - [x] `holdings-movers`
+  - [x] `holdings-sectors`
   - [ ] `allocation-assets`
   - [ ] `allocation-risk`
   - [ ] `allocation-targets`
