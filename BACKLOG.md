@@ -55,9 +55,9 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
   - [x] `backtest-universe`
   - [x] `backtest-parameters`
   - [x] `backtest-compare`
-  - [ ] `performance-returns`
-  - [ ] `performance-benchmark`
-  - [ ] `performance-drawdown`
+  - [x] `performance-returns`
+  - [x] `performance-benchmark`
+  - [x] `performance-drawdown`
 
 ## Next Page Implementation Order
 

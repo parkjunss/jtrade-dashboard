@@ -287,12 +287,18 @@ Core pages touched recently:
   - moved `Backtest > Compare` into `src/pages/backtest/BacktestComparePage.jsx`
   - moved shared backtest helpers into `src/pages/backtest/BacktestPageShared.jsx`
   - kept `src/pages/BacktestPage.jsx` focused on overview rendering and subpage routing
+- Continued detail-page file extraction:
+  - moved `Performance > Returns` into `src/pages/performance/PerformanceReturnsPage.jsx`
+  - moved `Performance > Benchmark` into `src/pages/performance/PerformanceBenchmarkPage.jsx`
+  - moved `Performance > Drawdown` into `src/pages/performance/PerformanceDrawdownPage.jsx`
+  - moved shared performance chart/format helpers into `src/pages/performance/PerformancePageShared.jsx`
+  - kept `src/pages/PerformancePage.jsx` focused on overview rendering and subpage routing
 
 ## Current Priority
 
 Next implementation priority:
 - P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `settings-data`.
-- Continue extracting large in-file detail pages into section folders, prioritizing `PerformancePage.jsx`.
+- Continue extracting any remaining large in-file detail pages into section folders as they grow.
 - Options analysis now lives under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel still deferred under `Research > Stock Detail`.
 - Future options work should deepen options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
 
@@ -341,4 +347,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-16 after Backtest detail-page extraction).
+Last known build status: passing (`npm.cmd run build`, 2026-05-16 after Performance detail-page extraction).
