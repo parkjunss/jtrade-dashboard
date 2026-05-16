@@ -295,11 +295,20 @@ Core pages touched recently:
   - kept `src/pages/PerformancePage.jsx` focused on overview rendering and subpage routing
 - Added signed-in vs signed-out UI separation:
   - added `src/context/AuthContext.jsx` for a mock persisted auth session
-  - kept `Performance > Overview` visible as the public preview route
-  - added `src/pages/LockedPage.jsx` and `src/components/AuthPrompt.jsx` for login-required routes
+  - replaced the incorrect public `Performance > Overview` default with a public `Market` route
+  - added `src/pages/MarketPage.jsx` for market overview, indices, macro pulse, breadth, movers, headlines, and calendar
+  - added `src/components/ProtectedRoutePreview.jsx` and `src/components/AuthPrompt.jsx` for blur-overlay login prompts
   - gated protected dashboard routes in `src/App.jsx` while preserving the dashboard shell
+  - removed the empty locked-page replacement flow
   - wired `TopBar` profile identity, sign-in, and sign-out to auth state
-  - added locked-route/auth prompt styling in `src/styles/page-auth.css`
+  - added market page and protected-preview styling in `src/styles/page-market.css` and `src/styles/page-auth.css`
+- Implemented revised auth/public-route policy:
+  - no longer exposes `Performance > Overview` publicly because it depends on personal portfolio composition and returns
+  - uses the public `Market` page for non-logged-in users with market overview, index/rates/FX/commodity context, market brief, sector breadth, volatility, and public news
+  - allow public previews for market-level insights, basic screener/search, and public stock detail data only where no personal portfolio data is shown
+  - require login for all Performance, Holdings, Allocation, Backtest, Reports, Settings, personal Watchlist, saved strategies/screens, exports, tax lots, account data, and portfolio-based signals
+  - prefer showing the underlying protected page with a blur/overlay prompt instead of replacing it with an empty locked page
+  - use card-level protection for mixed public/private pages, for example public stock price/news plus blurred `Position in Portfolio`
 
 ## Current Priority
 
@@ -354,4 +363,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-16 after auth UI gating).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after public market page and blur-overlay auth gating).

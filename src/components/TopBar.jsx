@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
 
 const tabs = [
+  { id: 'market', label: 'Markets' },
   { id: 'performance', label: 'Performance' },
   { id: 'holdings', label: 'Holdings' },
   { id: 'allocation', label: 'Allocation' },

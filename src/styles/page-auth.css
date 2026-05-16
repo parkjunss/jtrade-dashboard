@@ -1,83 +1,41 @@
-.locked-page {
-  min-height: calc(100vh - 72px);
+.protected-route-preview {
+  position: relative;
+  min-height: 100vh;
 }
 
-.locked-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
-  gap: 28px;
-  align-items: stretch;
+.protected-route-content {
+  filter: blur(7px);
+  pointer-events: none;
+  user-select: none;
 }
 
-.locked-preview {
-  min-height: 520px;
-  display: grid;
-  align-content: center;
-  gap: 20px;
-  padding: clamp(28px, 5vw, 58px);
-  overflow: hidden;
+.protected-route-preview::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1800;
+  background: rgba(245, 248, 239, 0.48);
+  backdrop-filter: blur(1px);
 }
 
-.locked-icon {
-  width: 66px;
-  height: 66px;
-  border-radius: 50%;
-  background: #080908;
-  color: #fff;
+.protected-route-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1900;
   display: grid;
   place-items: center;
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.16);
+  padding: 28px;
 }
 
-.locked-preview > span,
+.protected-route-overlay .auth-card {
+  width: min(430px, 100%);
+}
+
 .auth-card > div > span {
   color: var(--green-dark);
   font-size: 13px;
   font-weight: 900;
   text-transform: uppercase;
-}
-
-.locked-preview h1 {
-  max-width: 720px;
-  margin: 0;
-  color: #10130f;
-  font-size: clamp(42px, 5vw, 72px);
-  line-height: 0.96;
-}
-
-.locked-preview p {
-  max-width: 680px;
-  margin: 0;
-  color: var(--muted);
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 1.55;
-}
-
-.locked-highlights {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 10px;
-}
-
-.locked-highlights div {
-  min-height: 86px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.72);
-  display: grid;
-  gap: 10px;
-  align-content: center;
-  padding: 16px;
-}
-
-.locked-highlights svg {
-  color: var(--green-dark);
-}
-
-.locked-highlights strong {
-  line-height: 1.28;
 }
 
 .auth-card {
@@ -149,14 +107,4 @@
 .auth-card > p {
   margin: 0;
   text-align: center;
-}
-
-@media (max-width: 980px) {
-  .locked-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .locked-highlights {
-    grid-template-columns: 1fr;
-  }
 }

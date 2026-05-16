@@ -1,7 +1,8 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { useAuth } from './context/AuthContext.jsx';
+import ProtectedRoutePreview from './components/ProtectedRoutePreview.jsx';
 
-const LockedPage = lazy(() => import('./pages/LockedPage.jsx'));
+const MarketPage = lazy(() => import('./pages/MarketPage.jsx'));
 const PerformancePage = lazy(() => import('./pages/PerformancePage.jsx'));
 const AllocationPage = lazy(() => import('./pages/AllocationPage.jsx'));
 const BacktestPage = lazy(() => import('./pages/BacktestPage.jsx'));
@@ -16,6 +17,7 @@ const pages = {
   backtest: BacktestPage,
   holdings: HoldingsPage,
   insights: InsightsPage,
+  market: MarketPage,
   performance: PerformancePage,
   research: ResearchPage,
   reports: ReportsPage,
@@ -23,7 +25,7 @@ const pages = {
 };
 
 function isPublicRoute(activePage, activeSidebarItem) {
-  return activePage === 'performance' && activeSidebarItem === 'performance-overview';
+  return activePage === 'market' && activeSidebarItem?.startsWith('market-');
 }
 
 function PageLoadingState() {
@@ -39,11 +41,10 @@ function PageLoadingState() {
 
 export default function App() {
   const { isAuthenticated } = useAuth();
-  const [activePage, setActivePage] = useState('performance');
-  const [activeSidebarItem, setActiveSidebarItem] = useState('performance-overview');
-  const ActivePage = pages[activePage] ?? PerformancePage;
+  const [activePage, setActivePage] = useState('market');
+  const [activeSidebarItem, setActiveSidebarItem] = useState('market-overview');
+  const ActivePage = pages[activePage] ?? MarketPage;
   const routeIsLocked = !isAuthenticated && !isPublicRoute(activePage, activeSidebarItem);
-  const RenderPage = routeIsLocked ? LockedPage : ActivePage;
 
   useEffect(() => {
     setActiveSidebarItem(`${activePage}-overview`);
@@ -51,12 +52,23 @@ export default function App() {
 
   return (
     <Suspense fallback={<PageLoadingState />}>
-      <RenderPage
-        activePage={activePage}
-        activeSidebarItem={activeSidebarItem}
-        onNavigate={setActivePage}
-        onSidebarSelect={setActiveSidebarItem}
-      />
+      {routeIsLocked ? (
+        <ProtectedRoutePreview>
+          <ActivePage
+            activePage={activePage}
+            activeSidebarItem={activeSidebarItem}
+            onNavigate={setActivePage}
+            onSidebarSelect={setActiveSidebarItem}
+          />
+        </ProtectedRoutePreview>
+      ) : (
+        <ActivePage
+          activePage={activePage}
+          activeSidebarItem={activeSidebarItem}
+          onNavigate={setActivePage}
+          onSidebarSelect={setActiveSidebarItem}
+        />
+      )}
     </Suspense>
   );
 }

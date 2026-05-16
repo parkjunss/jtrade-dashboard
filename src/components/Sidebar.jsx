@@ -2,6 +2,7 @@ import AllocationSidebarList from './sidebar/AllocationSidebarList.jsx';
 import BacktestSidebarList from './sidebar/BacktestSidebarList.jsx';
 import HoldingsSidebarList from './sidebar/HoldingsSidebarList.jsx';
 import InsightsSidebarList from './sidebar/InsightsSidebarList.jsx';
+import MarketSidebarList from './sidebar/MarketSidebarList.jsx';
 import PerformanceSidebarList from './sidebar/PerformanceSidebarList.jsx';
 import ResearchSidebarList from './sidebar/ResearchSidebarList.jsx';
 import ReportsSidebarList from './sidebar/ReportsSidebarList.jsx';
@@ -12,6 +13,7 @@ const sidebarLists = {
   backtest: BacktestSidebarList,
   holdings: HoldingsSidebarList,
   insights: InsightsSidebarList,
+  market: MarketSidebarList,
   performance: PerformanceSidebarList,
   research: ResearchSidebarList,
   reports: ReportsSidebarList,
