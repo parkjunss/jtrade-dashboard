@@ -52,9 +52,9 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
   - [x] `allocation-risk`
   - [x] `allocation-targets`
   - [x] `allocation-rebalance`
-  - [ ] `backtest-universe`
-  - [ ] `backtest-parameters`
-  - [ ] `backtest-compare`
+  - [x] `backtest-universe`
+  - [x] `backtest-parameters`
+  - [x] `backtest-compare`
   - [ ] `performance-returns`
   - [ ] `performance-benchmark`
   - [ ] `performance-drawdown`
