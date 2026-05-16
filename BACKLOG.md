@@ -48,10 +48,10 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
   - [x] `holdings-positions`
   - [x] `holdings-movers`
   - [x] `holdings-sectors`
-  - [ ] `allocation-assets`
-  - [ ] `allocation-risk`
-  - [ ] `allocation-targets`
-  - [ ] `allocation-rebalance`
+  - [x] `allocation-assets`
+  - [x] `allocation-risk`
+  - [x] `allocation-targets`
+  - [x] `allocation-rebalance`
   - [ ] `backtest-universe`
   - [ ] `backtest-parameters`
   - [ ] `backtest-compare`
