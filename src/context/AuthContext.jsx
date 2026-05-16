@@ -35,9 +35,17 @@ export function AuthProvider({ children }) {
   const value = useMemo(() => ({
     isAuthenticated: Boolean(user),
     user,
-    signIn: ({ email }) => {
+    signIn: ({ email, name } = {}) => {
       setUser({
         ...demoUser,
+        name: name?.trim() || demoUser.name,
+        email: email?.trim() || demoUser.email,
+      });
+    },
+    signUp: ({ email, name } = {}) => {
+      setUser({
+        ...demoUser,
+        name: name?.trim() || demoUser.name,
         email: email?.trim() || demoUser.email,
       });
     },

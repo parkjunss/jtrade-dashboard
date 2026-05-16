@@ -4,6 +4,10 @@
 }
 
 .protected-route-content {
+  position: relative;
+}
+
+.protected-route-content .dashboard > :not(.topbar) {
   filter: blur(7px);
   pointer-events: none;
   user-select: none;
@@ -12,23 +16,26 @@
 .protected-route-preview::after {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: 112px 0 0;
   z-index: 1800;
   background: rgba(245, 248, 239, 0.48);
   backdrop-filter: blur(1px);
+  pointer-events: none;
 }
 
 .protected-route-overlay {
   position: fixed;
-  inset: 0;
+  inset: 112px 0 0;
   z-index: 1900;
   display: grid;
   place-items: center;
   padding: 28px;
+  pointer-events: none;
 }
 
 .protected-route-overlay .auth-card {
   width: min(430px, 100%);
+  pointer-events: auto;
 }
 
 .auth-card > div > span {
@@ -102,6 +109,30 @@
   justify-content: center;
   gap: 9px;
   font-weight: 900;
+}
+
+.auth-mode-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(245, 248, 239, 0.9);
+  padding: 5px;
+}
+
+.auth-card .auth-mode-tabs button {
+  height: 38px;
+  border-radius: 13px;
+  background: transparent;
+  color: #4d5549;
+  box-shadow: none;
+  font-weight: 900;
+}
+
+.auth-card .auth-mode-tabs button.active {
+  background: #080908;
+  color: #fff;
 }
 
 .auth-card > p {

@@ -311,6 +311,7 @@ Core pages touched recently:
   - use card-level protection for mixed public/private pages, for example public stock price/news plus blurred `Position in Portfolio`
 - Replaced route loading text with a centered spinning loader so lazy page transitions do not show explanatory copy.
 - Fixed corrupted visible glyphs in dashboard market/mover cards, including `Market Snapshot` percent/status labels.
+- Updated signed-out protected-route preview so top navigation/sidebar remain clickable while private page content is blurred, and added a sign-in/sign-up toggle to the auth prompt.
 
 ## Current Priority
 
@@ -365,4 +366,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after dashboard visible-glyph cleanup).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after signed-out navigation/auth prompt update).
