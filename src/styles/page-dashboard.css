@@ -12,8 +12,13 @@
   padding: 36px;
 }
 
-.route-loading-state .status-state {
-  width: min(420px, 100%);
+.route-loading-spinner {
+  width: 52px;
+  height: 52px;
+  border: 5px solid rgba(8, 9, 8, 0.1);
+  border-top-color: var(--green-dark);
+  border-radius: 50%;
+  animation: spin 850ms linear infinite;
 }
 
 .top-grid {

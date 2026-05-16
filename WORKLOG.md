@@ -309,6 +309,7 @@ Core pages touched recently:
   - require login for all Performance, Holdings, Allocation, Backtest, Reports, Settings, personal Watchlist, saved strategies/screens, exports, tax lots, account data, and portfolio-based signals
   - prefer showing the underlying protected page with a blur/overlay prompt instead of replacing it with an empty locked page
   - use card-level protection for mixed public/private pages, for example public stock price/news plus blurred `Position in Portfolio`
+- Replaced route loading text with a centered spinning loader so lazy page transitions do not show explanatory copy.
 
 ## Current Priority
 
@@ -363,4 +364,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after public market page and blur-overlay auth gating).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after route loading spinner update).

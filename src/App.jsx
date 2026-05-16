@@ -31,10 +31,7 @@ function isPublicRoute(activePage, activeSidebarItem) {
 function PageLoadingState() {
   return (
     <main className="dashboard route-loading-state">
-      <section className="card status-state loading">
-        <strong>Loading dashboard page</strong>
-        <p>Preparing the selected workspace.</p>
-      </section>
+      <div className="route-loading-spinner" aria-label="Loading page" role="status" />
     </main>
   );
 }
