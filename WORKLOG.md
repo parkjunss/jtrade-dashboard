@@ -293,6 +293,12 @@ Core pages touched recently:
   - moved `Performance > Drawdown` into `src/pages/performance/PerformanceDrawdownPage.jsx`
   - moved shared performance chart/format helpers into `src/pages/performance/PerformancePageShared.jsx`
   - kept `src/pages/PerformancePage.jsx` focused on overview rendering and subpage routing
+- Added signed-in vs signed-out UI separation:
+  - added `src/context/AuthContext.jsx` for a mock persisted auth session
+  - added `src/pages/LoginPage.jsx` for the signed-out experience
+  - gated dashboard routes in `src/App.jsx` so unauthenticated users see the login screen
+  - wired `TopBar` profile identity and sign-out to auth state
+  - added login screen styling in `src/styles/page-auth.css`
 
 ## Current Priority
 
@@ -347,4 +353,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-16 after Performance detail-page extraction).
+Last known build status: passing (`npm.cmd run build`, 2026-05-16 after auth UI gating).

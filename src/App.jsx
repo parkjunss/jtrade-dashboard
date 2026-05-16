@@ -1,4 +1,6 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
+import { useAuth } from './context/AuthContext.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 
 const PerformancePage = lazy(() => import('./pages/PerformancePage.jsx'));
 const AllocationPage = lazy(() => import('./pages/AllocationPage.jsx'));
@@ -32,6 +34,7 @@ function PageLoadingState() {
 }
 
 export default function App() {
+  const { isAuthenticated } = useAuth();
   const [activePage, setActivePage] = useState('performance');
   const [activeSidebarItem, setActiveSidebarItem] = useState('performance-overview');
   const ActivePage = pages[activePage] ?? PerformancePage;
@@ -40,7 +43,7 @@ export default function App() {
     setActiveSidebarItem(`${activePage}-overview`);
   }, [activePage]);
 
-  return (
+  return isAuthenticated ? (
     <Suspense fallback={<PageLoadingState />}>
       <ActivePage
         activePage={activePage}
@@ -49,5 +52,7 @@ export default function App() {
         onSidebarSelect={setActiveSidebarItem}
       />
     </Suspense>
+  ) : (
+    <LoginPage />
   );
 }

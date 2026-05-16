@@ -2,6 +2,7 @@
 @import url("./layout.css");
 @import url("./components.css");
 @import url("./animations.css");
+@import url("./page-auth.css");
 @import url("./page-dashboard.css");
 @import url("./page-performance.css");
 @import url("./page-allocation.css");

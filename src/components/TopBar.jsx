@@ -1,5 +1,6 @@
 import { Bell, ChevronDown, CreditCard, LogOut, Settings, ShieldCheck, UserRound } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useAuth } from '../context/AuthContext.jsx';
 
 const tabs = [
   { id: 'performance', label: 'Performance' },
@@ -19,6 +20,7 @@ const notifications = [
 ];
 
 export default function TopBar({ activePage = 'performance', onNavigate }) {
+  const { signOut, user } = useAuth();
   const [openMenu, setOpenMenu] = useState(null);
   const profileAreaRef = useRef(null);
 
@@ -47,6 +49,11 @@ export default function TopBar({ activePage = 'performance', onNavigate }) {
 
   const toggleMenu = (menu) => {
     setOpenMenu((current) => (current === menu ? null : menu));
+  };
+
+  const handleSignOut = () => {
+    setOpenMenu(null);
+    signOut();
   };
 
   return (
@@ -103,20 +110,20 @@ export default function TopBar({ activePage = 'performance', onNavigate }) {
             type="button"
           >
             <div className="avatar" />
-            <div><b>Jun Portfolio</b><small>jvinstock</small></div>
+            <div><b>{user?.name}</b><small>{user?.username}</small></div>
             <ChevronDown size={17} />
           </button>
           {openMenu === 'profile' ? (
             <div className="topbar-dropdown profile-dropdown" role="menu">
               <div className="profile-summary">
                 <div className="avatar large" />
-                <div><strong>Jun Portfolio</strong><span>jvinstock@trade.app</span></div>
+                <div><strong>{user?.name}</strong><span>{user?.email}</span></div>
               </div>
               <button role="menuitem" type="button"><UserRound size={16} />Account</button>
               <button role="menuitem" type="button"><ShieldCheck size={16} />Security</button>
               <button role="menuitem" type="button"><CreditCard size={16} />Billing</button>
               <button role="menuitem" type="button"><Settings size={16} />Preferences</button>
-              <button className="danger" role="menuitem" type="button"><LogOut size={16} />Sign out</button>
+              <button className="danger" onClick={handleSignOut} role="menuitem" type="button"><LogOut size={16} />Sign out</button>
             </div>
           ) : null}
         </div>

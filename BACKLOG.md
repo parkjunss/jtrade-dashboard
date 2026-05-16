@@ -23,6 +23,7 @@ This file holds the detailed implementation backlog that was trimmed out of `WOR
 - [x] Frontend download utility and CSV export
 - [x] Toast auto-dismiss
 - [x] Route-level code splitting for top-level dashboard pages
+- [x] Mock auth session gating for signed-in vs signed-out UI
 - [x] Positions action behavior
 - [x] Existing visible-control interaction pass across Performance, Holdings, Screener, Stock Detail, and Backtest
 
