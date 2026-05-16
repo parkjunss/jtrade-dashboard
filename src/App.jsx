@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { useAuth } from './context/AuthContext.jsx';
-import LoginPage from './pages/LoginPage.jsx';
 
+const LockedPage = lazy(() => import('./pages/LockedPage.jsx'));
 const PerformancePage = lazy(() => import('./pages/PerformancePage.jsx'));
 const AllocationPage = lazy(() => import('./pages/AllocationPage.jsx'));
 const BacktestPage = lazy(() => import('./pages/BacktestPage.jsx'));
@@ -22,6 +22,10 @@ const pages = {
   settings: SettingsPage,
 };
 
+function isPublicRoute(activePage, activeSidebarItem) {
+  return activePage === 'performance' && activeSidebarItem === 'performance-overview';
+}
+
 function PageLoadingState() {
   return (
     <main className="dashboard route-loading-state">
@@ -38,21 +42,21 @@ export default function App() {
   const [activePage, setActivePage] = useState('performance');
   const [activeSidebarItem, setActiveSidebarItem] = useState('performance-overview');
   const ActivePage = pages[activePage] ?? PerformancePage;
+  const routeIsLocked = !isAuthenticated && !isPublicRoute(activePage, activeSidebarItem);
+  const RenderPage = routeIsLocked ? LockedPage : ActivePage;
 
   useEffect(() => {
     setActiveSidebarItem(`${activePage}-overview`);
   }, [activePage]);
 
-  return isAuthenticated ? (
+  return (
     <Suspense fallback={<PageLoadingState />}>
-      <ActivePage
+      <RenderPage
         activePage={activePage}
         activeSidebarItem={activeSidebarItem}
         onNavigate={setActivePage}
         onSidebarSelect={setActiveSidebarItem}
       />
     </Suspense>
-  ) : (
-    <LoginPage />
   );
 }

@@ -167,6 +167,22 @@
   align-items: center;
 }
 
+.topbar-signin {
+  height: 48px;
+  min-width: 112px;
+  border-radius: 24px;
+  background: #080908;
+  color: #fff;
+  font-weight: 900;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.topbar-signin:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 34px rgba(21, 24, 20, 0.16);
+}
+
 .topbar-menu-wrap {
   position: relative;
 }

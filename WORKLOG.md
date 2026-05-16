@@ -295,10 +295,11 @@ Core pages touched recently:
   - kept `src/pages/PerformancePage.jsx` focused on overview rendering and subpage routing
 - Added signed-in vs signed-out UI separation:
   - added `src/context/AuthContext.jsx` for a mock persisted auth session
-  - added `src/pages/LoginPage.jsx` for the signed-out experience
-  - gated dashboard routes in `src/App.jsx` so unauthenticated users see the login screen
-  - wired `TopBar` profile identity and sign-out to auth state
-  - added login screen styling in `src/styles/page-auth.css`
+  - kept `Performance > Overview` visible as the public preview route
+  - added `src/pages/LockedPage.jsx` and `src/components/AuthPrompt.jsx` for login-required routes
+  - gated protected dashboard routes in `src/App.jsx` while preserving the dashboard shell
+  - wired `TopBar` profile identity, sign-in, and sign-out to auth state
+  - added locked-route/auth prompt styling in `src/styles/page-auth.css`
 
 ## Current Priority
 

@@ -20,7 +20,7 @@ const notifications = [
 ];
 
 export default function TopBar({ activePage = 'performance', onNavigate }) {
-  const { signOut, user } = useAuth();
+  const { isAuthenticated, signIn, signOut, user } = useAuth();
   const [openMenu, setOpenMenu] = useState(null);
   const profileAreaRef = useRef(null);
 
@@ -72,61 +72,67 @@ export default function TopBar({ activePage = 'performance', onNavigate }) {
         ))}
       </nav>
       <div className="profile-area" ref={profileAreaRef}>
-        <div className={`topbar-menu-wrap ${openMenu === 'notifications' ? 'open' : ''}`}>
-          <button
-            aria-expanded={openMenu === 'notifications'}
-            aria-haspopup="menu"
-            className="bell"
-            onClick={() => toggleMenu('notifications')}
-            title="Notifications"
-            type="button"
-          >
-            <Bell size={18} />
-            <i />
-          </button>
-          {openMenu === 'notifications' ? (
-            <div className="topbar-dropdown notifications-dropdown" role="menu">
-              <div className="dropdown-head">
-                <strong>Notifications</strong>
-                <span>{notifications.length} new</span>
-              </div>
-              {notifications.map((item) => (
-                <button className="notification-item" key={item.id} role="menuitem" type="button">
-                  <span className={`notification-dot ${item.tone}`} />
-                  <b>{item.title}</b>
-                  <small>{item.meta}</small>
-                </button>
-              ))}
-              <button className="dropdown-footer" role="menuitem" type="button">View all notifications</button>
+        {isAuthenticated ? (
+          <>
+            <div className={`topbar-menu-wrap ${openMenu === 'notifications' ? 'open' : ''}`}>
+              <button
+                aria-expanded={openMenu === 'notifications'}
+                aria-haspopup="menu"
+                className="bell"
+                onClick={() => toggleMenu('notifications')}
+                title="Notifications"
+                type="button"
+              >
+                <Bell size={18} />
+                <i />
+              </button>
+              {openMenu === 'notifications' ? (
+                <div className="topbar-dropdown notifications-dropdown" role="menu">
+                  <div className="dropdown-head">
+                    <strong>Notifications</strong>
+                    <span>{notifications.length} new</span>
+                  </div>
+                  {notifications.map((item) => (
+                    <button className="notification-item" key={item.id} role="menuitem" type="button">
+                      <span className={`notification-dot ${item.tone}`} />
+                      <b>{item.title}</b>
+                      <small>{item.meta}</small>
+                    </button>
+                  ))}
+                  <button className="dropdown-footer" role="menuitem" type="button">View all notifications</button>
+                </div>
+              ) : null}
             </div>
-          ) : null}
-        </div>
-        <div className={`topbar-menu-wrap ${openMenu === 'profile' ? 'open' : ''}`}>
-          <button
-            aria-expanded={openMenu === 'profile'}
-            aria-haspopup="menu"
-            className="profile"
-            onClick={() => toggleMenu('profile')}
-            type="button"
-          >
-            <div className="avatar" />
-            <div><b>{user?.name}</b><small>{user?.username}</small></div>
-            <ChevronDown size={17} />
-          </button>
-          {openMenu === 'profile' ? (
-            <div className="topbar-dropdown profile-dropdown" role="menu">
-              <div className="profile-summary">
-                <div className="avatar large" />
-                <div><strong>{user?.name}</strong><span>{user?.email}</span></div>
-              </div>
-              <button role="menuitem" type="button"><UserRound size={16} />Account</button>
-              <button role="menuitem" type="button"><ShieldCheck size={16} />Security</button>
-              <button role="menuitem" type="button"><CreditCard size={16} />Billing</button>
-              <button role="menuitem" type="button"><Settings size={16} />Preferences</button>
-              <button className="danger" onClick={handleSignOut} role="menuitem" type="button"><LogOut size={16} />Sign out</button>
+            <div className={`topbar-menu-wrap ${openMenu === 'profile' ? 'open' : ''}`}>
+              <button
+                aria-expanded={openMenu === 'profile'}
+                aria-haspopup="menu"
+                className="profile"
+                onClick={() => toggleMenu('profile')}
+                type="button"
+              >
+                <div className="avatar" />
+                <div><b>{user?.name}</b><small>{user?.username}</small></div>
+                <ChevronDown size={17} />
+              </button>
+              {openMenu === 'profile' ? (
+                <div className="topbar-dropdown profile-dropdown" role="menu">
+                  <div className="profile-summary">
+                    <div className="avatar large" />
+                    <div><strong>{user?.name}</strong><span>{user?.email}</span></div>
+                  </div>
+                  <button role="menuitem" type="button"><UserRound size={16} />Account</button>
+                  <button role="menuitem" type="button"><ShieldCheck size={16} />Security</button>
+                  <button role="menuitem" type="button"><CreditCard size={16} />Billing</button>
+                  <button role="menuitem" type="button"><Settings size={16} />Preferences</button>
+                  <button className="danger" onClick={handleSignOut} role="menuitem" type="button"><LogOut size={16} />Sign out</button>
+                </div>
+              ) : null}
             </div>
-          ) : null}
-        </div>
+          </>
+        ) : (
+          <button className="topbar-signin" onClick={() => signIn({})} type="button">Sign in</button>
+        )}
       </div>
     </header>
   );
