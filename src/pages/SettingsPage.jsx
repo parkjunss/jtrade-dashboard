@@ -1,17 +1,26 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  AlertTriangle,
+  BellRing,
   Cable,
   CheckCircle2,
   ChevronDown,
   Clock3,
   Database,
   Download,
+  Hash,
+  Mail,
+  MessageSquare,
   PlugZap,
   RefreshCw,
   RotateCcw,
   Save,
+  Send,
   ServerCog,
   ShieldCheck,
+  SlidersHorizontal,
+  Smartphone,
+  Timer,
   UploadCloud,
   WalletCards,
 } from 'lucide-react';
@@ -21,10 +30,11 @@ import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import StatusState from '../components/StatusState.jsx';
 import { APP_ACTIONS } from '../services/appActions';
-import { getPortfolioSettings, getSettingsDataSources } from '../data/mock/selectors';
+import { getPortfolioSettings, getSettingsDataSources, getSettingsNotifications } from '../data/mock/selectors';
 
 const defaultPortfolioSettings = getPortfolioSettings();
 const defaultDataSettings = getSettingsDataSources();
+const defaultNotificationSettings = getSettingsNotifications();
 
 function SettingsDropdown({ label, options, value, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -363,6 +373,276 @@ function SettingsDataPage({ activePage, activeSidebarItem, onNavigate, onSidebar
   );
 }
 
+function channelIcon(channelId) {
+  if (channelId === 'email') return Mail;
+  if (channelId === 'push') return Smartphone;
+  if (channelId === 'sms') return MessageSquare;
+  if (channelId === 'slack') return Hash;
+  return BellRing;
+}
+
+function severityTone(severity) {
+  if (severity === 'Critical') return 'red';
+  if (severity === 'High') return 'orange';
+  if (severity === 'Low') return 'neutral';
+  return 'green';
+}
+
+function cloneNotificationSettings() {
+  return {
+    channels: defaultNotificationSettings.channels.map((channel) => ({ ...channel })),
+    rules: defaultNotificationSettings.rules.map((rule) => ({ ...rule, channels: [...rule.channels] })),
+    delivery: { ...defaultNotificationSettings.delivery },
+    recent: defaultNotificationSettings.recent,
+  };
+}
+
+function SettingsNotificationsPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
+  const { pendingAction, runAction } = useAppAction();
+  const [settings, setSettings] = useState(cloneNotificationSettings);
+  const [selectedRuleId, setSelectedRuleId] = useState(defaultNotificationSettings.rules[0]?.id);
+  const selectedRule = settings.rules.find((rule) => rule.id === selectedRuleId) ?? settings.rules[0];
+  const enabledChannels = settings.channels.filter((channel) => channel.enabled).length;
+  const activeRules = settings.rules.filter((rule) => rule.enabled).length;
+  const criticalRules = settings.rules.filter((rule) => rule.severity === 'Critical').length;
+  const changedItems = useMemo(() => {
+    const channelChanges = settings.channels.filter((channel) => {
+      const original = defaultNotificationSettings.channels.find((item) => item.id === channel.id);
+      return original && (
+        original.enabled !== channel.enabled ||
+        original.severity !== channel.severity ||
+        original.quietHours !== channel.quietHours
+      );
+    }).map((channel) => channel.name);
+    const ruleChanges = settings.rules.filter((rule) => {
+      const original = defaultNotificationSettings.rules.find((item) => item.id === rule.id);
+      return original && (
+        original.enabled !== rule.enabled ||
+        original.category !== rule.category ||
+        original.severity !== rule.severity ||
+        original.trigger !== rule.trigger ||
+        original.channels.join('|') !== rule.channels.join('|')
+      );
+    }).map((rule) => rule.name);
+    const deliveryChanges = Object.keys(settings.delivery).filter((key) => (
+      settings.delivery[key] !== defaultNotificationSettings.delivery[key]
+    ));
+
+    return [...channelChanges, ...ruleChanges, ...deliveryChanges];
+  }, [settings]);
+
+  const updateChannel = (id, patch) => {
+    setSettings((current) => ({
+      ...current,
+      channels: current.channels.map((channel) => (
+        channel.id === id ? { ...channel, ...patch } : channel
+      )),
+    }));
+  };
+
+  const updateRule = (id, patch) => {
+    setSettings((current) => ({
+      ...current,
+      rules: current.rules.map((rule) => (
+        rule.id === id ? { ...rule, ...patch } : rule
+      )),
+    }));
+  };
+
+  const toggleRuleChannel = (channelName) => {
+    const nextChannels = selectedRule.channels.includes(channelName)
+      ? selectedRule.channels.filter((item) => item !== channelName)
+      : [...selectedRule.channels, channelName];
+    updateRule(selectedRule.id, { channels: nextChannels });
+  };
+
+  const updateDelivery = (key, value) => {
+    setSettings((current) => ({ ...current, delivery: { ...current.delivery, [key]: value } }));
+  };
+
+  const resetNotificationSettings = () => {
+    setSettings(cloneNotificationSettings());
+    setSelectedRuleId(defaultNotificationSettings.rules[0]?.id);
+  };
+  const saveNotificationSettings = () => runAction(APP_ACTIONS.SAVE_NOTIFICATION_SETTINGS, {
+    channels: settings.channels,
+    rules: settings.rules,
+    delivery: settings.delivery,
+  });
+  const testNotificationChannel = (channel) => runAction(APP_ACTIONS.TEST_NOTIFICATION_CHANNEL, channel);
+
+  return (
+    <div className="app-shell">
+      <Sidebar activePage={activePage} activeItem={activeSidebarItem} onSelect={onSidebarSelect} />
+      <main className="dashboard settings-page settings-notifications-page">
+        <TopBar activePage={activePage} onNavigate={onNavigate} />
+
+        <section className="title-row">
+          <h1>Notifications</h1>
+          <div className="page-brief settings-brief">
+            <strong>Alert delivery controls</strong>
+            <p>Configure portfolio alerts, channel routing, severity thresholds, quiet hours, and escalation behavior for market, risk, research, and reporting events.</p>
+          </div>
+        </section>
+
+        <section className="settings-summary-grid">
+          <article className="card settings-summary-card"><span>Channels</span><strong>{enabledChannels}/{settings.channels.length}</strong><small>Enabled delivery routes</small></article>
+          <article className="card settings-summary-card"><span>Alert Rules</span><strong>{activeRules}</strong><small>Active notification rules</small></article>
+          <article className="card settings-summary-card"><span>Critical Rules</span><strong>{criticalRules}</strong><small>Escalation monitored</small></article>
+          <article className="card settings-summary-card"><span>Digest</span><strong>{settings.delivery.digestCadence}</strong><small>{settings.delivery.timezone}</small></article>
+        </section>
+
+        <section className="settings-layout settings-notification-layout">
+          <article className="card settings-form-card notification-channel-card">
+            <div className="settings-card-head">
+              <div><BellRing size={24} /><h3>Notification Channels</h3></div>
+              <div className="settings-actions">
+                <button onClick={resetNotificationSettings} type="button"><RotateCcw size={16} />Reset</button>
+                <button disabled={pendingAction === APP_ACTIONS.SAVE_NOTIFICATION_SETTINGS} onClick={saveNotificationSettings} type="button"><Save size={16} />Save</button>
+              </div>
+            </div>
+
+            <div className="notification-channel-list">
+              {settings.channels.map((channel) => {
+                const Icon = channelIcon(channel.id);
+
+                return (
+                  <div className="notification-channel-row" key={channel.id}>
+                    <span className="data-source-icon"><Icon size={18} /></span>
+                    <span className="data-source-main">
+                      <strong>{channel.name}</strong>
+                      <small>{channel.destination}</small>
+                    </span>
+                    <span className={`data-status ${channel.enabled ? 'green' : 'neutral'}`}>{channel.health}</span>
+                    <label className="settings-toggle">
+                      <input
+                        checked={channel.enabled}
+                        onChange={(event) => updateChannel(channel.id, { enabled: event.target.checked })}
+                        type="checkbox"
+                      />
+                      <span>{channel.enabled ? 'Enabled' : 'Paused'}</span>
+                    </label>
+                    <SettingsDropdown
+                      label="Severity"
+                      onChange={(value) => updateChannel(channel.id, { severity: value })}
+                      options={['All alerts', 'Medium and above', 'High and critical', 'Critical only']}
+                      value={channel.severity}
+                    />
+                    <button
+                      className="notification-test-button"
+                      disabled={pendingAction === APP_ACTIONS.TEST_NOTIFICATION_CHANNEL}
+                      onClick={() => testNotificationChannel(channel)}
+                      type="button"
+                    >
+                      <Send size={15} />Test
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </article>
+
+          <aside className="settings-side-stack">
+            <article className="card settings-side-card notification-rule-card">
+              <div className="data-detail-head">
+                <h3>{selectedRule.name}</h3>
+                <label className="settings-toggle">
+                  <input
+                    checked={selectedRule.enabled}
+                    onChange={(event) => updateRule(selectedRule.id, { enabled: event.target.checked })}
+                    type="checkbox"
+                  />
+                  <span>{selectedRule.enabled ? 'Active' : 'Paused'}</span>
+                </label>
+              </div>
+
+              <div className="settings-form-grid notification-rule-editor">
+                <SettingsDropdown label="Category" onChange={(value) => updateRule(selectedRule.id, { category: value })} options={['Market', 'Portfolio', 'Research', 'Risk', 'Reports']} value={selectedRule.category} />
+                <SettingsDropdown label="Severity" onChange={(value) => updateRule(selectedRule.id, { severity: value })} options={['Low', 'Medium', 'High', 'Critical']} value={selectedRule.severity} />
+                <label className="settings-text-field notification-trigger-field"><span>Trigger</span><input onChange={(event) => updateRule(selectedRule.id, { trigger: event.target.value })} value={selectedRule.trigger} /></label>
+              </div>
+
+              <div className="notification-channel-picks">
+                {settings.channels.map((channel) => (
+                  <button
+                    className={selectedRule.channels.includes(channel.name) ? 'active' : ''}
+                    key={channel.id}
+                    onClick={() => toggleRuleChannel(channel.name)}
+                    type="button"
+                  >
+                    {channel.name}
+                  </button>
+                ))}
+              </div>
+            </article>
+
+            <article className="card settings-side-card">
+              <h3>Unsaved Changes</h3>
+              {changedItems.length ? (
+                <div className="settings-chip-list">{changedItems.map((item) => <span key={item}>{item}</span>)}</div>
+              ) : <StatusState title="No changes" message="Notification settings match the default configuration." />}
+            </article>
+          </aside>
+        </section>
+
+        <section className="settings-data-lower notification-lower">
+          <article className="card settings-form-card">
+            <div className="settings-card-head">
+              <div><Timer size={24} /><h3>Delivery Preferences</h3></div>
+            </div>
+            <div className="settings-form-grid">
+              <SettingsDropdown label="Digest Cadence" onChange={(value) => updateDelivery('digestCadence', value)} options={['Real-time only', 'Hourly digest', 'Daily market close', 'Weekly summary']} value={settings.delivery.digestCadence} />
+              <SettingsDropdown label="Quiet Hours" onChange={(value) => updateDelivery('quietHours', value)} options={['Disabled', '22:00 - 07:00', '21:00 - 08:00', 'Weekends only']} value={settings.delivery.quietHours} />
+              <SettingsDropdown label="Timezone" onChange={(value) => updateDelivery('timezone', value)} options={['Asia/Seoul', 'America/New_York', 'UTC', 'Europe/London']} value={settings.delivery.timezone} />
+              <SettingsDropdown label="Escalation" onChange={(value) => updateDelivery('escalation', value)} options={['Disabled', 'Critical after 10 minutes', 'Critical after 30 minutes', 'High and critical after 30 minutes']} value={settings.delivery.escalation} />
+            </div>
+          </article>
+
+          <article className="card settings-form-card notification-rules-table-card">
+            <div className="settings-card-head">
+              <div><SlidersHorizontal size={24} /><h3>Alert Rules</h3></div>
+            </div>
+            <div className="settings-table-wrap">
+              <table className="settings-data-table">
+                <thead>
+                  <tr><th>Rule</th><th>Category</th><th>Severity</th><th>Channels</th><th>Last Triggered</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  {settings.rules.map((rule) => (
+                    <tr className={selectedRule.id === rule.id ? 'active-row' : ''} key={rule.id} onClick={() => setSelectedRuleId(rule.id)}>
+                      <td>{rule.name}</td>
+                      <td>{rule.category}</td>
+                      <td><span className={`data-status ${severityTone(rule.severity)}`}>{rule.severity}</span></td>
+                      <td>{rule.channels.join(', ')}</td>
+                      <td>{rule.lastTriggered}</td>
+                      <td>{rule.enabled ? 'Active' : 'Paused'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article className="card settings-form-card data-quality-card notification-recent-card">
+            <div className="settings-card-head">
+              <div><AlertTriangle size={24} /><h3>Recent Notifications</h3></div>
+            </div>
+            <div className="notification-recent-list">
+              {settings.recent.map((item) => (
+                <div key={item.id}>
+                  <span className={`data-status ${severityTone(item.severity)}`}>{item.severity}</span>
+                  <strong>{item.title}</strong>
+                  <small>{item.category} / {item.channel} / {item.time} / {item.status}</small>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  );
+}
+
 export default function SettingsPage(props) {
   if (props.activeSidebarItem === 'settings-portfolio') {
     return <SettingsPortfolioPage {...props} />;
@@ -370,6 +650,10 @@ export default function SettingsPage(props) {
 
   if (props.activeSidebarItem === 'settings-data') {
     return <SettingsDataPage {...props} />;
+  }
+
+  if (props.activeSidebarItem === 'settings-notifications') {
+    return <SettingsNotificationsPage {...props} />;
   }
 
   return <SubPageShell {...props} fallbackTitle="Settings" />;

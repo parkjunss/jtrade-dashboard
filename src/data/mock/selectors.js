@@ -30,6 +30,10 @@ export function getSettingsDataSources(store = mockStore) {
   return store.settingsData;
 }
 
+export function getSettingsNotifications(store = mockStore) {
+  return store.settingsNotifications;
+}
+
 export function getPortfolioSummary(store = mockStore) {
   const positionsValue = store.positions.reduce((sum, position) => {
     const security = store.securities[position.symbol];

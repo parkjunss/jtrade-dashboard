@@ -94,6 +94,34 @@ export const mockStore = {
     },
   },
 
+  settingsNotifications: {
+    channels: [
+      { id: 'email', name: 'Email', destination: 'sarah.kim@qortrade.local', enabled: true, severity: 'All alerts', quietHours: '22:00 - 07:00', health: 'Verified' },
+      { id: 'push', name: 'Push', destination: 'iPhone + Desktop', enabled: true, severity: 'High and critical', quietHours: '22:00 - 07:00', health: 'Active' },
+      { id: 'sms', name: 'SMS', destination: '+82 10-0000-0142', enabled: false, severity: 'Critical only', quietHours: 'Always allowed', health: 'Paused' },
+      { id: 'slack', name: 'Team Channel', destination: '#portfolio-alerts', enabled: true, severity: 'Medium and above', quietHours: 'Weekends muted', health: 'Connected' },
+    ],
+    rules: [
+      { id: 'price-move', name: 'Large price move', category: 'Market', trigger: 'Position moves +/- 3% intraday', severity: 'High', channels: ['Email', 'Push'], enabled: true, lastTriggered: 'Today 10:18' },
+      { id: 'drift', name: 'Allocation drift', category: 'Portfolio', trigger: 'Asset group outside target tolerance', severity: 'Medium', channels: ['Email', 'Team Channel'], enabled: true, lastTriggered: 'Yesterday 16:45' },
+      { id: 'earnings', name: 'Earnings window', category: 'Research', trigger: 'Holding reports within 3 trading days', severity: 'Medium', channels: ['Email'], enabled: true, lastTriggered: 'May 15, 2026' },
+      { id: 'risk', name: 'Risk threshold breach', category: 'Risk', trigger: 'Beta or concentration above policy band', severity: 'Critical', channels: ['Email', 'Push', 'SMS'], enabled: true, lastTriggered: 'May 13, 2026' },
+      { id: 'export', name: 'Export completed', category: 'Reports', trigger: 'Scheduled report finishes or fails', severity: 'Low', channels: ['Email'], enabled: false, lastTriggered: 'May 01, 2026' },
+    ],
+    delivery: {
+      digestCadence: 'Daily market close',
+      quietHours: '22:00 - 07:00',
+      timezone: 'Asia/Seoul',
+      escalation: 'Critical after 10 minutes',
+    },
+    recent: [
+      { id: 'notif-001', title: 'NVDA moved +3.2%', category: 'Market', severity: 'High', channel: 'Push', time: 'Today 10:18', status: 'Delivered' },
+      { id: 'notif-002', title: 'US Stocks drifted +2.0% above target', category: 'Portfolio', severity: 'Medium', channel: 'Team Channel', time: 'Yesterday 16:45', status: 'Delivered' },
+      { id: 'notif-003', title: 'NVDA earnings window opened', category: 'Research', severity: 'Medium', channel: 'Email', time: 'May 15, 2026', status: 'Opened' },
+      { id: 'notif-004', title: 'Top 3 concentration crossed policy band', category: 'Risk', severity: 'Critical', channel: 'SMS', time: 'May 13, 2026', status: 'Acknowledged' },
+    ],
+  },
+
   benchmarks: {
     SP500: { id: 'SP500', name: 'S&P 500', returnYtd: 12.4 },
     NDX: { id: 'NDX', name: 'Nasdaq 100', returnYtd: 16.8 },

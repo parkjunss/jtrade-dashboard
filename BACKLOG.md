@@ -81,7 +81,7 @@ P0 page backlog is complete. Continue with cross-cutting polish or P1 page backl
 - [x] `insights-signals`: technical/macro/factor signal board.
 - [x] `reports-tax`: tax document center, year/type filters, realized gains/dividends summary.
 - [x] `settings-data`: broker/data/import connection manager.
-- `settings-notifications`: notification channel toggles and alert rule editor.
+- [x] `settings-notifications`: notification channel toggles and alert rule editor.
 
 ## P2 Page Backlog
 

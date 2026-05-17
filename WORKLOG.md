@@ -43,6 +43,8 @@ Implemented detailed pages/screens:
 - Research > Stock Detail
 - Research > Screener
 - Settings > Portfolio
+- Settings > Data Sources
+- Settings > Notifications
 - Research > Compare
 
 Placeholder behavior:
@@ -343,11 +345,17 @@ Core pages touched recently:
 - Fixed Allocation detail runtime errors:
   - added missing `Target` icon import in `Allocation > Targets`
   - moved the shared `money` helper back into `Allocation > Rebalance`, where the plan rows actually use it
+- Implemented `Settings > Notifications`:
+  - channel manager for Email, Push, SMS, and team-channel delivery backed by centralized mock store data
+  - editable alert rules with category, severity, trigger text, active/paused state, and channel routing chips
+  - delivery preferences for digest cadence, quiet hours, timezone, and escalation policy
+  - mock save and test-notification actions wired through shared action constants, endpoint mapping, and mock backend feedback
+  - recent notifications panel, selected-rule table, unsaved-change tracking, and responsive Settings styling
 
 ## Current Priority
 
 Next implementation priority:
-- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `settings-notifications`.
+- P0 and current P1 page backlog items are complete. Continue with P2 settings/profile/security pages or cross-cutting polish.
 - Continue extracting any remaining large in-file detail pages into section folders as they grow.
 - Options analysis now lives under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel still deferred under `Research > Stock Detail`.
 - Future options work should deepen options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
@@ -397,4 +405,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Allocation detail runtime fixes).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Settings Notifications implementation).
