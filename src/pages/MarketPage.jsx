@@ -50,7 +50,6 @@ export default function MarketPage({ activePage, activeSidebarItem, onNavigate, 
 
   return (
     <div className="app-shell">
-      <Sidebar activePage={activePage} activeItem={activeSidebarItem} onSelect={onSidebarSelect} />
       <main className="dashboard market-page">
         <TopBar activePage={activePage} onNavigate={onNavigate} />
 

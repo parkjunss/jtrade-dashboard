@@ -19,9 +19,7 @@
   padding: 22px 26px;
 }
 
-.settings-summary-card {
-  background: linear-gradient(180deg, #fff, var(--surface));
-}
+
 
 .settings-summary-card span,
 .settings-summary-card small,
