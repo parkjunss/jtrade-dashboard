@@ -14,10 +14,13 @@ const APP_ENDPOINTS = {
   [APP_ACTIONS.RUN_BACKTEST]: { method: 'POST', path: '/backtests/run' },
   [APP_ACTIONS.RUN_SCREEN]: { method: 'POST', path: '/screener/run' },
   [APP_ACTIONS.SAVE_ALLOCATION_TARGETS]: { method: 'POST', path: '/allocation/targets' },
+  [APP_ACTIONS.SAVE_DATA_CONNECTIONS]: { method: 'POST', path: '/settings/data-connections' },
   [APP_ACTIONS.SAVE_PORTFOLIO_SETTINGS]: { method: 'POST', path: '/settings/portfolio' },
   [APP_ACTIONS.SAVE_SCREEN]: { method: 'POST', path: '/screener/saved' },
   [APP_ACTIONS.SAVE_STRATEGY]: { method: 'POST', path: '/strategies' },
   [APP_ACTIONS.SAVE_UNIVERSE_PRESET]: { method: 'POST', path: '/backtests/universes' },
+  [APP_ACTIONS.SYNC_DATA_CONNECTION]: { method: 'POST', path: '/settings/data-connections/sync' },
+  [APP_ACTIONS.TEST_DATA_CONNECTION]: { method: 'POST', path: '/settings/data-connections/test' },
   [APP_ACTIONS.VIEW_DETAILS]: { method: 'GET', path: '/details' },
   [APP_ACTIONS.VIEW_OPTIONS]: { method: 'GET', path: '/options' },
 };

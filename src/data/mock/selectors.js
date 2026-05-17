@@ -26,6 +26,10 @@ export function getPortfolioSettings(store = mockStore) {
   return store.settings;
 }
 
+export function getSettingsDataSources(store = mockStore) {
+  return store.settingsData;
+}
+
 export function getPortfolioSummary(store = mockStore) {
   const positionsValue = store.positions.reduce((sum, position) => {
     const security = store.securities[position.symbol];

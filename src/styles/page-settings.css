@@ -193,11 +193,226 @@
   font-weight: 800;
 }
 
+.settings-data-layout {
+  grid-template-columns: minmax(0, 1.1fr) 420px;
+}
+
+.data-source-list {
+  display: grid;
+  gap: 10px;
+}
+
+.data-source-row {
+  width: 100%;
+  min-height: 76px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto 58px;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.data-source-row.active {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-soft);
+}
+
+.data-source-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green-dark);
+  display: grid;
+  place-items: center;
+}
+
+.data-source-main {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.data-source-main strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-source-main small,
+.data-detail-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.data-status {
+  min-height: 28px;
+  border-radius: 14px;
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.data-status.green {
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+.data-status.orange {
+  background: rgba(255, 183, 77, 0.22);
+  color: #9a5b00;
+}
+
+.data-status.red {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b42318;
+}
+
+.data-health {
+  color: #171a16;
+  font-weight: 900;
+  text-align: right;
+}
+
+.data-detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.data-detail-head h3 {
+  margin: 0;
+}
+
+.settings-toggle {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  padding: 0 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.settings-toggle input {
+  accent-color: var(--green);
+}
+
+.data-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.data-detail-grid div {
+  min-height: 68px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  align-content: center;
+  gap: 5px;
+}
+
+.data-scope-list {
+  margin-bottom: 16px;
+}
+
+.data-detail-actions {
+  margin-top: 14px;
+}
+
+.settings-data-lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 18px;
+}
+
+.import-queue-card,
+.data-quality-card {
+  min-width: 0;
+}
+
+.data-quality-card {
+  grid-column: span 2;
+}
+
+.settings-table-wrap {
+  overflow-x: auto;
+}
+
+.settings-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 680px;
+}
+
+.settings-data-table th,
+.settings-data-table td {
+  border-top: 1px solid var(--line);
+  padding: 13px 10px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.settings-data-table th {
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.settings-data-table td {
+  font-weight: 800;
+}
+
+.data-quality-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.data-quality-list div {
+  min-height: 58px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.data-quality-list svg {
+  flex: 0 0 auto;
+  color: var(--green-dark);
+}
+
 @media (max-width: 1400px) {
   .settings-summary-grid,
   .settings-layout,
-  .settings-form-grid {
+  .settings-form-grid,
+  .settings-data-lower,
+  .data-quality-list {
     grid-template-columns: 1fr;
+  }
+
+  .data-quality-card {
+    grid-column: auto;
   }
 }
 
@@ -207,5 +422,14 @@
     display: grid;
     grid-template-columns: 1fr;
     align-items: stretch;
+  }
+
+  .data-source-row,
+  .data-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .data-health {
+    text-align: left;
   }
 }

@@ -312,11 +312,16 @@ Core pages touched recently:
 - Replaced route loading text with a centered spinning loader so lazy page transitions do not show explanatory copy.
 - Fixed corrupted visible glyphs in dashboard market/mover cards, including `Market Snapshot` percent/status labels.
 - Updated signed-out protected-route preview so top navigation/sidebar remain clickable while private page content is blurred, and added a sign-in/sign-up toggle to the auth prompt.
+- Implemented `Settings > Data Sources`:
+  - broker, market data, CSV import, and exchange-calendar connection manager backed by centralized mock store data
+  - connection health summary, source selection, enabled/paused toggle, sync cadence control, and scope chips
+  - mock actions for saving data connection settings, testing a connection, and starting a source sync
+  - import rules controls, CSV template download, import queue table, and data quality check panel
 
 ## Current Priority
 
 Next implementation priority:
-- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `settings-data`.
+- P0 page backlog is complete. Continue the P1 page backlog; next page candidate is `settings-notifications`.
 - Continue extracting any remaining large in-file detail pages into section folders as they grow.
 - Options analysis now lives under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel still deferred under `Research > Stock Detail`.
 - Future options work should deepen options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
@@ -366,4 +371,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after signed-out navigation/auth prompt update).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Settings Data Sources implementation).

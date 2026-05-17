@@ -8,10 +8,13 @@ export const APP_ACTIONS = {
   RUN_BACKTEST: 'runBacktest',
   RUN_SCREEN: 'runScreen',
   SAVE_ALLOCATION_TARGETS: 'saveAllocationTargets',
+  SAVE_DATA_CONNECTIONS: 'saveDataConnections',
   SAVE_PORTFOLIO_SETTINGS: 'savePortfolioSettings',
   SAVE_SCREEN: 'saveScreen',
   SAVE_STRATEGY: 'saveStrategy',
   SAVE_UNIVERSE_PRESET: 'saveUniversePreset',
+  SYNC_DATA_CONNECTION: 'syncDataConnection',
+  TEST_DATA_CONNECTION: 'testDataConnection',
   VIEW_DETAILS: 'viewDetails',
   VIEW_OPTIONS: 'viewOptions',
 };

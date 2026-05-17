@@ -83,10 +83,13 @@ export async function mockAction(action, payload = {}) {
     [APP_ACTIONS.RUN_BACKTEST]: 'Backtest completed with mock data.',
     [APP_ACTIONS.RUN_SCREEN]: 'Screen results refreshed.',
     [APP_ACTIONS.SAVE_ALLOCATION_TARGETS]: 'Allocation target model saved.',
+    [APP_ACTIONS.SAVE_DATA_CONNECTIONS]: 'Data connection settings saved.',
     [APP_ACTIONS.SAVE_PORTFOLIO_SETTINGS]: 'Portfolio settings saved.',
     [APP_ACTIONS.SAVE_SCREEN]: 'Screen saved.',
     [APP_ACTIONS.SAVE_STRATEGY]: 'Strategy saved.',
     [APP_ACTIONS.SAVE_UNIVERSE_PRESET]: 'Universe preset saved.',
+    [APP_ACTIONS.SYNC_DATA_CONNECTION]: 'Data connection sync started.',
+    [APP_ACTIONS.TEST_DATA_CONNECTION]: 'Data connection test passed.',
     [APP_ACTIONS.VIEW_DETAILS]: 'Details panel opened.',
   };
 
@@ -200,6 +203,40 @@ export async function mockAction(action, payload = {}) {
       action,
       payload,
       message: `${name} settings saved.`,
+      ok: true,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  if (action === APP_ACTIONS.SAVE_DATA_CONNECTIONS) {
+    return {
+      action,
+      payload,
+      message: `Saved ${payload.sources?.length ?? 0} data connection settings.`,
+      ok: true,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  if (action === APP_ACTIONS.TEST_DATA_CONNECTION) {
+    const name = payload.name ?? payload.id ?? 'Data source';
+
+    return {
+      action,
+      payload,
+      message: `${name} connection test passed.`,
+      ok: true,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  if (action === APP_ACTIONS.SYNC_DATA_CONNECTION) {
+    const name = payload.name ?? payload.id ?? 'Data source';
+
+    return {
+      action,
+      payload,
+      message: `${name} sync started.`,
       ok: true,
       timestamp: new Date().toISOString(),
     };
