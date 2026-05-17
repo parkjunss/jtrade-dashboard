@@ -331,6 +331,9 @@ Core pages touched recently:
   - added a dedicated holding-level allocation breakdown page with group weights, values, concentration summary, portfolio mix, direct holdings, and CSV export
   - re-added the Holdings sidebar Allocation entry and wired the Holdings overview allocation card `View Detail` action to the page
   - added `holdings-allocation` placeholder metadata as a fallback so the route no longer lands on an empty state
+- Wired overview-to-detail navigation:
+  - Holdings overview `Portfolio Holdings` now routes to Positions and `Sector Exposure` routes to Sectors
+  - Allocation overview Portfolio/Current Allocation routes to Assets, Target vs Current routes to Targets, and Rebalance Suggestions routes to Rebalance
 
 ## Current Priority
 
@@ -385,4 +388,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Holdings Allocation route fix).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after overview detail navigation fix).

@@ -55,7 +55,10 @@ export default function AllocationPage({ activePage, activeSidebarItem, onNaviga
 
         <section className="allocation-hero-grid">
           <article className="card allocation-summary">
-            <h3>Portfolio Allocation</h3>
+            <div className="allocation-card-head">
+              <h3>Portfolio Allocation</h3>
+              <button onClick={() => onSidebarSelect('allocation-assets')} type="button">Assets</button>
+            </div>
             <p>Total Portfolio Value</p>
             <strong>$422,525.82</strong>
             <small>Diversified across 5 asset groups</small>
@@ -67,7 +70,10 @@ export default function AllocationPage({ activePage, activeSidebarItem, onNaviga
           </article>
 
           <article className="card allocation-current">
-            <h3>Current Allocation</h3>
+            <div className="allocation-card-head">
+              <h3>Current Allocation</h3>
+              <button onClick={() => onSidebarSelect('allocation-assets')} type="button">View Assets</button>
+            </div>
             <div className="allocation-donut-wrap">
               <div className="allocation-donut"><b>$422,525.82</b><span>Total Value</span></div>
               <div className="allocation-legend-list">
@@ -86,7 +92,7 @@ export default function AllocationPage({ activePage, activeSidebarItem, onNaviga
           <article className="card allocation-target">
             <div className="allocation-card-head">
               <h3>Target vs Current Allocation</h3>
-              <div><span className="dot green-dot-solid" />Current <span className="dot gray-dot-solid" />Target</div>
+              <button onClick={() => onSidebarSelect('allocation-targets')} type="button">Targets</button>
             </div>
             {allocationRows.map((row) => (
               <div className="target-row" key={row.name}>
@@ -106,7 +112,7 @@ export default function AllocationPage({ activePage, activeSidebarItem, onNaviga
           <article className="card rebalance-card">
             <div className="allocation-card-head">
               <h3>Rebalance Suggestions</h3>
-              <button type="button">View Details</button>
+              <button onClick={() => onSidebarSelect('allocation-rebalance')} type="button">View Details</button>
             </div>
             <div className="rebalance-table">
               <div className="rebalance-head"><span>Action</span><span>Asset Class</span><span>Current %</span><span>Target %</span><span>Difference</span><span>Suggested Amount</span></div>

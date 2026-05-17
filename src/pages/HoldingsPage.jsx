@@ -125,6 +125,7 @@ export default function HoldingsPage({ activePage, activeSidebarItem, onNavigate
                   <button onClick={() => setIsFilterOpen(true)} type="button">
                     <Filter size={16} />Filter
                   </button>
+                  <button onClick={() => onSidebarSelect('holdings-positions')} type="button">Positions</button>
                 </div>
               </div>
               <div className="holdings-filter-tabs">
@@ -237,7 +238,10 @@ export default function HoldingsPage({ activePage, activeSidebarItem, onNavigate
             </article>
 
             <article className="card holdings-sector-card">
-              <div className="holdings-card-head"><h3>Sector Exposure</h3><span>% of Portfolio</span></div>
+              <div className="holdings-card-head">
+                <h3>Sector Exposure</h3>
+                <button onClick={() => onSidebarSelect('holdings-sectors')} type="button">View Detail</button>
+              </div>
               {sectorRows.map(([label, value]) => (
                 <div className="holdings-sector-row" key={label}>
                   <span>{label}</span>
