@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
+  color-scheme: light;
   --bg: #f3f6f0;
   --card: #ffffff;
   --text: #11130f;
@@ -19,6 +20,10 @@
   --radius: 26px;
 }
 
+html {
+  background: var(--bg);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -28,6 +33,13 @@ body {
   font-family: Inter, system-ui, sans-serif;
   color: var(--text);
   background: var(--bg);
+}
+
+input,
+select,
+textarea {
+  color-scheme: light;
+  color: var(--text);
 }
 
 button {

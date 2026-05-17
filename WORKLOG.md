@@ -321,6 +321,9 @@ Core pages touched recently:
   - darkened the app background and strengthened card borders/shadows so page surfaces separate more clearly
   - added stronger white card surfaces for shared cards, briefs, topbar controls, and sidebar
   - tightened nested box contrast in dashboard metric panels and Settings Data Sources rows/detail panels
+- Fixed OS/browser dark-mode interference:
+  - explicitly set the app color scheme to light because a real dark theme has not been implemented yet
+  - pinned html/body and form controls to the app light color tokens so automatic dark mode no longer distorts mixed surfaces
 
 ## Current Priority
 
@@ -375,4 +378,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after visual contrast pass).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after dark-mode interference fix).
