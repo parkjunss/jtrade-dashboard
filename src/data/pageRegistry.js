@@ -47,12 +47,6 @@ export const subPageRegistry = {
     description: 'Review peak-to-trough declines, recovery periods, and risk events.',
     metrics: ['Max drawdown', 'Recovery days', 'Worst month'],
   },
-  'performance-markets': {
-    title: 'Markets',
-    eyebrow: 'Performance',
-    description: 'Market index, FX, commodities, and macro snapshot panels.',
-    metrics: ['Index movers', 'FX rates', 'Commodity pulse'],
-  },
   'holdings-positions': {
     title: 'Positions',
     eyebrow: 'Holdings',

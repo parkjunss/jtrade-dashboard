@@ -85,7 +85,6 @@ P0 page backlog is complete. Continue with cross-cutting polish or P1 page backl
 
 ## P2 Page Backlog
 
-- `performance-markets`: market index, FX, commodity, rates dashboard.
 - `holdings-dividends`: dividend calendar and income forecast.
 - `allocation-regions`: region/country/currency exposure.
 - `research-news`: raw news feed with filters and detail panel.
