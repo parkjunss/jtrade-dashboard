@@ -86,6 +86,7 @@ export async function mockAction(action, payload = {}) {
     [APP_ACTIONS.SAVE_DATA_CONNECTIONS]: 'Data connection settings saved.',
     [APP_ACTIONS.SAVE_NOTIFICATION_SETTINGS]: 'Notification settings saved.',
     [APP_ACTIONS.SAVE_PORTFOLIO_SETTINGS]: 'Portfolio settings saved.',
+    [APP_ACTIONS.SAVE_PROFILE_SETTINGS]: 'Profile settings saved.',
     [APP_ACTIONS.SAVE_SCREEN]: 'Screen saved.',
     [APP_ACTIONS.SAVE_STRATEGY]: 'Strategy saved.',
     [APP_ACTIONS.SAVE_UNIVERSE_PRESET]: 'Universe preset saved.',
@@ -205,6 +206,18 @@ export async function mockAction(action, payload = {}) {
       action,
       payload,
       message: `${name} settings saved.`,
+      ok: true,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  if (action === APP_ACTIONS.SAVE_PROFILE_SETTINGS) {
+    const name = payload.displayName ?? payload.email ?? 'Profile';
+
+    return {
+      action,
+      payload,
+      message: `${name} profile saved.`,
       ok: true,
       timestamp: new Date().toISOString(),
     };

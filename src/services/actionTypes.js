@@ -11,6 +11,7 @@ export const APP_ACTIONS = {
   SAVE_DATA_CONNECTIONS: 'saveDataConnections',
   SAVE_NOTIFICATION_SETTINGS: 'saveNotificationSettings',
   SAVE_PORTFOLIO_SETTINGS: 'savePortfolioSettings',
+  SAVE_PROFILE_SETTINGS: 'saveProfileSettings',
   SAVE_SCREEN: 'saveScreen',
   SAVE_STRATEGY: 'saveStrategy',
   SAVE_UNIVERSE_PRESET: 'saveUniversePreset',

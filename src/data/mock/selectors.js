@@ -26,6 +26,10 @@ export function getPortfolioSettings(store = mockStore) {
   return store.settings;
 }
 
+export function getSettingsProfile(store = mockStore) {
+  return store.settingsProfile;
+}
+
 export function getSettingsDataSources(store = mockStore) {
   return store.settingsData;
 }

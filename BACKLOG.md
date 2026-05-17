@@ -93,7 +93,7 @@ P0 page backlog is complete. Continue with cross-cutting polish or P1 page backl
 - `insights-news`: AI catalyst feed.
 - `insights-alerts`: alert inbox and alert status controls.
 - [x] `settings-overview`: settings hub.
-- `settings-profile`: editable profile page.
+- [x] `settings-profile`: editable profile page.
 - `settings-appearance`: theme/density/format preferences.
 - `settings-security`: password, 2FA, sessions, recent sign-ins.
 

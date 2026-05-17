@@ -17,6 +17,7 @@ const APP_ENDPOINTS = {
   [APP_ACTIONS.SAVE_DATA_CONNECTIONS]: { method: 'POST', path: '/settings/data-connections' },
   [APP_ACTIONS.SAVE_NOTIFICATION_SETTINGS]: { method: 'POST', path: '/settings/notifications' },
   [APP_ACTIONS.SAVE_PORTFOLIO_SETTINGS]: { method: 'POST', path: '/settings/portfolio' },
+  [APP_ACTIONS.SAVE_PROFILE_SETTINGS]: { method: 'POST', path: '/settings/profile' },
   [APP_ACTIONS.SAVE_SCREEN]: { method: 'POST', path: '/screener/saved' },
   [APP_ACTIONS.SAVE_STRATEGY]: { method: 'POST', path: '/strategies' },
   [APP_ACTIONS.SAVE_UNIVERSE_PRESET]: { method: 'POST', path: '/backtests/universes' },

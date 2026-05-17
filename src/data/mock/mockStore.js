@@ -22,6 +22,25 @@ export const mockStore = {
     allocationPolicy: 'Moderate Growth',
   },
 
+  settingsProfile: {
+    displayName: 'Sarah Kim',
+    username: 'sarah.qortrade',
+    email: 'sarah.kim@qortrade.local',
+    phone: '+82 10-0000-0142',
+    role: 'Portfolio Manager',
+    organization: 'QorTrade Advisory',
+    location: 'Seoul, South Korea',
+    timezone: 'Asia/Seoul',
+    language: 'English',
+    dateFormat: 'MMM DD, YYYY',
+    defaultWorkspace: 'QorTrade Core Portfolio',
+    contactPreference: 'Email first',
+    bio: 'Manages growth and income portfolios with a focus on disciplined allocation, risk controls, and tax-aware reporting.',
+    accountId: 'QT-1042',
+    plan: 'Professional',
+    joined: 'Jan 12, 2024',
+  },
+
   settingsData: {
     sources: [
       {

@@ -2,7 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertTriangle,
   ArrowRight,
+  AtSign,
+  BadgeCheck,
   BellRing,
+  BriefcaseBusiness,
+  Building2,
   Cable,
   CheckCircle2,
   ChevronDown,
@@ -10,9 +14,11 @@ import {
   Database,
   Download,
   Hash,
+  MapPin,
   Mail,
   MessageSquare,
   Palette,
+  Phone,
   PlugZap,
   RefreshCw,
   RotateCcw,
@@ -33,9 +39,10 @@ import SubPageShell from './SubPageShell.jsx';
 import { useAppAction } from '../context/AppActionContext.jsx';
 import StatusState from '../components/StatusState.jsx';
 import { APP_ACTIONS } from '../services/appActions';
-import { getPortfolioSettings, getSettingsDataSources, getSettingsNotifications } from '../data/mock/selectors';
+import { getPortfolioSettings, getSettingsDataSources, getSettingsNotifications, getSettingsProfile } from '../data/mock/selectors';
 
 const defaultPortfolioSettings = getPortfolioSettings();
+const defaultProfileSettings = getSettingsProfile();
 const defaultDataSettings = getSettingsDataSources();
 const defaultNotificationSettings = getSettingsNotifications();
 
@@ -44,7 +51,7 @@ const settingsOverviewCards = [
     id: 'settings-profile',
     title: 'Profile',
     description: 'Account identity, locale, and owner information.',
-    metric: 'Sarah Kim',
+    metric: defaultProfileSettings.displayName,
     status: 'Ready',
     Icon: UserRound,
   },
@@ -201,6 +208,115 @@ function SettingsOverviewPage({ activePage, activeSidebarItem, onNavigate, onSid
                   <div key={task}><ShieldCheck size={17} /><span>{task}</span></div>
                 ))}
               </div>
+            </article>
+          </aside>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function SettingsProfilePage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
+  const { pendingAction, runAction } = useAppAction();
+  const [profile, setProfile] = useState(defaultProfileSettings);
+  const changedFields = useMemo(() => (
+    Object.keys(profile).filter((key) => profile[key] !== defaultProfileSettings[key])
+  ), [profile]);
+  const initials = profile.displayName
+    .split(' ')
+    .map((part) => part.slice(0, 1))
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
+  const updateProfile = (key, value) => {
+    setProfile((current) => ({ ...current, [key]: value }));
+  };
+
+  const resetProfile = () => setProfile(defaultProfileSettings);
+  const saveProfile = () => runAction(APP_ACTIONS.SAVE_PROFILE_SETTINGS, profile);
+
+  return (
+    <div className="app-shell">
+      <Sidebar activePage={activePage} activeItem={activeSidebarItem} onSelect={onSidebarSelect} />
+      <main className="dashboard settings-page settings-profile-page">
+        <TopBar activePage={activePage} onNavigate={onNavigate} />
+
+        <section className="title-row">
+          <h1>Profile</h1>
+          <div className="page-brief settings-brief">
+            <strong>Account identity</strong>
+            <p>Manage account owner details, contact routing, organization context, locale defaults, and workspace identity used across reports and notifications.</p>
+          </div>
+        </section>
+
+        <section className="settings-summary-grid">
+          <article className="card settings-summary-card"><span>Owner</span><strong>{profile.displayName}</strong><small>{profile.role}</small></article>
+          <article className="card settings-summary-card"><span>Account</span><strong>{profile.accountId}</strong><small>{profile.plan} plan</small></article>
+          <article className="card settings-summary-card"><span>Locale</span><strong>{profile.timezone}</strong><small>{profile.language}</small></article>
+          <article className="card settings-summary-card"><span>Workspace</span><strong>{profile.defaultWorkspace}</strong><small>Default landing context</small></article>
+        </section>
+
+        <section className="settings-layout settings-profile-layout">
+          <article className="card settings-form-card">
+            <div className="settings-card-head">
+              <div><UserRound size={24} /><h3>Profile Details</h3></div>
+              <div className="settings-actions">
+                <button onClick={resetProfile} type="button"><RotateCcw size={16} />Reset</button>
+                <button disabled={pendingAction === APP_ACTIONS.SAVE_PROFILE_SETTINGS} onClick={saveProfile} type="button"><Save size={16} />Save</button>
+              </div>
+            </div>
+
+            <div className="settings-profile-hero">
+              <span className="settings-avatar">{initials}</span>
+              <div>
+                <strong>{profile.displayName}</strong>
+                <small>{profile.email} / {profile.organization}</small>
+              </div>
+            </div>
+
+            <div className="settings-form-grid">
+              <label className="settings-text-field"><span>Display Name</span><input onChange={(event) => updateProfile('displayName', event.target.value)} value={profile.displayName} /></label>
+              <label className="settings-text-field"><span>Username</span><input onChange={(event) => updateProfile('username', event.target.value)} value={profile.username} /></label>
+              <label className="settings-text-field"><span>Email</span><input onChange={(event) => updateProfile('email', event.target.value)} value={profile.email} /></label>
+              <label className="settings-text-field"><span>Phone</span><input onChange={(event) => updateProfile('phone', event.target.value)} value={profile.phone} /></label>
+              <label className="settings-text-field"><span>Role</span><input onChange={(event) => updateProfile('role', event.target.value)} value={profile.role} /></label>
+              <label className="settings-text-field"><span>Organization</span><input onChange={(event) => updateProfile('organization', event.target.value)} value={profile.organization} /></label>
+              <label className="settings-text-field"><span>Location</span><input onChange={(event) => updateProfile('location', event.target.value)} value={profile.location} /></label>
+              <SettingsDropdown label="Timezone" onChange={(value) => updateProfile('timezone', value)} options={['Asia/Seoul', 'America/New_York', 'UTC', 'Europe/London']} value={profile.timezone} />
+              <SettingsDropdown label="Language" onChange={(value) => updateProfile('language', value)} options={['English', 'Korean', 'Japanese', 'German']} value={profile.language} />
+              <SettingsDropdown label="Date Format" onChange={(value) => updateProfile('dateFormat', value)} options={['MMM DD, YYYY', 'YYYY-MM-DD', 'DD MMM YYYY', 'MM/DD/YYYY']} value={profile.dateFormat} />
+              <SettingsDropdown label="Contact Preference" onChange={(value) => updateProfile('contactPreference', value)} options={['Email first', 'Push first', 'SMS for critical', 'Team channel first']} value={profile.contactPreference} />
+              <SettingsDropdown label="Default Workspace" onChange={(value) => updateProfile('defaultWorkspace', value)} options={['QorTrade Core Portfolio', 'Income Sleeve', 'Growth Watchlist', 'Research Workspace']} value={profile.defaultWorkspace} />
+              <label className="settings-text-field settings-bio-field"><span>Bio</span><input onChange={(event) => updateProfile('bio', event.target.value)} value={profile.bio} /></label>
+            </div>
+          </article>
+
+          <aside className="settings-side-stack">
+            <article className="card settings-side-card">
+              <h3>Contact Card</h3>
+              <div className="settings-contact-list">
+                <div><AtSign size={17} /><span>{profile.email}</span></div>
+                <div><Phone size={17} /><span>{profile.phone}</span></div>
+                <div><MapPin size={17} /><span>{profile.location}</span></div>
+                <div><Building2 size={17} /><span>{profile.organization}</span></div>
+              </div>
+            </article>
+
+            <article className="card settings-side-card">
+              <h3>Account Status</h3>
+              <div className="settings-contact-list">
+                <div><BadgeCheck size={17} /><span>{profile.plan} plan / joined {profile.joined}</span></div>
+                <div><BriefcaseBusiness size={17} /><span>{profile.role}</span></div>
+                <div><ShieldCheck size={17} /><span>Profile data is available to reports and alerts.</span></div>
+              </div>
+            </article>
+
+            <article className="card settings-side-card">
+              <h3>Unsaved Changes</h3>
+              {changedFields.length ? (
+                <div className="settings-chip-list">{changedFields.map((field) => <span key={field}>{field}</span>)}</div>
+              ) : <StatusState title="No changes" message="Profile settings match the default configuration." />}
             </article>
           </aside>
         </section>
@@ -778,6 +894,10 @@ function SettingsNotificationsPage({ activePage, activeSidebarItem, onNavigate, 
 export default function SettingsPage(props) {
   if (props.activeSidebarItem === 'settings-overview') {
     return <SettingsOverviewPage {...props} />;
+  }
+
+  if (props.activeSidebarItem === 'settings-profile') {
+    return <SettingsProfilePage {...props} />;
   }
 
   if (props.activeSidebarItem === 'settings-portfolio') {
