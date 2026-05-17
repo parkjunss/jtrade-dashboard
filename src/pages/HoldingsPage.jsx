@@ -11,6 +11,7 @@ import { useSelection } from '../hooks/useSelection.js';
 import { APP_ACTIONS } from '../services/appActions';
 import { getHoldingsAllocationRows, getHoldingsRows, getHoldingsSectorRows, getHoldingsSummaryCards, getTickerStrip } from '../data/mock/selectors';
 import AllocationHoldingsPage from './holdings/AllocationHoldingsPage.jsx';
+import DividendsPage from './holdings/DividendsPage.jsx';
 import MoversPage from './holdings/MoversPage.jsx';
 import PositionsPage from './holdings/PositionsPage.jsx';
 import SectorsPage from './holdings/SectorsPage.jsx';
@@ -77,6 +78,10 @@ export default function HoldingsPage({ activePage, activeSidebarItem, onNavigate
 
   if (activeSidebarItem === 'holdings-sectors') {
     return <SectorsPage activePage={activePage} activeSidebarItem={activeSidebarItem} onNavigate={onNavigate} onSidebarSelect={onSidebarSelect} />;
+  }
+
+  if (activeSidebarItem === 'holdings-dividends') {
+    return <DividendsPage activePage={activePage} activeSidebarItem={activeSidebarItem} onNavigate={onNavigate} onSidebarSelect={onSidebarSelect} />;
   }
 
   if (activeSidebarItem !== 'holdings-overview') {

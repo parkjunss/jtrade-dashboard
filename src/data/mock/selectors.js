@@ -181,6 +181,10 @@ export function getHoldingsSectorRows(store = mockStore) {
   return store.holdings.sectorRows;
 }
 
+export function getHoldingsDividendData(store = mockStore) {
+  return store.holdings.dividends;
+}
+
 export function getHoldingsMoverData(store = mockStore) {
   const totalValue = parseMoney(store.holdings.summaryCards[0].value);
   const catalystBySymbol = {

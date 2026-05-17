@@ -430,6 +430,47 @@ export const mockStore = {
       ['Cash', '5.92%', '$24,850.45', '#25b6bd'],
     ],
     sectorRows: [['Technology', 32.21], ['Consumer Discretionary', 13.67], ['Communication Services', 10.24], ['Financials', 9.45], ['Healthcare', 7.18], ['Cash', 5.92]],
+    dividends: {
+      summary: [
+        { label: 'Forward Income', value: '$9,218', sub: 'Next 12 months estimate', tone: 'green' },
+        { label: 'Portfolio Yield', value: '2.18%', sub: 'Weighted current yield', tone: 'neutral' },
+        { label: 'Next Payout', value: '$612', sub: 'MSFT on Jun 13, 2026', tone: 'green' },
+        { label: 'Qualified Share', value: '68%', sub: 'Estimated taxable mix', tone: 'neutral' },
+      ],
+      incomeByMonth: [
+        { month: 'Jan', income: 520, count: 4 },
+        { month: 'Feb', income: 760, count: 5 },
+        { month: 'Mar', income: 1190, count: 7 },
+        { month: 'Apr', income: 680, count: 4 },
+        { month: 'May', income: 810, count: 5 },
+        { month: 'Jun', income: 1260, count: 8 },
+        { month: 'Jul', income: 560, count: 4 },
+        { month: 'Aug', income: 780, count: 5 },
+        { month: 'Sep', income: 1220, count: 8 },
+        { month: 'Oct', income: 610, count: 4 },
+        { month: 'Nov', income: 840, count: 5 },
+        { month: 'Dec', income: 548, count: 6 },
+      ],
+      calendar: [
+        { id: 'div-001', symbol: 'MSFT', name: 'Microsoft Corp.', exDate: 'May 16, 2026', payDate: 'Jun 13, 2026', amount: 0.83, shares: 120, income: 99.6, frequency: 'Quarterly', status: 'Declared', taxType: 'Qualified' },
+        { id: 'div-002', symbol: 'SPY', name: 'SPDR S&P 500 ETF', exDate: 'Jun 20, 2026', payDate: 'Jul 31, 2026', amount: 1.74, shares: 90, income: 156.6, frequency: 'Quarterly', status: 'Estimated', taxType: 'Qualified' },
+        { id: 'div-003', symbol: 'AAPL', name: 'Apple Inc.', exDate: 'Aug 08, 2026', payDate: 'Aug 15, 2026', amount: 0.26, shares: 94, income: 24.44, frequency: 'Quarterly', status: 'Estimated', taxType: 'Qualified' },
+        { id: 'div-004', symbol: 'TLT', name: 'iShares 20+ Year Treasury Bond ETF', exDate: 'Jun 02, 2026', payDate: 'Jun 07, 2026', amount: 0.31, shares: 430, income: 133.3, frequency: 'Monthly', status: 'Declared', taxType: 'Ordinary' },
+        { id: 'div-005', symbol: '005930.KS', name: 'Samsung Electronics', exDate: 'Jun 27, 2026', payDate: 'Aug 22, 2026', amount: 0.27, shares: 300, income: 81, frequency: 'Quarterly', status: 'Estimated', taxType: 'Foreign' },
+      ],
+      holdings: [
+        { symbol: 'TLT', name: 'iShares 20+ Year Treasury Bond ETF', weight: '5.10%', yield: 4.05, annualIncome: 1698, incomeShare: 18.4, frequency: 'Monthly', growth: '+1.2%' },
+        { symbol: 'SPY', name: 'SPDR S&P 500 ETF', weight: '6.12%', yield: 1.38, annualIncome: 626, incomeShare: 6.8, frequency: 'Quarterly', growth: '+5.8%' },
+        { symbol: 'MSFT', name: 'Microsoft Corp.', weight: '10.82%', yield: 0.79, annualIncome: 398, incomeShare: 4.3, frequency: 'Quarterly', growth: '+10.7%' },
+        { symbol: 'AAPL', name: 'Apple Inc.', weight: '4.53%', yield: 0.54, annualIncome: 98, incomeShare: 1.1, frequency: 'Quarterly', growth: '+4.2%' },
+        { symbol: '005930.KS', name: 'Samsung Electronics', weight: '2.08%', yield: 1.94, annualIncome: 324, incomeShare: 3.5, frequency: 'Quarterly', growth: '+6.0%' },
+      ],
+      taxMix: [
+        { label: 'Qualified', value: 68, amount: '$6,267' },
+        { label: 'Ordinary', value: 22, amount: '$2,028' },
+        { label: 'Foreign', value: 10, amount: '$923' },
+      ],
+    },
   },
 
   allocation: {

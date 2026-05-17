@@ -740,6 +740,199 @@ button.movers-table-row {
   font-size: 23px;
 }
 
+.dividend-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.dividend-summary-card {
+  min-height: 112px;
+  padding: 22px 24px;
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+.dividend-summary-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #f4f7ef;
+  color: var(--green-dark);
+}
+
+.dividend-summary-card span,
+.dividend-summary-card small {
+  display: block;
+  color: var(--muted);
+}
+
+.dividend-summary-card strong {
+  display: block;
+  margin: 5px 0;
+  font-size: 23px;
+}
+
+.dividend-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 20px;
+}
+
+.dividend-side-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.dividend-calendar-card,
+.dividend-income-card,
+.dividend-tax-card,
+.dividend-holdings-card {
+  padding: 24px 28px;
+}
+
+.dividend-calendar-table,
+.dividend-holdings-table {
+  display: grid;
+  overflow-x: auto;
+}
+
+.dividend-calendar-row {
+  min-width: 980px;
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 170px 110px 110px 76px 74px 90px 86px 86px;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.dividend-calendar-header {
+  min-height: 34px;
+  border-top: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.dividend-calendar-row strong,
+.dividend-holding-row strong {
+  display: grid;
+  gap: 3px;
+}
+
+.dividend-calendar-row small,
+.dividend-holding-row small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.dividend-calendar-row em,
+.dividend-holding-row em {
+  font-style: normal;
+  font-weight: 900;
+}
+
+.dividend-income-card .holdings-card-head span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--green-soft);
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.dividend-bar-chart {
+  height: 220px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: end;
+  gap: 8px;
+  padding-top: 12px;
+}
+
+.dividend-bar-chart div {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: end;
+  gap: 8px;
+}
+
+.dividend-bar-chart i {
+  width: 100%;
+  border-radius: 8px 8px 3px 3px;
+  background: var(--green);
+  opacity: 0.9;
+}
+
+.dividend-bar-chart span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.dividend-tax-card h3 {
+  margin: 0 0 16px;
+}
+
+.dividend-tax-row {
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: 82px 1fr 44px 58px;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.dividend-tax-row:first-of-type {
+  border-top: 0;
+}
+
+.dividend-tax-row div,
+.dividend-income-share {
+  height: 9px;
+  border-radius: 999px;
+  background: #e4e8df;
+  overflow: hidden;
+}
+
+.dividend-tax-row i,
+.dividend-income-share i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--green);
+}
+
+.dividend-tax-row small {
+  color: var(--muted);
+  font-weight: 900;
+  text-align: right;
+}
+
+.dividend-holding-row {
+  min-width: 1040px;
+  min-height: 56px;
+  display: grid;
+  grid-template-columns: 220px 90px 90px 130px minmax(140px, 1fr) 100px 70px;
+  align-items: center;
+  gap: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+
 .sectors-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 400px;

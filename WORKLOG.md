@@ -23,6 +23,7 @@ Implemented detailed pages/screens:
 - Holdings > Positions
 - Holdings > Movers
 - Holdings > Sectors
+- Holdings > Dividends
 - Allocation overview
 - Allocation > Assets
 - Allocation > Risk
@@ -367,11 +368,15 @@ Core pages touched recently:
   - added editable profile form with save/reset actions, changed-field tracking, and mock backend feedback
   - added contact card and account status panels for email, phone, location, organization, role, plan, and joined date
   - wired the Settings Profile route so it no longer falls back to the placeholder shell
+- Implemented `Holdings > Dividends`:
+  - added centralized dividend calendar, forward income, income-by-holding, monthly forecast, and tax mix mock data
+  - added dividend summary cards, calendar search/status filters, CSV export, income forecast chart, tax mix panel, and holding income table
+  - wired the Holdings Dividends sidebar route so it no longer falls back to the placeholder shell
 
 ## Current Priority
 
 Next implementation priority:
-- P0 and current P1 page backlog items are complete. Continue with P2 settings appearance, security, or cross-cutting polish.
+- P0 and current P1 page backlog items are complete. Continue with remaining P2 pages such as allocation regions, research news, insights themes/news/alerts, settings appearance, or settings security.
 - Continue extracting any remaining large in-file detail pages into section folders as they grow.
 - Options analysis now lives under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel still deferred under `Research > Stock Detail`.
 - Future options work should deepen options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
@@ -421,4 +426,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Settings Profile implementation).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Holdings Dividends implementation).
