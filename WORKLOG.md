@@ -327,6 +327,10 @@ Core pages touched recently:
 - Fixed `market-brief` overflow:
   - constrained the shared market brief container and enabled proper flex ellipsis for long descriptions
   - kept the brief label/dot fixed while the description truncates inside the box
+- Restored `Holdings > Allocation` detail route:
+  - added a dedicated holding-level allocation breakdown page with group weights, values, concentration summary, portfolio mix, direct holdings, and CSV export
+  - re-added the Holdings sidebar Allocation entry and wired the Holdings overview allocation card `View Detail` action to the page
+  - added `holdings-allocation` placeholder metadata as a fallback so the route no longer lands on an empty state
 
 ## Current Priority
 
@@ -381,4 +385,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after market brief overflow fix).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Holdings Allocation route fix).

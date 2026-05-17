@@ -10,6 +10,7 @@ import { useAppAction } from '../context/AppActionContext.jsx';
 import { useSelection } from '../hooks/useSelection.js';
 import { APP_ACTIONS } from '../services/appActions';
 import { getHoldingsAllocationRows, getHoldingsRows, getHoldingsSectorRows, getHoldingsSummaryCards, getTickerStrip } from '../data/mock/selectors';
+import AllocationHoldingsPage from './holdings/AllocationHoldingsPage.jsx';
 import MoversPage from './holdings/MoversPage.jsx';
 import PositionsPage from './holdings/PositionsPage.jsx';
 import SectorsPage from './holdings/SectorsPage.jsx';
@@ -64,6 +65,10 @@ export default function HoldingsPage({ activePage, activeSidebarItem, onNavigate
 
   if (activeSidebarItem === 'holdings-positions') {
     return <PositionsPage activePage={activePage} activeSidebarItem={activeSidebarItem} onNavigate={onNavigate} onSidebarSelect={onSidebarSelect} />;
+  }
+
+  if (activeSidebarItem === 'holdings-allocation') {
+    return <AllocationHoldingsPage activePage={activePage} activeSidebarItem={activeSidebarItem} onNavigate={onNavigate} onSidebarSelect={onSidebarSelect} />;
   }
 
   if (activeSidebarItem === 'holdings-movers') {
@@ -194,7 +199,10 @@ export default function HoldingsPage({ activePage, activeSidebarItem, onNavigate
 
           <aside className="holdings-right-stack">
             <article className="card holdings-allocation-card">
-              <h3>Holdings Allocation</h3>
+              <div className="holdings-card-head">
+                <h3>Holdings Allocation</h3>
+                <button onClick={() => onSidebarSelect('holdings-allocation')} type="button">View Detail</button>
+              </div>
               <div className="holdings-allocation-content">
                 <div className="holdings-donut"><strong>$422,525.82</strong><span>Total Value</span></div>
                 <div className="holdings-allocation-list">
@@ -263,4 +271,3 @@ export default function HoldingsPage({ activePage, activeSidebarItem, onNavigate
     </div>
   );
 }
-

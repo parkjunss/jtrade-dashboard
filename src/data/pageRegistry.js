@@ -59,6 +59,12 @@ export const subPageRegistry = {
     description: 'Detailed position table with lots, cost basis, P/L, and exposure.',
     metrics: ['Open positions', 'Cost basis', 'Unrealized P/L'],
   },
+  'holdings-allocation': {
+    title: 'Allocation',
+    eyebrow: 'Holdings',
+    description: 'Holding-level allocation groups, weights, values, and concentration detail.',
+    metrics: ['Largest group', 'Equity exposure', 'Single-name weight'],
+  },
   'holdings-movers': {
     title: 'Movers',
     eyebrow: 'Holdings',

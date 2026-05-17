@@ -72,6 +72,7 @@ P0 page backlog is complete. Continue with cross-cutting polish or P1 page backl
 - [x] `performance-drawdown`: drawdown timeline, recovery table, active drawdown summary.
 - [x] `holdings-movers`: price movers vs portfolio-impact movers, mover detail panel.
 - [x] `holdings-sectors`: sector exposure dashboard, benchmark comparison, sector drilldown.
+- [x] `holdings-allocation`: holding-level allocation breakdown and overview drilldown route.
 - [x] `allocation-assets`: asset class drilldown, allocation trend chart.
 - [x] `allocation-risk`: concentration, diversification, beta, volatility, correlation/risk clusters.
 - [x] `backtest-compare`: compare saved strategies, benchmarks, and parameter variants.

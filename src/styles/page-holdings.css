@@ -70,6 +70,8 @@
 .holdings-table-card,
 .holdings-trend-card,
 .holdings-allocation-card,
+.holdings-allocation-detail-card,
+.holdings-allocation-holdings-card,
 .top-movers-card,
 .holdings-sector-card {
   padding: 24px 28px;
@@ -87,10 +89,21 @@
 .holdings-table-head h3,
 .holdings-card-head h3,
 .holdings-allocation-card h3,
+.holdings-allocation-holdings-card h3,
 .top-movers-card h3,
 .holdings-sector-card h3 {
   margin: 0;
   font-size: 20px;
+}
+
+.holdings-card-head button {
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--text);
+  font-weight: 900;
 }
 
 .holdings-actions {
@@ -303,6 +316,96 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
+}
+
+.holdings-allocation-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 520px;
+  gap: 20px;
+  align-items: start;
+}
+
+.holdings-allocation-detail-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.holdings-allocation-detail-list {
+  display: grid;
+}
+
+.holdings-allocation-detail-row {
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: 230px minmax(180px, 1fr) 74px 116px;
+  gap: 16px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+}
+
+.holdings-allocation-detail-row:first-child {
+  border-top: 0;
+}
+
+.allocation-group-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.allocation-group-title i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.allocation-group-title span,
+.allocation-holding-row small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.allocation-weight-track {
+  height: 10px;
+  border-radius: 999px;
+  background: #e4e8df;
+  overflow: hidden;
+}
+
+.allocation-weight-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--green);
+}
+
+.holdings-allocation-detail-row > strong,
+.holdings-allocation-detail-row > span {
+  text-align: right;
+}
+
+.allocation-holding-row {
+  min-height: 52px;
+  display: grid;
+  grid-template-columns: 1fr 82px 70px;
+  gap: 12px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+}
+
+.allocation-holding-row:first-of-type {
+  margin-top: 12px;
+}
+
+.allocation-holding-row div,
+.allocation-holding-row em {
+  text-align: right;
+  font-style: normal;
+  font-weight: 900;
 }
 
 .movers-columns {
