@@ -324,6 +324,9 @@ Core pages touched recently:
 - Fixed OS/browser dark-mode interference:
   - explicitly set the app color scheme to light because a real dark theme has not been implemented yet
   - pinned html/body and form controls to the app light color tokens so automatic dark mode no longer distorts mixed surfaces
+- Fixed `market-brief` overflow:
+  - constrained the shared market brief container and enabled proper flex ellipsis for long descriptions
+  - kept the brief label/dot fixed while the description truncates inside the box
 
 ## Current Priority
 
@@ -378,4 +381,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after dark-mode interference fix).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after market brief overflow fix).
