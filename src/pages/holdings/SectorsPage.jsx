@@ -1,9 +1,10 @@
-import { ArrowUpRight, Download, Layers3, PieChart, Search, Target } from 'lucide-react';
+import { ArrowUpRight, Download, Eye, Layers3, PieChart, Search, Target } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import Sidebar from '../../components/Sidebar.jsx';
 import TopBar from '../../components/TopBar.jsx';
 import TickerStrip from '../../components/TickerStrip.jsx';
 import Sparkline from '../../components/Sparkline.jsx';
+import StatusState from '../../components/StatusState.jsx';
 import { useAppAction } from '../../context/AppActionContext.jsx';
 import { APP_ACTIONS } from '../../services/appActions';
 import { getHoldingsSectorExposureData, getTickerStrip } from '../../data/mock/selectors';
@@ -143,5 +144,4 @@ export default function SectorsPage({ activePage, activeSidebarItem, onNavigate,
     </div>
   );
 }
-
 

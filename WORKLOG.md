@@ -337,6 +337,9 @@ Core pages touched recently:
 - Fixed `Holdings > Positions` runtime error:
   - imported the shared `getPositionCellValue` helper used for visible-column exports
   - restored the missing summary-card fixture mapping inside the extracted Positions page
+- Fixed detail-page missing imports:
+  - added missing `Eye` and `StatusState` imports in `Holdings > Sectors`
+  - added missing `ShieldCheck` and `StatusState` imports in `Allocation > Assets`
 
 ## Current Priority
 
@@ -391,4 +394,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Holdings Positions runtime fix).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after detail-page missing import fixes).

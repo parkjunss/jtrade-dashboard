@@ -1,8 +1,9 @@
-import { Boxes, Download, Eye, PieChart, Target, TrendingUp } from 'lucide-react';
+import { Boxes, Download, Eye, PieChart, ShieldCheck, Target } from 'lucide-react';
 import { useState } from 'react';
 import Sidebar from '../../components/Sidebar.jsx';
 import TopBar from '../../components/TopBar.jsx';
 import TickerStrip from '../../components/TickerStrip.jsx';
+import StatusState from '../../components/StatusState.jsx';
 import { useAppAction } from '../../context/AppActionContext.jsx';
 import { useSelection } from '../../hooks/useSelection.js';
 import { APP_ACTIONS } from '../../services/appActions';
@@ -154,5 +155,4 @@ export default function AllocationAssetsPage({ activePage, activeSidebarItem, on
     </div>
   );
 }
-
 
