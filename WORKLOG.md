@@ -334,6 +334,9 @@ Core pages touched recently:
 - Wired overview-to-detail navigation:
   - Holdings overview `Portfolio Holdings` now routes to Positions and `Sector Exposure` routes to Sectors
   - Allocation overview Portfolio/Current Allocation routes to Assets, Target vs Current routes to Targets, and Rebalance Suggestions routes to Rebalance
+- Fixed `Holdings > Positions` runtime error:
+  - imported the shared `getPositionCellValue` helper used for visible-column exports
+  - restored the missing summary-card fixture mapping inside the extracted Positions page
 
 ## Current Priority
 
@@ -388,4 +391,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after overview detail navigation fix).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Holdings Positions runtime fix).

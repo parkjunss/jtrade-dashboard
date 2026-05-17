@@ -1,4 +1,4 @@
-import { Download, Eye, Search, SlidersHorizontal, Upload } from 'lucide-react';
+import { BarChart3, Download, LineChart, Search, SlidersHorizontal, Upload, WalletCards } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import Sidebar from '../../components/Sidebar.jsx';
 import TopBar from '../../components/TopBar.jsx';
@@ -9,11 +9,13 @@ import { useAppAction } from '../../context/AppActionContext.jsx';
 import { useSelection } from '../../hooks/useSelection.js';
 import { downloadFile, serializeCsv } from '../../services/downloadUtils.js';
 import { APP_ACTIONS } from '../../services/appActions';
-import { getHoldingsRows, getTickerStrip } from '../../data/mock/selectors';
-import { defaultPositionColumns, getPositionDetails, getPositionType, HoldingLogo, PositionCell, positionColumns } from './HoldingPageShared.jsx';
+import { getHoldingsRows, getHoldingsSummaryCards, getTickerStrip } from '../../data/mock/selectors';
+import { defaultPositionColumns, getPositionCellValue, getPositionDetails, getPositionType, HoldingLogo, PositionCell, positionColumns } from './HoldingPageShared.jsx';
 
 const tickerStrip = getTickerStrip();
 const holdingsRows = getHoldingsRows();
+const summaryIcons = [WalletCards, LineChart, BarChart3, WalletCards];
+const summaryCards = getHoldingsSummaryCards().map((item, index) => ({ ...item, icon: summaryIcons[index] }));
 
 export default function PositionsPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
   const { pendingAction, runAction } = useAppAction();
@@ -305,5 +307,4 @@ export default function PositionsPage({ activePage, activeSidebarItem, onNavigat
     </div>
   );
 }
-
 
