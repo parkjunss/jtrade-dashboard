@@ -14,7 +14,8 @@
   height: 520px;
   padding: 10px;
   border-radius: 42px;
-  background: rgba(255, 255, 255, 0.82);
+  background: #fff;
+  border: 1px solid var(--line-strong);
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
@@ -45,7 +46,7 @@
   display: grid;
   place-items: center;
   background: #fff;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   color: #1d211b;
   transition: background 180ms ease, color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
@@ -193,6 +194,7 @@
   height: 50px;
   border-radius: 50%;
   background: #fff;
+  border: 1px solid var(--line-strong);
   display: grid;
   place-items: center;
   box-shadow: var(--shadow);
@@ -222,6 +224,7 @@
   padding: 0 18px 0 10px;
   border-radius: 34px;
   background: #fff;
+  border: 1px solid var(--line-strong);
   display: flex;
   gap: 12px;
   align-items: center;

@@ -1,17 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
-  --bg: #ffffff;
-  --card: rgba(255, 255, 255, 0.82);
+  --bg: #f3f6f0;
+  --card: #ffffff;
   --text: #11130f;
   --muted: #777d73;
-  --line: rgba(20, 24, 16, 0.08);
+  --line: rgba(20, 24, 16, 0.14);
+  --line-strong: rgba(20, 24, 16, 0.2);
+  --surface: #f8faf5;
+  --surface-strong: #eef3e8;
   --green: #65bf22;
   --green-dark: #268308;
   --green-soft: #ecf8df;
   --red: #e53935;
   --red-soft: #fff0ee;
-  --shadow: 0 22px 60px rgba(21, 28, 15, 0.08);
+  --shadow: 0 20px 54px rgba(21, 28, 15, 0.12);
+  --shadow-soft: 0 10px 28px rgba(21, 28, 15, 0.08);
   --radius: 26px;
 }
 

@@ -317,6 +317,10 @@ Core pages touched recently:
   - connection health summary, source selection, enabled/paused toggle, sync cadence control, and scope chips
   - mock actions for saving data connection settings, testing a connection, and starting a source sync
   - import rules controls, CSV template download, import queue table, and data quality check panel
+- Visual contrast pass:
+  - darkened the app background and strengthened card borders/shadows so page surfaces separate more clearly
+  - added stronger white card surfaces for shared cards, briefs, topbar controls, and sidebar
+  - tightened nested box contrast in dashboard metric panels and Settings Data Sources rows/detail panels
 
 ## Current Priority
 
@@ -371,4 +375,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Settings Data Sources implementation).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after visual contrast pass).
