@@ -45,6 +45,7 @@ Implemented detailed pages/screens:
 - Settings > Portfolio
 - Settings > Data Sources
 - Settings > Notifications
+- Settings > Overview
 - Research > Compare
 
 Placeholder behavior:
@@ -351,11 +352,16 @@ Core pages touched recently:
   - delivery preferences for digest cadence, quiet hours, timezone, and escalation policy
   - mock save and test-notification actions wired through shared action constants, endpoint mapping, and mock backend feedback
   - recent notifications panel, selected-rule table, unsaved-change tracking, and responsive Settings styling
+- Implemented `Settings > Overview`:
+  - replaced the placeholder Settings hub with a real overview page
+  - added clickable configuration cards for Profile, Portfolio, Data Sources, Notifications, Appearance, and Security
+  - added readiness and security checklist panels using existing portfolio, data-source, and notification mock state
+  - added responsive overview grid styling aligned with the existing Settings card system
 
 ## Current Priority
 
 Next implementation priority:
-- P0 and current P1 page backlog items are complete. Continue with P2 settings/profile/security pages or cross-cutting polish.
+- P0 and current P1 page backlog items are complete. Continue with P2 settings profile, appearance, security, or cross-cutting polish.
 - Continue extracting any remaining large in-file detail pages into section folders as they grow.
 - Options analysis now lives under `Insights > Options` for cross-market options-flow signals, with a symbol-specific options panel still deferred under `Research > Stock Detail`.
 - Future options work should deepen options flow, put/call ratio, expiry/strike open interest, volume/OI changes, IV skew, gamma exposure, dealer positioning, max pain, and expected-move zones that can help estimate likely price-pressure ranges.
@@ -405,4 +411,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Settings Notifications implementation).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Settings Overview implementation).

@@ -197,6 +197,104 @@
   font-weight: 800;
 }
 
+.settings-overview-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 18px;
+  align-items: start;
+}
+
+.settings-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.settings-overview-card {
+  width: 100%;
+  min-height: 132px;
+  padding: 20px;
+  border-color: var(--line-strong);
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto 20px;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+}
+
+.settings-overview-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-soft), var(--shadow-soft);
+}
+
+.settings-overview-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green-dark);
+  display: grid;
+  place-items: center;
+}
+
+.settings-overview-main,
+.settings-overview-meta {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.settings-overview-main strong {
+  font-size: 18px;
+}
+
+.settings-overview-main small,
+.settings-overview-meta small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.settings-overview-meta {
+  justify-items: end;
+  text-align: right;
+}
+
+.settings-overview-meta b {
+  font-size: 19px;
+}
+
+.settings-overview-card > svg {
+  color: var(--muted);
+}
+
+.settings-readiness-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.settings-readiness-list div {
+  min-height: 48px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.settings-readiness-list svg {
+  flex: 0 0 auto;
+  color: var(--green-dark);
+}
+
 .settings-data-layout {
   grid-template-columns: minmax(0, 1.1fr) 420px;
 }
@@ -533,6 +631,8 @@
 @media (max-width: 1400px) {
   .settings-summary-grid,
   .settings-layout,
+  .settings-overview-layout,
+  .settings-overview-grid,
   .settings-form-grid,
   .settings-data-lower,
   .data-quality-list,
@@ -555,6 +655,7 @@
   }
 
   .data-source-row,
+  .settings-overview-card,
   .notification-channel-row,
   .notification-rule-editor,
   .data-detail-grid {

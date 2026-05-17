@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertTriangle,
+  ArrowRight,
   BellRing,
   Cable,
   CheckCircle2,
@@ -11,6 +12,7 @@ import {
   Hash,
   Mail,
   MessageSquare,
+  Palette,
   PlugZap,
   RefreshCw,
   RotateCcw,
@@ -22,6 +24,7 @@ import {
   Smartphone,
   Timer,
   UploadCloud,
+  UserRound,
   WalletCards,
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar.jsx';
@@ -35,6 +38,57 @@ import { getPortfolioSettings, getSettingsDataSources, getSettingsNotifications 
 const defaultPortfolioSettings = getPortfolioSettings();
 const defaultDataSettings = getSettingsDataSources();
 const defaultNotificationSettings = getSettingsNotifications();
+
+const settingsOverviewCards = [
+  {
+    id: 'settings-profile',
+    title: 'Profile',
+    description: 'Account identity, locale, and owner information.',
+    metric: 'Sarah Kim',
+    status: 'Ready',
+    Icon: UserRound,
+  },
+  {
+    id: 'settings-portfolio',
+    title: 'Portfolio',
+    description: 'Currency, benchmark, tax method, fiscal year, and return assumptions.',
+    metric: defaultPortfolioSettings.baseCurrency,
+    status: defaultPortfolioSettings.benchmark,
+    Icon: WalletCards,
+  },
+  {
+    id: 'settings-data',
+    title: 'Data Sources',
+    description: 'Broker, market data, import inbox, and exchange calendar sync.',
+    metric: `${defaultDataSettings.sources.filter((source) => source.enabled).length}/${defaultDataSettings.sources.length}`,
+    status: 'Sources enabled',
+    Icon: Database,
+  },
+  {
+    id: 'settings-notifications',
+    title: 'Notifications',
+    description: 'Delivery channels, alert rules, quiet hours, and escalation policy.',
+    metric: `${defaultNotificationSettings.channels.filter((channel) => channel.enabled).length}/${defaultNotificationSettings.channels.length}`,
+    status: 'Channels enabled',
+    Icon: BellRing,
+  },
+  {
+    id: 'settings-appearance',
+    title: 'Appearance',
+    description: 'Theme, density, number format, and dashboard display defaults.',
+    metric: 'Light',
+    status: 'Theme pinned',
+    Icon: Palette,
+  },
+  {
+    id: 'settings-security',
+    title: 'Security',
+    description: 'Password, sessions, authentication, and account protection.',
+    metric: '2FA',
+    status: 'Recommended',
+    Icon: ShieldCheck,
+  },
+];
 
 function SettingsDropdown({ label, options, value, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,6 +127,84 @@ function SettingsDropdown({ label, options, value, onChange }) {
           ))}
         </div>
       ) : null}
+    </div>
+  );
+}
+
+function SettingsOverviewPage({ activePage, activeSidebarItem, onNavigate, onSidebarSelect }) {
+  const dataConnected = defaultDataSettings.sources.filter((source) => source.status === 'Connected').length;
+  const activeRules = defaultNotificationSettings.rules.filter((rule) => rule.enabled).length;
+  const securityTasks = [
+    'Review trusted sessions every month',
+    'Enable two-factor authentication before brokerage sync',
+    'Confirm export permissions for report downloads',
+  ];
+
+  return (
+    <div className="app-shell">
+      <Sidebar activePage={activePage} activeItem={activeSidebarItem} onSelect={onSidebarSelect} />
+      <main className="dashboard settings-page settings-overview-page">
+        <TopBar activePage={activePage} onNavigate={onNavigate} />
+
+        <section className="title-row">
+          <h1>Settings</h1>
+          <div className="page-brief settings-brief">
+            <strong>Workspace configuration</strong>
+            <p>Review account setup, portfolio assumptions, data connections, notification routing, visual preferences, and security readiness from one place.</p>
+          </div>
+        </section>
+
+        <section className="settings-summary-grid">
+          <article className="card settings-summary-card"><span>Portfolio</span><strong>{defaultPortfolioSettings.portfolioName}</strong><small>{defaultPortfolioSettings.allocationPolicy}</small></article>
+          <article className="card settings-summary-card"><span>Data Health</span><strong>{dataConnected}/{defaultDataSettings.sources.length}</strong><small>Connected sources</small></article>
+          <article className="card settings-summary-card"><span>Alerts</span><strong>{activeRules}</strong><small>Active rules</small></article>
+          <article className="card settings-summary-card"><span>Security</span><strong>Review</strong><small>2FA not yet configured</small></article>
+        </section>
+
+        <section className="settings-overview-layout">
+          <div className="settings-overview-grid">
+            {settingsOverviewCards.map(({ id, title, description, metric, status, Icon }) => (
+              <button
+                className="card settings-overview-card"
+                key={id}
+                onClick={() => onSidebarSelect(id)}
+                type="button"
+              >
+                <span className="settings-overview-icon"><Icon size={21} /></span>
+                <span className="settings-overview-main">
+                  <strong>{title}</strong>
+                  <small>{description}</small>
+                </span>
+                <span className="settings-overview-meta">
+                  <b>{metric}</b>
+                  <small>{status}</small>
+                </span>
+                <ArrowRight size={18} />
+              </button>
+            ))}
+          </div>
+
+          <aside className="settings-side-stack">
+            <article className="card settings-side-card settings-readiness-card">
+              <h3>Readiness</h3>
+              <div className="settings-readiness-list">
+                <div><CheckCircle2 size={17} /><span>Portfolio settings are configured for {defaultPortfolioSettings.baseCurrency} reporting.</span></div>
+                <div><CheckCircle2 size={17} /><span>{dataConnected} data sources are connected and ready for sync.</span></div>
+                <div><BellRing size={17} /><span>{activeRules} alert rules are active across {defaultNotificationSettings.channels.length} channels.</span></div>
+              </div>
+            </article>
+
+            <article className="card settings-side-card settings-readiness-card">
+              <h3>Security Checklist</h3>
+              <div className="settings-readiness-list">
+                {securityTasks.map((task) => (
+                  <div key={task}><ShieldCheck size={17} /><span>{task}</span></div>
+                ))}
+              </div>
+            </article>
+          </aside>
+        </section>
+      </main>
     </div>
   );
 }
@@ -644,6 +776,10 @@ function SettingsNotificationsPage({ activePage, activeSidebarItem, onNavigate, 
 }
 
 export default function SettingsPage(props) {
+  if (props.activeSidebarItem === 'settings-overview') {
+    return <SettingsOverviewPage {...props} />;
+  }
+
   if (props.activeSidebarItem === 'settings-portfolio') {
     return <SettingsPortfolioPage {...props} />;
   }
