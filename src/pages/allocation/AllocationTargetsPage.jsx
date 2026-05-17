@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { AlertTriangle, Check, Save, Undo2 } from 'lucide-react';
+import { AlertTriangle, Save, Target, Undo2 } from 'lucide-react';
 import Sidebar from '../../components/Sidebar.jsx';
 import TopBar from '../../components/TopBar.jsx';
 import TickerStrip from '../../components/TickerStrip.jsx';
@@ -7,7 +7,6 @@ import StatusState from '../../components/StatusState.jsx';
 import { useAppAction } from '../../context/AppActionContext.jsx';
 import { APP_ACTIONS } from '../../services/appActions';
 import { getAllocationTargetGroups, getTickerStrip } from '../../data/mock/selectors';
-import { ProgressRow } from './AllocationPageShared.jsx';
 
 const tickerStrip = getTickerStrip();
 const targetGroups = getAllocationTargetGroups();
@@ -180,9 +179,3 @@ export default function AllocationTargetsPage({ activePage, activeSidebarItem, o
     </div>
   );
 }
-
-function money(value) {
-  return `${value < 0 ? '-' : ''}$${Math.abs(value).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
-}
-
-

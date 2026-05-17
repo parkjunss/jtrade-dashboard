@@ -161,4 +161,7 @@ export default function AllocationRebalancePage({ activePage, activeSidebarItem,
   );
 }
 
+function money(value) {
+  return `${value < 0 ? '-' : ''}$${Math.abs(value).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+}
 

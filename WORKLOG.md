@@ -340,6 +340,9 @@ Core pages touched recently:
 - Fixed detail-page missing imports:
   - added missing `Eye` and `StatusState` imports in `Holdings > Sectors`
   - added missing `ShieldCheck` and `StatusState` imports in `Allocation > Assets`
+- Fixed Allocation detail runtime errors:
+  - added missing `Target` icon import in `Allocation > Targets`
+  - moved the shared `money` helper back into `Allocation > Rebalance`, where the plan rows actually use it
 
 ## Current Priority
 
@@ -394,4 +397,4 @@ Use this command on Windows/PowerShell because `npm` can be blocked by execution
 npm.cmd run build
 ```
 
-Last known build status: passing (`npm.cmd run build`, 2026-05-17 after detail-page missing import fixes).
+Last known build status: passing (`npm.cmd run build`, 2026-05-17 after Allocation detail runtime fixes).
